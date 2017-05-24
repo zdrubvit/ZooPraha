@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 public class Event {
-    @SerializedName("_id")
+    @SerializedName("id")
     private String mId;
     @SerializedName("start")
     private Date mStart;

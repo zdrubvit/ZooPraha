@@ -3,7 +3,7 @@ package cz.zdrubecky.zoopraha.model;
 import com.google.gson.annotations.SerializedName;
 
 public class Animal {
-    @SerializedName("_id")
+    @SerializedName("id")
     private String mId;
     @SerializedName("opendata_id")
     private int mOpendataId;
