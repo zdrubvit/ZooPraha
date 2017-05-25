@@ -22,7 +22,18 @@ public class DataFetcher {
     private static final String TAG = "DataFetcher";
     private static final String ENDPOINT = "http://10.0.2.2:3000/";
 
-    private BackendService service;
+    private BackendService mService;
+    private DataFetchedListener mListener;
+
+    // The interface that listeners has to implement in order to be notified of a completed task
+    public interface DataFetchedListener {
+        void onDataFetched(JsonApiObject response);
+    }
+
+    // Here is the link to the listener
+    public void setDataFetchedListener(DataFetchedListener listener) {
+        mListener = listener;
+    }
 
     public DataFetcher() {
         // I can pass here a gson instance with config
@@ -31,36 +42,42 @@ public class DataFetcher {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        service = retrofit.create(BackendService.class);
+        mService = retrofit.create(BackendService.class);
     }
 
     public void getAdoptions(String name, String limit, String offset) {
-        Call<JsonApiObject<Adoption>> call = service.getAdoptions(name, limit, offset);
+        Call<JsonApiObject<Adoption>> call = mService.getAdoptions(name, limit, offset);
 
+        // Put the request in a background thread
         call.enqueue(new Callback<JsonApiObject<Adoption>>() {
             @Override
             public void onResponse(Call<JsonApiObject<Adoption>> call, Response<JsonApiObject<Adoption>> response) {
                 if ( ! response.isSuccessful() && response.errorBody() != null) {
-                    JsonApiError jsonApiError;
-
+                    // The error parsing has to be done explicitly, Retrofit does not convert the body at all
                     try {
                         JSONObject errorBodyObject = new JSONObject(response.errorBody().string());
                         JSONArray errors = errorBodyObject.getJSONArray("errors");
 
                         Gson gson = new GsonBuilder().create();
-                        jsonApiError = gson.fromJson(errors.getJSONObject(0).toString(), JsonApiError.class);
+                        JsonApiError jsonApiError = gson.fromJson(errors.getJSONObject(0).toString(), JsonApiError.class);
 
                         Log.e(TAG, "The request failed : " + jsonApiError.toString());
-                    } catch (JSONException je) {
-                        Log.e(TAG, "An exception has been thrown during the JSON parsing of an error response.", je);
-                    } catch (IOException ioe) {
-                        Log.e(TAG, "An exception has been thrown during the JSON parsing of an error response.", ioe);
+                    } catch (JSONException | IOException e) {
+                        Log.e(TAG, "An exception has been thrown during the JSON parsing of an error response.", e);
                     }
                 } else {
                     JsonApiObject<Adoption> jsonApiObject = response.body();
+
+                    Log.i(TAG, "The server responded with " + jsonApiObject.getMeta().getCount() + " resources.");
+
+                    // Notify the existing listener
+                    if (mListener != null) {
+                        mListener.onDataFetched(jsonApiObject);
+                    }
                 }
             }
 
+            // Called when the Internet access is restricted, timeout reached etc.
             @Override
             public void onFailure(Call<JsonApiObject<Adoption>> call, Throwable t) {
                 Log.e(TAG, "An exception has been thrown during the fetching of Adoptions.", t);

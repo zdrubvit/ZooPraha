@@ -28,7 +28,7 @@ public class JsonApiObject<T> {
         mData = data;
     }
 
-    private class Meta {
+    public class Meta {
         @SerializedName("count")
         @Expose
         private int mCount;
@@ -42,7 +42,7 @@ public class JsonApiObject<T> {
         }
     }
 
-    private class Resource {
+    public class Resource {
         @SerializedName("type")
         @Expose
         private String mType;
