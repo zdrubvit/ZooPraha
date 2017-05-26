@@ -49,7 +49,7 @@ public class AdoptionPagerActivity extends AppCompatActivity {
         // Take the ID from an incoming intent and use it to get the current item + set it inside the pager
         String adoptionId = (String) getIntent().getSerializableExtra(EXTRA_ADOPTION_ID);
         for (int i = 0; i < mAdoptions.size(); i++) {
-            if (mAdoptions.get(i).getId().equals(adoptionId)) {
+            if (mAdoptions.get(i).getId() == adoptionId) {
                 mViewPager.setCurrentItem(i);
                 break;
             }

@@ -4,6 +4,8 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONObject;
+
 public class JsonApiObject<T> {
     @SerializedName("meta")
     @Expose
@@ -51,7 +53,7 @@ public class JsonApiObject<T> {
         private String mId;
         @SerializedName("attributes")
         @Expose
-        private T mDocument;
+        private Adoption mDocument;
 
         public String getType() {
             return mType;
@@ -69,11 +71,11 @@ public class JsonApiObject<T> {
             mId = id;
         }
 
-        public T getDocument() {
+        public Adoption getDocument() {
             return mDocument;
         }
 
-        public void setDocument(T document) {
+        public void setDocument(Adoption document) {
             mDocument = document;
         }
     }

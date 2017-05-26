@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Zoo Praha</string>
+    <string name="main_button_lexicon_text">Lexikon</string>
+    <string name="main_button_adoptions_text">Adopce</string>
+    <string name="main_button_events_text">Události</string>
+    <string name="main_button_quiz_text">Kvíz</string>
+    <string name="main_button_map_text">Mapa</string>
+    <string name="main_button_profile_text">Profil</string>
+    <string name="adoption_list_empty_textview_text">nichts.(</string>
 </resources>

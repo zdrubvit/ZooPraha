@@ -54,6 +54,12 @@ public class AdoptionsManager {
         return adoptions;
     }
 
+    public void setAdoptions(List<Adoption> adoptions) {
+        for (Adoption adoption : adoptions) {
+            addAdoption(adoption);
+        }
+    }
+
     public Adoption getAnimal(String id) {
         ZooCursorWrapper cursor = queryAdoptions(
                 AdoptionsTable.Cols.ID + " = ?",
@@ -72,6 +78,7 @@ public class AdoptionsManager {
     }
 
     public void addAdoption(Adoption adoption) {
+        // todo check if it exists and then update
         ContentValues values = getContentValues(adoption);
 
         // The second argument - nullColumnHack - is used to force insert in the case of empty values
@@ -84,7 +91,7 @@ public class AdoptionsManager {
         mDatabase.update(AdoptionsTable.NAME, values, AdoptionsTable.Cols.ID + " = ?", new String[] {adoption.getId()});
     }
 
-    public boolean deleteAdoption(Adoption adoption) {
+    public boolean removeAdoption(Adoption adoption) {
         return mDatabase.delete(AdoptionsTable.NAME, AdoptionsTable.Cols.ID + " = ?", new String[] {adoption.getId()}) > 0;
     }
 

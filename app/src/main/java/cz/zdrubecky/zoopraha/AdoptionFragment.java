@@ -33,7 +33,6 @@ public class AdoptionFragment extends Fragment {
 
         String adoptionId = (String) getArguments().getSerializable(ARG_ADOPTION_ID);
 
-        // Due to the JAVA's pointers passed by value, the crime is now kept in a lab and can be modified from outside
         mAdoption = AdoptionsManager.get(getActivity()).getAnimal(adoptionId);
     }
 
