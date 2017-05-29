@@ -12,7 +12,6 @@ import cz.zdrubecky.zoopraha.database.ZooBaseHelper;
 import cz.zdrubecky.zoopraha.database.ZooCursorWrapper;
 import cz.zdrubecky.zoopraha.database.ZooDBSchema.AdoptionsTable;
 import cz.zdrubecky.zoopraha.model.Adoption;
-import cz.zdrubecky.zoopraha.model.Animal;
 
 public class AdoptionsManager {
     private static AdoptionsManager sAdoptionsManager;
@@ -54,29 +53,6 @@ public class AdoptionsManager {
         return adoptions;
     }
 
-    public void setAdoptions(List<Adoption> adoptions) {
-        for (Adoption adoption : adoptions) {
-            addAdoption(adoption);
-        }
-    }
-
-    public Adoption getAnimal(String id) {
-        ZooCursorWrapper cursor = queryAdoptions(
-                AdoptionsTable.Cols.ID + " = ?",
-                new String[] { id }
-        );
-
-        try {
-            if (cursor.getCount() == 0) {
-                return null;
-            }
-            cursor.moveToFirst();
-            return cursor.getAdoption();
-        } finally {
-            cursor.close();
-        }
-    }
-
     public void addAdoption(Adoption adoption) {
         // todo check if it exists and then update
         ContentValues values = getContentValues(adoption);
@@ -93,6 +69,10 @@ public class AdoptionsManager {
 
     public boolean removeAdoption(Adoption adoption) {
         return mDatabase.delete(AdoptionsTable.NAME, AdoptionsTable.Cols.ID + " = ?", new String[] {adoption.getId()}) > 0;
+    }
+
+    public void dropTable() {
+        mDatabase.execSQL("DROP TABLE IF EXISTS " + AdoptionsTable.NAME);
     }
 
     // Mapping of the adoption to the columns

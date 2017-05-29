@@ -28,6 +28,34 @@ public class ZooBaseHelper extends SQLiteOpenHelper {
                 AdoptionsTable.Cols.VISIT +
                 ")"
         );
+
+        db.execSQL("CREATE TABLE " + AnimalsTable.NAME + "(" +
+                " _id integer primary key autoincrement, " +
+                AnimalsTable.Cols.ID + ", " +
+                AnimalsTable.Cols.OPENDATA_ID + ", " +
+                AnimalsTable.Cols.NAME + ", " +
+                AnimalsTable.Cols.LATIN_NAME + ", " +
+                AnimalsTable.Cols.CLASS_NAME + ", " +
+                AnimalsTable.Cols.CLASS_LATIN_NAME + ", " +
+                AnimalsTable.Cols.ORDER_NAME + ", " +
+                AnimalsTable.Cols.ORDER_LATIN_NAME + ", " +
+                AnimalsTable.Cols.DESCRIPTION + ", " +
+                AnimalsTable.Cols.IMAGE + ", " +
+                AnimalsTable.Cols.CONTINENTS + ", " +
+                AnimalsTable.Cols.DISTRIBUTION + ", " +
+                AnimalsTable.Cols.BIOTOPE + ", " +
+                AnimalsTable.Cols.BIOTOPES_DETAIL + ", " +
+                AnimalsTable.Cols.FOOD + ", " +
+                AnimalsTable.Cols.FOOD_DETAIL + ", " +
+                AnimalsTable.Cols.PROPORTIONS + ", " +
+                AnimalsTable.Cols.REPRODUCTION + ", " +
+                AnimalsTable.Cols.ATTRACTIONS + ", " +
+                AnimalsTable.Cols.PROJECTS + ", " +
+                AnimalsTable.Cols.BREEDING + ", " +
+                AnimalsTable.Cols.LOCATION + ", " +
+                AnimalsTable.Cols.LOCATION_URL +
+                ")"
+        );
     }
 
     // Called when there's a lower version present

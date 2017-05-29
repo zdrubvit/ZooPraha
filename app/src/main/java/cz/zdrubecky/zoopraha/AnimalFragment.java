@@ -7,21 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cz.zdrubecky.zoopraha.manager.AdoptionsManager;
-import cz.zdrubecky.zoopraha.model.Adoption;
+import cz.zdrubecky.zoopraha.manager.AnimalsManager;
+import cz.zdrubecky.zoopraha.model.Animal;
 
-public class AdoptionFragment extends Fragment {
-    private static final String TAG = "CrimeFragment";
-    private static final String ARG_ADOPTION_ID = "adoption_id";
+public class AnimalFragment extends Fragment {
+    private static final String TAG = "AnimalFragment";
+    private static final String ARG_ANIMAL_ID = "animal_id";
 
-    private Adoption mAdoption;
+    private Animal mAnimal;
 
-    public static AdoptionFragment newInstance(String adoptionId) {
+    public static AnimalFragment newInstance(String animalId) {
         Bundle args = new Bundle();
         // Save the ID in fragment rather than parent activity so that they can be decoupled and function independently
-        args.putSerializable(ARG_ADOPTION_ID, adoptionId);
+        args.putSerializable(ARG_ANIMAL_ID, animalId);
         
-        AdoptionFragment fragment = new AdoptionFragment();
+        AnimalFragment fragment = new AnimalFragment();
         fragment.setArguments(args);
 
         return fragment;
@@ -31,9 +31,9 @@ public class AdoptionFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String adoptionId = (String) getArguments().getSerializable(ARG_ADOPTION_ID);
+        String animalId = (String) getArguments().getSerializable(ARG_ANIMAL_ID);
 
-        mAdoption = AdoptionsManager.get(getActivity()).getAnimal(adoptionId);
+        mAnimal = AnimalsManager.get(getActivity()).getAnimal(animalId);
     }
 
     @Nullable

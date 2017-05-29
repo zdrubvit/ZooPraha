@@ -7,4 +7,5 @@
     <string name="main_button_map_text">Mapa</string>
     <string name="main_button_profile_text">Profil</string>
     <string name="adoption_list_empty_textview_text">nichts.(</string>
+    <string name="adoption_no_detail_toast">Toto zvíře nemá detail</string>
 </resources>

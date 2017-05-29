@@ -45,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < data.size(); i++) {
 //                    JsonObject jsonObject = gson.toJsonTree(data.get(i).getDocument()).getAsJsonObject();
 //                    Adoption adoption = (Adoption) jsonObject;
-                    manager.addAdoption(data.get(i).getDocument());
+                    Adoption adoption = data.get(i).getDocument();
+                    adoption.setId(data.get(i).getId());
+                    manager.addAdoption(adoption);
                 }
             }
         });
