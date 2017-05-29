@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AdoptionListActivity"/>
+        <activity android:name=".AdoptionDetailActivity"/>
         <activity android:name=".AnimalPagerActivity"/>
     </application>
 

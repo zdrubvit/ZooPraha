@@ -14,7 +14,9 @@ import java.util.List;
 
 import cz.zdrubecky.zoopraha.api.DataFetcher;
 import cz.zdrubecky.zoopraha.manager.AdoptionsManager;
+import cz.zdrubecky.zoopraha.manager.AnimalsManager;
 import cz.zdrubecky.zoopraha.model.Adoption;
+import cz.zdrubecky.zoopraha.model.Animal;
 import cz.zdrubecky.zoopraha.model.JsonApiObject;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,26 +34,42 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DataFetcher dataFetcher = new DataFetcher();
-        dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
-            @Override
-            public void onDataFetched(JsonApiObject response) {
-                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
-                AdoptionsManager manager = AdoptionsManager.get(MainActivity.this);
-                List<JsonApiObject.Resource> data = response.getData();
+//        DataFetcher dataFetcher = new DataFetcher();
+//        dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
+//            @Override
+//            public void onDataFetched(JsonApiObject response) {
+//                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
+//                AdoptionsManager manager = AdoptionsManager.get(MainActivity.this);
+//                List<JsonApiObject.Resource> data = response.getData();
 //                Gson gson = new Gson();
+//
+//                // todo make this threaded
+//                for (int i = 0; i < data.size(); i++) {
+//                    Adoption adoption = gson.fromJson(data.get(i).getDocument(), Adoption.class);
+//                    adoption.setId(data.get(i).getId());
+//                    manager.addAdoption(adoption);
+//                }
+//            }
+//        });
+//        dataFetcher.getAdoptions(null, "10", null);
 
-                // todo make this threaded
-                for (int i = 0; i < data.size(); i++) {
-//                    JsonObject jsonObject = gson.toJsonTree(data.get(i).getDocument()).getAsJsonObject();
-//                    Adoption adoption = (Adoption) jsonObject;
-                    Adoption adoption = data.get(i).getDocument();
-                    adoption.setId(data.get(i).getId());
-                    manager.addAdoption(adoption);
-                }
-            }
-        });
-        dataFetcher.getAdoptions(null, "10", null);
+//        dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
+//            @Override
+//            public void onDataFetched(JsonApiObject response) {
+//                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
+//                AnimalsManager manager = AnimalsManager.get(MainActivity.this);
+//                List<JsonApiObject.Resource> data = response.getData();
+//                Gson gson = new Gson();
+//
+//                // todo make this threaded
+//                for (int i = 0; i < data.size(); i++) {
+//                    Animal animal = gson.fromJson(data.get(i).getDocument(), Animal.class);
+//                    animal.setId(data.get(i).getId());
+//                    manager.addAnimal(animal);
+//                }
+//            }
+//        });
+//        dataFetcher.getAnimals(null, null, null);
 
         mMainButtonAdoptions = (Button) findViewById(R.id.main_button_adoptions);
         mMainButtonAdoptions.setOnClickListener(new View.OnClickListener() {

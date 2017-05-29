@@ -1,6 +1,8 @@
 package cz.zdrubecky.zoopraha.model;
 
 import java.util.List;
+
+import com.google.gson.JsonElement;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -53,7 +55,7 @@ public class JsonApiObject<T> {
         private String mId;
         @SerializedName("attributes")
         @Expose
-        private Adoption mDocument;
+        private JsonElement mDocument;
 
         public String getType() {
             return mType;
@@ -71,11 +73,11 @@ public class JsonApiObject<T> {
             mId = id;
         }
 
-        public Adoption getDocument() {
+        public JsonElement getDocument() {
             return mDocument;
         }
 
-        public void setDocument(Adoption document) {
+        public void setDocument(JsonElement document) {
             mDocument = document;
         }
     }

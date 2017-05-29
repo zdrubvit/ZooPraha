@@ -8,4 +8,7 @@
     <string name="main_button_profile_text">Profil</string>
     <string name="adoption_list_empty_textview_text">nichts.(</string>
     <string name="adoption_no_detail_toast">Toto zvíře nemá detail</string>
+    <string name="fragment_animal_name_label">Jméno</string>
+    <string name="fragment_animal_description_label">Popis</string>
+    <string name="fragment_animal_reproduction_label">Reprodukce</string>
 </resources>

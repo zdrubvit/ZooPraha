@@ -19,7 +19,7 @@ public class Animal {
     private String mOrderName;
     @SerializedName("order.latin_name")
     private String mOrderLatinName;
-    @SerializedName("desription")
+    @SerializedName("description")
     private String mDescription;
     @SerializedName("image")
     private String mImage;
