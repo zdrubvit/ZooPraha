@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import cz.zdrubecky.zoopraha.manager.AnimalsManager;
+import cz.zdrubecky.zoopraha.manager.AnimalManager;
 import cz.zdrubecky.zoopraha.model.Animal;
 
 public class AnimalFragment extends Fragment {
@@ -19,6 +19,7 @@ public class AnimalFragment extends Fragment {
     private TextView mDescriptionTextView;
     private TextView mReproductionTextView;
 
+    private AnimalManager mAnimalManager;
     private Animal mAnimal;
 
     public static AnimalFragment newInstance(String animalId) {
@@ -36,9 +37,11 @@ public class AnimalFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mAnimalManager = new AnimalManager(getActivity());
+
         String animalId = (String) getArguments().getSerializable(ARG_ANIMAL_ID);
 
-        mAnimal = AnimalsManager.get(getActivity()).getAnimal(animalId);
+        mAnimal = mAnimalManager.getAnimal(animalId);
     }
 
     @Nullable

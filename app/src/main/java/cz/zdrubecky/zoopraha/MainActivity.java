@@ -8,15 +8,17 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import java.util.List;
 
 import cz.zdrubecky.zoopraha.api.DataFetcher;
-import cz.zdrubecky.zoopraha.manager.AdoptionsManager;
-import cz.zdrubecky.zoopraha.manager.AnimalsManager;
+import cz.zdrubecky.zoopraha.database.ZooBaseHelper;
+import cz.zdrubecky.zoopraha.manager.AdoptionManager;
+import cz.zdrubecky.zoopraha.manager.AnimalManager;
+import cz.zdrubecky.zoopraha.manager.EventManager;
 import cz.zdrubecky.zoopraha.model.Adoption;
 import cz.zdrubecky.zoopraha.model.Animal;
+import cz.zdrubecky.zoopraha.model.Event;
 import cz.zdrubecky.zoopraha.model.JsonApiObject;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,35 +31,42 @@ public class MainActivity extends AppCompatActivity {
     private Button mMainButtonMap;
     private Button mMainButtonProfile;
 
+    private ZooBaseHelper mZooBaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DataFetcher dataFetcher = new DataFetcher();
-        dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
-            @Override
-            public void onDataFetched(JsonApiObject response) {
-                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
-                AdoptionsManager manager = AdoptionsManager.get(MainActivity.this);
-                List<JsonApiObject.Resource> data = response.getData();
-                Gson gson = new Gson();
-
-                // todo make this threaded
-                for (int i = 0; i < data.size(); i++) {
-                    Adoption adoption = gson.fromJson(data.get(i).getDocument(), Adoption.class);
-                    adoption.setId(data.get(i).getId());
-                    manager.addAdoption(adoption);
-                }
-            }
-        });
-        dataFetcher.getAdoptions(null, "10", null);
-
-//        dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
+//        getApplicationContext().deleteDatabase(ZooBaseHelper.DATABASE_NAME);
+//
+//        mZooBaseHelper = ZooBaseHelper.getInstance(this);
+//
+//        DataFetcher dataFetcherAdoptions = new DataFetcher();
+//        dataFetcherAdoptions.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
 //            @Override
 //            public void onDataFetched(JsonApiObject response) {
 //                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
-//                AnimalsManager manager = AnimalsManager.get(MainActivity.this);
+//                AdoptionManager manager = new AdoptionManager(MainActivity.this);
+//                List<JsonApiObject.Resource> data = response.getData();
+//                Gson gson = new Gson();
+//
+//                // todo make this threaded
+//                for (int i = 0; i < data.size(); i++) {
+//                    Adoption adoption = gson.fromJson(data.get(i).getDocument(), Adoption.class);
+//                    adoption.setId(data.get(i).getId());
+//                    manager.addAdoption(adoption);
+//                }
+//            }
+//        });
+//        dataFetcherAdoptions.getAdoptions(null, null, null);
+//
+//        DataFetcher dataFetcherAnimals = new DataFetcher();
+//        dataFetcherAnimals.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
+//            @Override
+//            public void onDataFetched(JsonApiObject response) {
+//                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
+//                AnimalManager manager = new AnimalManager(MainActivity.this);
 //                List<JsonApiObject.Resource> data = response.getData();
 //                Gson gson = new Gson();
 //
@@ -69,25 +78,26 @@ public class MainActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
-//        dataFetcher.getAnimals(null, null, null);
-
-        dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
-            @Override
-            public void onDataFetched(JsonApiObject response) {
-                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
-                AdoptionsManager manager = AdoptionsManager.get(MainActivity.this);
-                List<JsonApiObject.Resource> data = response.getData();
-                Gson gson = new Gson();
-
-                // todo make this threaded
-                for (int i = 0; i < data.size(); i++) {
-                    Adoption adoption = gson.fromJson(data.get(i).getDocument(), Adoption.class);
-                    adoption.setId(data.get(i).getId());
-                    manager.addAdoption(adoption);
-                }
-            }
-        });
-        dataFetcher.getEvents(null, null, null);
+//        dataFetcherAnimals.getAnimals(null, null, null);
+//
+//        DataFetcher dataFetcherEvents = new DataFetcher();
+//        dataFetcherEvents.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
+//            @Override
+//            public void onDataFetched(JsonApiObject response) {
+//                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
+//                EventManager manager = new EventManager(MainActivity.this);
+//                List<JsonApiObject.Resource> data = response.getData();
+//                Gson gson = new Gson();
+//
+//                // todo make this threaded
+//                for (int i = 0; i < data.size(); i++) {
+//                    Event event = gson.fromJson(data.get(i).getDocument(), Event.class);
+//                    event.setId(data.get(i).getId());
+//                    manager.addEvent(event);
+//                }
+//            }
+//        });
+//        dataFetcherEvents.getEvents(null, null, null);
 
         mMainButtonAdoptions = (Button) findViewById(R.id.main_button_adoptions);
         mMainButtonAdoptions.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +114,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, LexiconActivity.class);
+
+                startActivity(i);
+            }
+        });
+
+        mMainButtonEvents = (Button) findViewById(R.id.main_button_events);
+        mMainButtonEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, EventListActivity.class);
 
                 startActivity(i);
             }

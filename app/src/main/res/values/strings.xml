@@ -6,7 +6,7 @@
     <string name="main_button_quiz_text">Kvíz</string>
     <string name="main_button_map_text">Mapa</string>
     <string name="main_button_profile_text">Profil</string>
-    <string name="adoption_list_empty_textview_text">nichts.(</string>
+    <string name="list_empty_textview_text">nichts.(</string>
     <string name="adoption_no_detail_toast">Toto zvíře nemá detail</string>
     <string name="fragment_animal_name_label">Jméno</string>
     <string name="fragment_animal_description_label">Popis</string>
@@ -16,4 +16,9 @@
     <string name="lexicon_menu_continents_button_text">Kontinent</string>
     <string name="lexicon_menu_biotopes_button_text">Biotop</string>
     <string name="lexicon_menu_food_button_text">Potrava</string>
+    <string name="fragment_event_name_label">Nazev</string>
+    <string name="fragment_event_start_label">Zacatek</string>
+    <string name="fragment_event_end_label">Konec</string>
+    <string name="fragment_event_duration_label">Delka</string>
+    <string name="fragment_event_description_label">Popis</string>
 </resources>

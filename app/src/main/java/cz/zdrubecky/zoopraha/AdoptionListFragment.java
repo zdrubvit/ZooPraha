@@ -11,13 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
-import cz.zdrubecky.zoopraha.manager.AdoptionsManager;
+import cz.zdrubecky.zoopraha.manager.AdoptionManager;
 import cz.zdrubecky.zoopraha.model.Adoption;
 
 public class AdoptionListFragment extends Fragment {
@@ -27,6 +26,7 @@ public class AdoptionListFragment extends Fragment {
     private View mView;
     private RecyclerView mAdoptionRecyclerView;
     private AdoptionAdapter mAdoptionAdapter;
+    private AdoptionManager mAdoptionManager;
 
     // The interface used to communicate with the parent activity
     public interface Callbacks {
@@ -49,6 +49,13 @@ public class AdoptionListFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mAdoptionManager = new AdoptionManager(getActivity());
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,8 +73,7 @@ public class AdoptionListFragment extends Fragment {
     }
 
     public void updateUI() {
-        AdoptionsManager adoptionsManager = AdoptionsManager.get(getActivity());
-        List<Adoption> adoptions = adoptionsManager.getAdoptions();
+        List<Adoption> adoptions = mAdoptionManager.getAdoptions();
 
         if (adoptions.size() > 0) {
             // If the fragment is already running, update the data in case something changed (some crime)
@@ -88,7 +94,7 @@ public class AdoptionListFragment extends Fragment {
         private Adoption mAdoption;
         private TextView mNameTextView;
         private TextView mPriceTextView;
-        private TextView mVisitTetView;
+        private TextView mVisitTextView;
 
         public AdoptionHolder(View itemView) {
             super(itemView);
@@ -97,7 +103,7 @@ public class AdoptionListFragment extends Fragment {
 
             mNameTextView = (TextView) itemView.findViewById(R.id.list_item_adoption_name_textview);
             mPriceTextView = (TextView) itemView.findViewById(R.id.list_item_adoption_price_textview);
-            mVisitTetView = (TextView) itemView.findViewById(R.id.list_item_adoption_visit_textview);
+            mVisitTextView = (TextView) itemView.findViewById(R.id.list_item_adoption_visit_textview);
         }
 
         public void bindAdoption(Adoption adoption) {
@@ -105,7 +111,7 @@ public class AdoptionListFragment extends Fragment {
 
             mNameTextView.setText(mAdoption.getName());
             mPriceTextView.setText(Integer.toString(mAdoption.getPrice()));
-            mVisitTetView.setText(mAdoption.isVisit() ? "yes" : "no");
+            mVisitTextView.setText(mAdoption.isVisit() ? "yes" : "no");
         }
 
         @Override

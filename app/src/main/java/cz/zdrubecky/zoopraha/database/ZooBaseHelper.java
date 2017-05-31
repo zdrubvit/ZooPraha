@@ -9,9 +9,19 @@ import cz.zdrubecky.zoopraha.database.ZooDBSchema.*;
 
 public class ZooBaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
-    private static final String DATABASE_NAME = "zooBase.db";
+    public static final String DATABASE_NAME = "zooBase.db";
+    private static ZooBaseHelper sInstance = null;
 
-    public ZooBaseHelper(Context context) {
+    public static ZooBaseHelper getInstance(Context context) {
+        if (sInstance == null) {
+            // Create a new instance using the app context rather than being locked to a specific activity
+            sInstance = new ZooBaseHelper(context.getApplicationContext());
+        }
+
+        return sInstance;
+    }
+
+    private ZooBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 

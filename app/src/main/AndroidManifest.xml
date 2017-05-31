@@ -18,8 +18,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".AdoptionListActivity"/>
-        <activity android:name=".AdoptionDetailActivity"/>
         <activity android:name=".AnimalPagerActivity"/>
+        <activity android:name=".AnimalDetailActivity"/>
+        <activity android:name=".EventListActivity"/>
+        <activity android:name=".EventDetailActivity"/>
+        <activity android:name=".LexiconActivity"/>
     </application>
 
 </manifest>

@@ -13,24 +13,12 @@ import cz.zdrubecky.zoopraha.database.ZooCursorWrapper;
 import cz.zdrubecky.zoopraha.database.ZooDBSchema.AnimalsTable;
 import cz.zdrubecky.zoopraha.model.Animal;
 
-public class AnimalsManager {
-    private static AnimalsManager sAnimalsManager;
-
-    private Context mContext;
+public class AnimalManager {
     private SQLiteDatabase mDatabase;
 
-    private AnimalsManager(Context context) {
-        // Keep the app context instead of an activity (so it can be garbage collected, cause there's no reference to it)
-        mContext = context.getApplicationContext();
-        mDatabase = new ZooBaseHelper(mContext).getWritableDatabase();
-    }
-
-    public static AnimalsManager get(Context context) {
-        if (sAnimalsManager == null) {
-            sAnimalsManager = new AnimalsManager(context);
-        }
-
-        return sAnimalsManager;
+    public AnimalManager(Context context) {
+        ZooBaseHelper zooBaseHelper = ZooBaseHelper.getInstance(context);
+        mDatabase = zooBaseHelper.getWritableDatabase();
     }
 
     public List<Animal> getAnimals() {

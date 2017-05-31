@@ -12,7 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import java.util.List;
 
-import cz.zdrubecky.zoopraha.manager.AnimalsManager;
+import cz.zdrubecky.zoopraha.manager.AnimalManager;
 import cz.zdrubecky.zoopraha.model.Animal;
 
 public class AnimalPagerActivity extends AppCompatActivity {
@@ -20,14 +20,17 @@ public class AnimalPagerActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
     private List<Animal> mAnimals;
+    private AnimalManager mAnimalManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_animal_pager);
 
+        mAnimalManager = new AnimalManager(this);
+
         mViewPager = (ViewPager) findViewById(R.id.activity_animal_pager_view_pager);
-        mAnimals = AnimalsManager.get(this).getAnimals();
+        mAnimals = mAnimalManager.getAnimals();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
