@@ -69,7 +69,6 @@ public class AdoptionManager {
 
         values.put(AdoptionsTable.Cols.ID, adoption.getId());
         values.put(AdoptionsTable.Cols.LEXICON_ID, adoption.getLexiconId());
-        values.put(AdoptionsTable.Cols.OPENDATA_ID, adoption.getOpendataId());
         values.put(AdoptionsTable.Cols.NAME, adoption.getName());
         values.put(AdoptionsTable.Cols.PRICE, adoption.getPrice());
         values.put(AdoptionsTable.Cols.VISIT, adoption.isVisit());

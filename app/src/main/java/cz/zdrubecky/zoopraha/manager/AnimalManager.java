@@ -84,7 +84,6 @@ public class AnimalManager {
         ContentValues values = new ContentValues();
 
         values.put(AnimalsTable.Cols.ID, animal.getId());
-        values.put(AnimalsTable.Cols.OPENDATA_ID, animal.getOpendataId());
         values.put(AnimalsTable.Cols.NAME, animal.getName());
         values.put(AnimalsTable.Cols.LATIN_NAME, animal.getLatinName());
         values.put(AnimalsTable.Cols.CLASS_NAME, animal.getClassName());

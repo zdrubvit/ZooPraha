@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName;
 public class Location {
     @SerializedName("id")
     private String mId;
-    @SerializedName("opendata_id")
-    private int mOpendataId;
     @SerializedName("description")
     private String mDescription;
     @SerializedName("ordering")
@@ -28,14 +26,6 @@ public class Location {
 
     public void setId(String id) {
         mId = id;
-    }
-
-    public int getOpendataId() {
-        return mOpendataId;
-    }
-
-    public void setOpendataId(int opendataId) {
-        mOpendataId = opendataId;
     }
 
     public String getDescription() {

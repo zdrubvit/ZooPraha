@@ -32,7 +32,6 @@ public class ZooBaseHelper extends SQLiteOpenHelper {
                 " _id integer primary key autoincrement, " +
                 AdoptionsTable.Cols.ID + ", " +
                 AdoptionsTable.Cols.LEXICON_ID + ", " +
-                AdoptionsTable.Cols.OPENDATA_ID + ", " +
                 AdoptionsTable.Cols.NAME + ", " +
                 AdoptionsTable.Cols.PRICE + ", " +
                 AdoptionsTable.Cols.VISIT +
@@ -42,7 +41,6 @@ public class ZooBaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + AnimalsTable.NAME + "(" +
                 " _id integer primary key autoincrement, " +
                 AnimalsTable.Cols.ID + ", " +
-                AnimalsTable.Cols.OPENDATA_ID + ", " +
                 AnimalsTable.Cols.NAME + ", " +
                 AnimalsTable.Cols.LATIN_NAME + ", " +
                 AnimalsTable.Cols.CLASS_NAME + ", " +

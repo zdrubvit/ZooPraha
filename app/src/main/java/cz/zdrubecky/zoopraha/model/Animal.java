@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName;
 public class Animal {
     @SerializedName("id")
     private String mId;
-    @SerializedName("opendata_id")
-    private int mOpendataId;
     @SerializedName("name")
     private String mName;
     @SerializedName("latin_name")
@@ -56,14 +54,6 @@ public class Animal {
 
     public void setId(String id) {
         mId = id;
-    }
-
-    public int getOpendataId() {
-        return mOpendataId;
-    }
-
-    public void setOpendataId(int opendataId) {
-        mOpendataId = opendataId;
     }
 
     public String getName() {

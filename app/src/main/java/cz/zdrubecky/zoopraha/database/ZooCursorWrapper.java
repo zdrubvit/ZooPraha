@@ -18,7 +18,6 @@ public class ZooCursorWrapper extends CursorWrapper {
         // Pull the data from the underlying cursor using their indexed names
         String id = getString(getColumnIndex(AdoptionsTable.Cols.ID));
         String lexicon_id = getString(getColumnIndex(AdoptionsTable.Cols.LEXICON_ID));
-        int opendata_id = getInt(getColumnIndex(AdoptionsTable.Cols.OPENDATA_ID));
         String name = getString(getColumnIndex(AdoptionsTable.Cols.NAME));
         int price = getInt(getColumnIndex(AdoptionsTable.Cols.PRICE));
         boolean visit = parseBoolean(getString(getColumnIndex(AdoptionsTable.Cols.VISIT)));
@@ -26,7 +25,6 @@ public class ZooCursorWrapper extends CursorWrapper {
         Adoption adoption = new Adoption();
         adoption.setId(id);
         adoption.setLexiconId(lexicon_id);
-        adoption.setOpendataId(opendata_id);
         adoption.setName(name);
         adoption.setPrice(price);
         adoption.setVisit(visit);
@@ -36,7 +34,6 @@ public class ZooCursorWrapper extends CursorWrapper {
 
     public Animal getAnimal() {
         String id = getString(getColumnIndex(AnimalsTable.Cols.ID));
-        int opendata_id = getInt(getColumnIndex(AnimalsTable.Cols.OPENDATA_ID));
         String name = getString(getColumnIndex(AnimalsTable.Cols.NAME));
         String latin_name = getString(getColumnIndex(AnimalsTable.Cols.LATIN_NAME));
         String class_name = getString(getColumnIndex(AnimalsTable.Cols.CLASS_NAME));
@@ -61,7 +58,6 @@ public class ZooCursorWrapper extends CursorWrapper {
 
         Animal animal = new Animal();
         animal.setId(id);
-        animal.setOpendataId(opendata_id);
         animal.setName(name);
         animal.setLatinName(latin_name);
         animal.setClassName(class_name);

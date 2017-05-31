@@ -3,7 +3,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
     <TextView
         android:id="@+id/list_item_event_name_textview"
         android:layout_width="wrap_content"
@@ -16,12 +16,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="4dp"
-        tools:text="Event price"/>
+        tools:text="Event start"/>
     <TextView
         android:id="@+id/list_item_event_end_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="4dp"
-        tools:text="Event visit"/>
+        tools:text="Event end"/>
 
 </LinearLayout>

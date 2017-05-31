@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName;
 public class Classification {
     @SerializedName("id")
     private String mId;
-    @SerializedName("opendata_id")
-    private int mOpendataId;
     @SerializedName("type")
     private String mType;
     @SerializedName("title.name")
@@ -22,14 +20,6 @@ public class Classification {
 
     public void setId(String id) {
         mId = id;
-    }
-
-    public int getOpendataId() {
-        return mOpendataId;
-    }
-
-    public void setOpendataId(int opendataId) {
-        mOpendataId = opendataId;
     }
 
     public String getType() {

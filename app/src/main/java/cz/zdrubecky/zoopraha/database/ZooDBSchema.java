@@ -8,7 +8,6 @@ public class ZooDBSchema {
             // Each new column has to be mentioned on four different places - here, DBHelper, AdoptionLab, CursorWrapper
             public static final String ID = "id";
             public static final String LEXICON_ID = "lexicon_id";
-            public static final String OPENDATA_ID = "opendata_id";
             public static final String NAME = "name";
             public static final String PRICE = "price";
             public static final String VISIT = "visit";
@@ -20,7 +19,6 @@ public class ZooDBSchema {
 
         public static final class Cols {
             public static final String ID = "id";
-            public static final String OPENDATA_ID = "opendata_id";
             public static final String NAME = "name";
             public static final String LATIN_NAME = "latin_name";
             public static final String CLASS_NAME = "class_name";
