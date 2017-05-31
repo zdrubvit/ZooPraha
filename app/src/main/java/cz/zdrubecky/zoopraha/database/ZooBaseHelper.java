@@ -75,6 +75,18 @@ public class ZooBaseHelper extends SQLiteOpenHelper {
                 EventsTable.Cols.NAME +
                 ")"
         );
+
+        db.execSQL("CREATE TABLE " + ClassificationsTable.NAME + "(" +
+                " _id integer primary key autoincrement, " +
+                ClassificationsTable.Cols.ID + ", " +
+                ClassificationsTable.Cols.OPENDATA_ID + ", " +
+                ClassificationsTable.Cols.TYPE + ", " +
+                ClassificationsTable.Cols.PARENT_ID + ", " +
+                ClassificationsTable.Cols.NAME + ", " +
+                ClassificationsTable.Cols.LATIN_NAME + ", " +
+                ClassificationsTable.Cols.SLUG +
+                ")"
+        );
     }
 
     // Called when there's a lower version present

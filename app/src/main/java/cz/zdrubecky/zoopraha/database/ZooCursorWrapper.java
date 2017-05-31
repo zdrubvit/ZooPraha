@@ -101,4 +101,25 @@ public class ZooCursorWrapper extends CursorWrapper {
 
         return event;
     }
+
+    public Classification getClassification() {
+        String id = getString(getColumnIndex(ClassificationsTable.Cols.ID));
+        int opendataId = getInt(getColumnIndex(ClassificationsTable.Cols.OPENDATA_ID));
+        String type = getString(getColumnIndex(ClassificationsTable.Cols.TYPE));
+        int parent_id = getInt(getColumnIndex(ClassificationsTable.Cols.PARENT_ID));
+        String name = getString(getColumnIndex(ClassificationsTable.Cols.NAME));
+        String latin_name = getString(getColumnIndex(ClassificationsTable.Cols.LATIN_NAME));
+        String slug = getString(getColumnIndex(ClassificationsTable.Cols.SLUG));
+
+        Classification classification = new Classification();
+        classification.setId(id);
+        classification.setOpendataId(opendataId);
+        classification.setType(type);
+        classification.setParentId(parent_id);
+        classification.setName(name);
+        classification.setLatinName(latin_name);
+        classification.setSlug(slug);
+
+        return classification;
+    }
 }

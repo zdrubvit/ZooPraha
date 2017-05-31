@@ -55,4 +55,18 @@ public class ZooDBSchema {
             public static final String NAME = "name";
         }
     }
+
+    public static final class ClassificationsTable {
+        public static final String NAME = "classifications";
+
+        public static final class Cols {
+            public static final String ID = "id";
+            public static final String OPENDATA_ID = "opendata_id";
+            public static final String TYPE = "type";
+            public static final String PARENT_ID = "parent_id";
+            public static final String NAME = "name";
+            public static final String LATIN_NAME = "latin_name";
+            public static final String SLUG = "slug";
+        }
+    }
 }

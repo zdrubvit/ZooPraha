@@ -86,6 +86,12 @@ public class DataFetcher {
         call.enqueue(new RequestCallback<JsonApiObject>());
     }
 
+    public void getClassifications(boolean getClass, boolean getOrder, boolean getFamily) {
+        Call<JsonApiObject> call = mService.getClassifications(Boolean.toString(getClass), Boolean.toString(getOrder), Boolean.toString(getFamily));
+
+        call.enqueue(new RequestCallback<JsonApiObject>());
+    }
+
     public void getAnimals(String name, String limit, String offset) {
         Call<JsonApiObject> call = mService.getAnimals(name, limit, offset);
 
