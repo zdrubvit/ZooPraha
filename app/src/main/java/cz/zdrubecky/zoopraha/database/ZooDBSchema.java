@@ -44,4 +44,17 @@ public class ZooDBSchema {
             public static final String LOCATION_URL = "location_url";
         }
     }
+
+    public static final class EventsTable {
+        public static final String NAME = "events";
+
+        public static final class Cols {
+            public static final String ID = "id";
+            public static final String START = "start";
+            public static final String END = "end";
+            public static final String DURATION = "duration";
+            public static final String DESCRIPTION = "description";
+            public static final String NAME = "name";
+        }
+    }
 }

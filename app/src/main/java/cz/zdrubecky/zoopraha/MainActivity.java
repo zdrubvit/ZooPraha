@@ -71,6 +71,24 @@ public class MainActivity extends AppCompatActivity {
 //        });
 //        dataFetcher.getAnimals(null, null, null);
 
+        dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
+            @Override
+            public void onDataFetched(JsonApiObject response) {
+                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
+                AdoptionsManager manager = AdoptionsManager.get(MainActivity.this);
+                List<JsonApiObject.Resource> data = response.getData();
+                Gson gson = new Gson();
+
+                // todo make this threaded
+                for (int i = 0; i < data.size(); i++) {
+                    Adoption adoption = gson.fromJson(data.get(i).getDocument(), Adoption.class);
+                    adoption.setId(data.get(i).getId());
+                    manager.addAdoption(adoption);
+                }
+            }
+        });
+        dataFetcher.getEvents(null, null, null);
+
         mMainButtonAdoptions = (Button) findViewById(R.id.main_button_adoptions);
         mMainButtonAdoptions.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,15 +2,13 @@ package cz.zdrubecky.zoopraha.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
-
 public class Event {
     @SerializedName("id")
     private String mId;
     @SerializedName("start")
-    private Date mStart;
+    private String mStart;
     @SerializedName("end")
-    private Date mEnd;
+    private String mEnd;
     @SerializedName("duration")
     private int mDuration;
     @SerializedName("name")
@@ -26,19 +24,19 @@ public class Event {
         mId = id;
     }
 
-    public Date getStart() {
+    public String getStart() {
         return mStart;
     }
 
-    public void setStart(Date start) {
+    public void setStart(String start) {
         mStart = start;
     }
 
-    public Date getEnd() {
+    public String getEnd() {
         return mEnd;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(String end) {
         mEnd = end;
     }
 

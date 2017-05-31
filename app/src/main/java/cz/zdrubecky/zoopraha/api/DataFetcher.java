@@ -89,7 +89,12 @@ public class DataFetcher {
     public void getAnimals(String name, String limit, String offset) {
         Call<JsonApiObject> call = mService.getAnimals(name, limit, offset);
 
-        // Put the request in a background thread
+        call.enqueue(new RequestCallback<JsonApiObject>());
+    }
+
+    public void getEvents(String datetime, String limit, String offset) {
+        Call<JsonApiObject> call = mService.getEvents(datetime, limit, offset);
+
         call.enqueue(new RequestCallback<JsonApiObject>());
     }
 }

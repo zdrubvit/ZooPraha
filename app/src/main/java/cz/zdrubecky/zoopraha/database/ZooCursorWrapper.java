@@ -86,4 +86,23 @@ public class ZooCursorWrapper extends CursorWrapper {
 
         return animal;
     }
+
+    public Event getEvent() {
+        String id = getString(getColumnIndex(EventsTable.Cols.ID));
+        String start = getString(getColumnIndex(EventsTable.Cols.START));
+        String end = getString(getColumnIndex(EventsTable.Cols.END));
+        int duration = getInt(getColumnIndex(EventsTable.Cols.DURATION));
+        String description = getString(getColumnIndex(EventsTable.Cols.DESCRIPTION));
+        String name = getString(getColumnIndex(EventsTable.Cols.NAME));
+
+        Event event = new Event();
+        event.setId(id);
+        event.setStart(start);
+        event.setEnd(end);
+        event.setDuration(duration);
+        event.setDescription(description);
+        event.setName(name);
+
+        return event;
+    }
 }
