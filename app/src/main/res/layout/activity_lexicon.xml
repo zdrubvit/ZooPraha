@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <Button
+        android:id="@+id/lexicon_menu_classifications_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lexicon_menu_classifications_button_text"/>
+    <Button
+        android:id="@+id/lexicon_menu_locations_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lexicon_menu_locations_button_text"/>
+    <Button
+        android:id="@+id/lexicon_menu_continents_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lexicon_menu_continents_button_text"/>
+    <Button
+        android:id="@+id/lexicon_menu_biotopes_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lexicon_menu_biotopes_button_text"/>
+    <Button
+        android:id="@+id/lexicon_menu_food_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lexicon_menu_food_button_text"/>
+
+</LinearLayout>

@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONObject;
 
-public class JsonApiObject<T> {
+public class JsonApiObject {
     @SerializedName("meta")
     @Expose
     private Meta mMeta;

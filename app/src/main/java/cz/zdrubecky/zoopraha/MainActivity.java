@@ -34,24 +34,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        DataFetcher dataFetcher = new DataFetcher();
-//        dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
-//            @Override
-//            public void onDataFetched(JsonApiObject response) {
-//                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
-//                AdoptionsManager manager = AdoptionsManager.get(MainActivity.this);
-//                List<JsonApiObject.Resource> data = response.getData();
-//                Gson gson = new Gson();
-//
-//                // todo make this threaded
-//                for (int i = 0; i < data.size(); i++) {
-//                    Adoption adoption = gson.fromJson(data.get(i).getDocument(), Adoption.class);
-//                    adoption.setId(data.get(i).getId());
-//                    manager.addAdoption(adoption);
-//                }
-//            }
-//        });
-//        dataFetcher.getAdoptions(null, "10", null);
+        DataFetcher dataFetcher = new DataFetcher();
+        dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
+            @Override
+            public void onDataFetched(JsonApiObject response) {
+                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
+                AdoptionsManager manager = AdoptionsManager.get(MainActivity.this);
+                List<JsonApiObject.Resource> data = response.getData();
+                Gson gson = new Gson();
+
+                // todo make this threaded
+                for (int i = 0; i < data.size(); i++) {
+                    Adoption adoption = gson.fromJson(data.get(i).getDocument(), Adoption.class);
+                    adoption.setId(data.get(i).getId());
+                    manager.addAdoption(adoption);
+                }
+            }
+        });
+        dataFetcher.getAdoptions(null, "10", null);
 
 //        dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
 //            @Override
@@ -76,6 +76,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, AdoptionListActivity.class);
+
+                startActivity(i);
+            }
+        });
+
+        mMainButtonLexicon = (Button) findViewById(R.id.main_button_lexicon);
+        mMainButtonLexicon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, LexiconActivity.class);
 
                 startActivity(i);
             }

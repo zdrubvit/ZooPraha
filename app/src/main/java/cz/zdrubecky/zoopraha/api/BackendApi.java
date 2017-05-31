@@ -6,13 +6,13 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.Query;
 
-public interface BackendService {
+public interface BackendApi {
     @Headers({"Accept: application/vnd.api+json"})
     @GET("adoptions")
-    Call<JsonApiObject<Adoption>> getAdoptions(@Query("name") String name, @Query("limit") String limit, @Query("offset") String offset);
+    Call<JsonApiObject> getAdoptions(@Query("name") String name, @Query("limit") String limit, @Query("offset") String offset);
 
 
     @Headers({"Accept: application/vnd.api+json"})
     @GET("lexicon")
-    Call<JsonApiObject<Animal>> getAnimals(@Query("name") String name, @Query("limit") String limit, @Query("offset") String offset);
+    Call<JsonApiObject> getAnimals(@Query("name") String name, @Query("limit") String limit, @Query("offset") String offset);
 }

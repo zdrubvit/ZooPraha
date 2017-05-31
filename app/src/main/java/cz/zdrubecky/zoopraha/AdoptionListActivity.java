@@ -30,7 +30,7 @@ public class AdoptionListActivity
 
         // Check if there's not a split view and therefore we're not working with a tablet
         if (findViewById(R.id.detail_fragment_container) == null) {
-            Intent intent = AdoptionDetailActivity.newIntent(this, adoption.getLexiconId());
+            Intent intent = AnimalDetailActivity.newIntent(this, adoption.getLexiconId());
             startActivity(intent);
         } else {
             Fragment animalDetail = AnimalFragment.newInstance(adoption.getLexiconId());
