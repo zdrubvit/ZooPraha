@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Classification {
-    @SerializedName("id")
+    @SerializedName("_id")
     private String mId;
     @SerializedName("opendata_id")
     private int mOpendataId;
@@ -13,9 +13,9 @@ public class Classification {
     private String mType;
     @SerializedName("parent_id")
     private int mParentId;
-    @SerializedName("title.name")
+    @SerializedName("name")
     private String mName;
-    @SerializedName("title.latin_name")
+    @SerializedName("latin_name")
     private String mLatinName;
     @SerializedName("slug")
     private String mSlug;

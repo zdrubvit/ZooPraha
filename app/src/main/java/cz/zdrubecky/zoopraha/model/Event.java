@@ -3,7 +3,7 @@ package cz.zdrubecky.zoopraha.model;
 import com.google.gson.annotations.SerializedName;
 
 public class Event {
-    @SerializedName("id")
+    @SerializedName("_id")
     private String mId;
     @SerializedName("start")
     private String mStart;

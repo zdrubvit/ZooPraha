@@ -3,7 +3,7 @@ package cz.zdrubecky.zoopraha.model;
 import com.google.gson.annotations.SerializedName;
 
 public class Location {
-    @SerializedName("id")
+    @SerializedName("_id")
     private String mId;
     @SerializedName("description")
     private String mDescription;

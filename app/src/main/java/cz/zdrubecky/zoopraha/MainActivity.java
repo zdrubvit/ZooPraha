@@ -109,13 +109,13 @@ public class MainActivity extends AppCompatActivity {
                 Gson gson = new Gson();
 
                 // todo make this threaded
-                // todo deserialize the nested objects correctly
-                // todo insert the order objects as well
                 for (int i = 0; i < data.size(); i++) {
                     Classification classification = gson.fromJson(data.get(i).getDocument(), Classification.class);
                     classification.setId(data.get(i).getId());
                     manager.addClassification(classification);
                 }
+
+                manager.flushClassifications();
             }
         });
         dataFetcherClassifications.getClassifications(true, true, true);

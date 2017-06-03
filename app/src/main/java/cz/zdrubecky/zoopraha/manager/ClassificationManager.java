@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,16 +16,38 @@ import cz.zdrubecky.zoopraha.model.Classification;
 
 public class ClassificationManager {
     private SQLiteDatabase mDatabase;
+    private List<Classification> mClassifications;
 
     public ClassificationManager(Context context) {
         ZooBaseHelper zooBaseHelper = ZooBaseHelper.getInstance(context);
         mDatabase = zooBaseHelper.getWritableDatabase();
+        mClassifications = new ArrayList<>();
     }
 
-    public List<Classification> getClassifications() {
+    // Return the whole taxonomy, e.g. classes with their child orders
+    public List<Classification> getTaxonomy() {
+        List<Classification> classes = getClassifications(
+                ClassificationsTable.Cols.TYPE + " = ?",
+                new String[] { "class" }
+        );
+
+        // Get the orders for each class
+        for (Classification parentClass : classes) {
+            List<Classification> orders = getClassifications(
+                    ClassificationsTable.Cols.TYPE + " = ? AND " + ClassificationsTable.Cols.PARENT_ID + " = ?",
+                    new String[] { "order", Integer.toString(parentClass.getOpendataId()) }
+            );
+
+            parentClass.setOrders(orders);
+        }
+
+        return classes;
+    }
+
+    public List<Classification> getClassifications(String whereClause, String[] whereArgs) {
         List<Classification> classifications = new ArrayList<>();
 
-        ZooCursorWrapper cursor = queryClassifications(null, null);
+        ZooCursorWrapper cursor = queryClassifications(whereClause, whereArgs);
 
         try {
             cursor.moveToFirst();
@@ -52,18 +75,27 @@ public class ClassificationManager {
                 return null;
             }
             cursor.moveToFirst();
-            return cursor.getClassification();
+
+            Classification classification = cursor.getClassification();
+
+            // If we're dealing with a class, get its child orders
+            if (classification.getType() == "class") {
+                List<Classification> orders = getClassifications(
+                        ClassificationsTable.Cols.TYPE + " = ? AND " + ClassificationsTable.Cols.PARENT_ID + " = ?",
+                        new String[] { "order", Integer.toString(classification.getOpendataId()) }
+                );
+
+                classification.setOrders(orders);
+            }
+
+            return classification;
         } finally {
             cursor.close();
         }
     }
 
     public void addClassification(Classification classification) {
-        // todo check if it exists and then update
-        ContentValues values = getContentValues(classification);
-
-        // The second argument - nullColumnHack - is used to force insert in the case of empty values
-        mDatabase.insert(ClassificationsTable.NAME, null, values);
+        mClassifications.add(classification);
     }
 
     public void updateClassification(Classification classification) {
@@ -74,6 +106,52 @@ public class ClassificationManager {
 
     public boolean removeClassification(Classification classification) {
         return mDatabase.delete(ClassificationsTable.NAME, ClassificationsTable.Cols.ID + " = ?", new String[] {classification.getId()}) > 0;
+    }
+
+    // Bind one object to the statement
+    private void bindClassification(SQLiteStatement statement, Classification classification) {
+        // The binding index starts at "1"
+        statement.bindString(1, classification.getId());
+        statement.bindString(2, Integer.toString(classification.getOpendataId()));
+        statement.bindString(3, classification.getType());
+        statement.bindString(4, Integer.toString(classification.getParentId()));
+        statement.bindString(5, classification.getName());
+        statement.bindString(6, classification.getLatinName());
+        statement.bindString(7, classification.getSlug());
+
+        statement.execute();
+        statement.clearBindings();
+    }
+
+    // Flush all the classifications into the database at once
+    public void flushClassifications() {
+        // Prepare the query for late binding
+        String query = "INSERT OR REPLACE INTO " + ClassificationsTable.NAME + " ( " +
+                ClassificationsTable.Cols.ID + ", " +
+                ClassificationsTable.Cols.OPENDATA_ID + ", " +
+                ClassificationsTable.Cols.TYPE + ", " +
+                ClassificationsTable.Cols.PARENT_ID + ", " +
+                ClassificationsTable.Cols.NAME + ", " +
+                ClassificationsTable.Cols.LATIN_NAME + ", " +
+                ClassificationsTable.Cols.SLUG + " ) VALUES ( ?, ?, ?, ?, ?, ?, ? )";
+
+        // Lock the DB file for the time being
+        mDatabase.beginTransactionNonExclusive();
+
+        SQLiteStatement statement = mDatabase.compileStatement(query);
+
+        // Bind every class and order from the list
+        for (Classification classification : mClassifications) {
+            bindClassification(statement, classification);
+
+            List<Classification> orders = classification.getOrders();
+            for (Classification order : orders) {
+                bindClassification(statement, order);
+            }
+        }
+
+        mDatabase.setTransactionSuccessful();
+        mDatabase.endTransaction();
     }
 
     public void dropTable() {

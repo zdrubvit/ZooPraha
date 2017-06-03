@@ -3,19 +3,19 @@ package cz.zdrubecky.zoopraha.model;
 import com.google.gson.annotations.SerializedName;
 
 public class Animal {
-    @SerializedName("id")
+    @SerializedName("_id")
     private String mId;
     @SerializedName("name")
     private String mName;
     @SerializedName("latin_name")
     private String mLatinName;
-    @SerializedName("class.name")
+    @SerializedName("class_name")
     private String mClassName;
-    @SerializedName("class.latin_name")
+    @SerializedName("class_latin_name")
     private String mClassLatinName;
-    @SerializedName("order.name")
+    @SerializedName("order_name")
     private String mOrderName;
-    @SerializedName("order.latin_name")
+    @SerializedName("order_latin_name")
     private String mOrderLatinName;
     @SerializedName("description")
     private String mDescription;

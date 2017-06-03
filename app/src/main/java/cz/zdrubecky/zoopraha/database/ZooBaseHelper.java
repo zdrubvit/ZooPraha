@@ -65,17 +65,6 @@ public class ZooBaseHelper extends SQLiteOpenHelper {
                 ")"
         );
 
-        db.execSQL("CREATE TABLE " + EventsTable.NAME + "(" +
-                " _id integer primary key autoincrement, " +
-                EventsTable.Cols.ID + ", " +
-                EventsTable.Cols.START + ", " +
-                EventsTable.Cols.END + ", " +
-                EventsTable.Cols.DURATION + ", " +
-                EventsTable.Cols.DESCRIPTION + ", " +
-                EventsTable.Cols.NAME +
-                ")"
-        );
-
         db.execSQL("CREATE TABLE " + ClassificationsTable.NAME + "(" +
                 " _id integer primary key autoincrement, " +
                 ClassificationsTable.Cols.ID + ", " +
@@ -85,6 +74,19 @@ public class ZooBaseHelper extends SQLiteOpenHelper {
                 ClassificationsTable.Cols.NAME + ", " +
                 ClassificationsTable.Cols.LATIN_NAME + ", " +
                 ClassificationsTable.Cols.SLUG +
+                ")"
+        );
+
+        db.execSQL("CREATE UNIQUE INDEX idx_classifications_id ON " + ClassificationsTable.NAME + " (" + ClassificationsTable.Cols.ID + ")");
+
+        db.execSQL("CREATE TABLE " + EventsTable.NAME + "(" +
+                " _id integer primary key autoincrement, " +
+                EventsTable.Cols.ID + ", " +
+                EventsTable.Cols.START + ", " +
+                EventsTable.Cols.END + ", " +
+                EventsTable.Cols.DURATION + ", " +
+                EventsTable.Cols.DESCRIPTION + ", " +
+                EventsTable.Cols.NAME +
                 ")"
         );
     }
