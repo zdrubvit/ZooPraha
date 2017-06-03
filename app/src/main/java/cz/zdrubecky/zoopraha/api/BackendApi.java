@@ -22,4 +22,8 @@ public interface BackendApi {
     @Headers({"Accept: application/vnd.api+json"})
     @GET("lexicon")
     Call<JsonApiObject> getAnimals(@Query("name") String name, @Query("limit") String limit, @Query("offset") String offset);
+
+    @Headers({"Accept: application/vnd.api+json"})
+    @GET("questions")
+    Call<JsonApiObject> getQuestions(@Query("limit") String limit);
 }

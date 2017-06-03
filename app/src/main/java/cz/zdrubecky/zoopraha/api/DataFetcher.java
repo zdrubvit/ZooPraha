@@ -103,4 +103,10 @@ public class DataFetcher {
 
         call.enqueue(new RequestCallback<JsonApiObject>());
     }
+
+    public void getQuestions(String limit) {
+        Call<JsonApiObject> call = mService.getQuestions(limit);
+
+        call.enqueue(new RequestCallback<JsonApiObject>());
+    }
 }
