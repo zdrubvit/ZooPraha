@@ -21,4 +21,9 @@
     <string name="fragment_event_end_label">Konec</string>
     <string name="fragment_event_duration_label">Delka</string>
     <string name="fragment_event_description_label">Popis</string>
+    <string name="quiz_menu_new_game_button_text">Nová hra</string>
+    <string name="quiz_menu_leaderboard_button_text">Žebříček</string>
+    <string name="quiz_menu_badges_button_text">Medaile</string>
+    <string name="quiz_menu_settings_button_text">Nastavení</string>
+    <string name="quiz_menu_help_button_text">Nápověda</string>
 </resources>

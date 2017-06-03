@@ -13,15 +13,7 @@ import java.util.List;
 
 import cz.zdrubecky.zoopraha.api.DataFetcher;
 import cz.zdrubecky.zoopraha.database.ZooBaseHelper;
-import cz.zdrubecky.zoopraha.manager.AdoptionManager;
-import cz.zdrubecky.zoopraha.manager.AnimalManager;
-import cz.zdrubecky.zoopraha.manager.ClassificationManager;
-import cz.zdrubecky.zoopraha.manager.EventManager;
 import cz.zdrubecky.zoopraha.manager.QuestionManager;
-import cz.zdrubecky.zoopraha.model.Adoption;
-import cz.zdrubecky.zoopraha.model.Animal;
-import cz.zdrubecky.zoopraha.model.Classification;
-import cz.zdrubecky.zoopraha.model.Event;
 import cz.zdrubecky.zoopraha.model.JsonApiObject;
 import cz.zdrubecky.zoopraha.model.Question;
 
@@ -169,6 +161,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, EventListActivity.class);
+
+                startActivity(i);
+            }
+        });
+
+        mMainButtonQuiz = (Button) findViewById(R.id.main_button_quiz);
+        mMainButtonQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, QuizMenuActivity.class);
 
                 startActivity(i);
             }
