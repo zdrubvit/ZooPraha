@@ -114,28 +114,6 @@ public class MainActivity extends AppCompatActivity {
 //        });
 //        dataFetcherClassifications.getClassifications(true, true, true);
 
-
-        DataFetcher dataFetcherQuestions = new DataFetcher();
-        dataFetcherQuestions.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
-            @Override
-            public void onDataFetched(JsonApiObject response) {
-                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
-                QuestionManager manager = QuestionManager.get(MainActivity.this);
-                List<JsonApiObject.Resource> data = response.getData();
-                Gson gson = new Gson();
-
-                // todo make this threaded
-                for (int i = 0; i < data.size(); i++) {
-                    Question question = gson.fromJson(data.get(i).getDocument(), Question.class);
-                    question.setId(data.get(i).getId());
-                    manager.addQuestion(question);
-                }
-
-                List<Question> questions = manager.getQuestions();
-            }
-        });
-        dataFetcherQuestions.getQuestions("10");
-
         mMainButtonAdoptions = (Button) findViewById(R.id.main_button_adoptions);
         mMainButtonAdoptions.setOnClickListener(new View.OnClickListener() {
             @Override

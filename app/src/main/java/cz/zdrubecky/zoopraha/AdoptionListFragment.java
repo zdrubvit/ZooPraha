@@ -22,11 +22,12 @@ import cz.zdrubecky.zoopraha.model.Adoption;
 public class AdoptionListFragment extends Fragment {
     private static final String TAG = "AdoptionListFragment";
 
-    private Callbacks mCallbacks;
     private View mView;
     private RecyclerView mAdoptionRecyclerView;
     private AdoptionAdapter mAdoptionAdapter;
     private AdoptionManager mAdoptionManager;
+
+    private Callbacks mCallbacks;
 
     // The interface used to communicate with the parent activity
     public interface Callbacks {
@@ -76,7 +77,7 @@ public class AdoptionListFragment extends Fragment {
         List<Adoption> adoptions = mAdoptionManager.getAdoptions();
 
         if (adoptions.size() > 0) {
-            // If the fragment is already running, update the data in case something changed (some crime)
+            // If the fragment is already running, update the data in case something changed (some adoption)
             if (mAdoptionAdapter == null) {
                 mAdoptionAdapter = new AdoptionAdapter(adoptions);
                 mAdoptionRecyclerView.setAdapter(mAdoptionAdapter);

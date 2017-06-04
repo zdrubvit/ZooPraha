@@ -10,6 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="Question text"/>
+    <ImageView
+        android:id="@+id/fragment_question_image_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
     <TableLayout
         android:layout_width="match_parent"

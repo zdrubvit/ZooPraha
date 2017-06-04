@@ -1,6 +1,7 @@
 package cz.zdrubecky.zoopraha;
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,21 +14,29 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         setContentView(getLayoutResId());
 
         FragmentManager fm = getSupportFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
+        Fragment fragment = fm.findFragmentById(getFragmentContainerId());
 
+        // If there's not a fragment present yet, create the initial one and add it to the manager
         if (fragment == null) {
-            fragment = createFragment();
+            fragment = createInitialFragment();
 
             fm.beginTransaction()
-                .add(R.id.fragment_container, fragment)
+                .add(getFragmentContainerId(), fragment)
                 .commit();
         }
     }
 
+    // Get the ID of the layout that includes fragment containers
     @LayoutRes
     protected int getLayoutResId() {
         return R.layout.activity_fragment;
     }
+    
+    @IdRes
+    protected int getFragmentContainerId() {
+        return R.id.fragment_container;
+    }
 
-    protected abstract Fragment createFragment();
+    // Get the specific fragment - all the children have to implement this method
+    protected abstract Fragment createInitialFragment();
 }

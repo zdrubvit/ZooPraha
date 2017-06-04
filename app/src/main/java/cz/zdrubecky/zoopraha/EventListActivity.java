@@ -10,7 +10,7 @@ public class EventListActivity
         implements EventListFragment.Callbacks {
 
     @Override
-    protected Fragment createFragment() {
+    protected Fragment createInitialFragment() {
         return new EventListFragment();
     }
 

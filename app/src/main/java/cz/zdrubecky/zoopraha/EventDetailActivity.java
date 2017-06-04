@@ -16,7 +16,7 @@ public class EventDetailActivity extends SingleFragmentActivity {
     }
 
     @Override
-    protected Fragment createFragment() {
+    protected Fragment createInitialFragment() {
         return EventFragment.newInstance((String) getIntent().getSerializableExtra(EXTRA_EVENT_ID));
     }
 }

@@ -23,6 +23,7 @@ public class Question {
     private boolean mAnsweredCorrectly;
     @SerializedName("flagged")
     private boolean mFlagged;
+    private int mTimeToAnswer;
 
     public String getId() {
         return mId;
@@ -102,5 +103,13 @@ public class Question {
 
     public void setFlagged(boolean flagged) {
         mFlagged = flagged;
+    }
+
+    public int getTimeToAnswer() {
+        return mTimeToAnswer;
+    }
+
+    public void setTimeToAnswer(int timeToAnswer) {
+        mTimeToAnswer = timeToAnswer;
     }
 }

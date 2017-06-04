@@ -11,7 +11,7 @@ public class AdoptionListActivity
         implements AdoptionListFragment.Callbacks {
 
     @Override
-    protected Fragment createFragment() {
+    protected Fragment createInitialFragment() {
         return new AdoptionListFragment();
     }
 

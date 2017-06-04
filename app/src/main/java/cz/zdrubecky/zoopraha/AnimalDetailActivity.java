@@ -16,7 +16,7 @@ public class AnimalDetailActivity extends SingleFragmentActivity {
     }
 
     @Override
-    protected Fragment createFragment() {
+    protected Fragment createInitialFragment() {
         return AnimalFragment.newInstance((String) getIntent().getSerializableExtra(EXTRA_ANIMAL_ID));
     }
 }
