@@ -13,7 +13,11 @@ import java.util.List;
 
 import cz.zdrubecky.zoopraha.api.DataFetcher;
 import cz.zdrubecky.zoopraha.database.ZooBaseHelper;
+import cz.zdrubecky.zoopraha.manager.AdoptionManager;
+import cz.zdrubecky.zoopraha.manager.AnimalManager;
 import cz.zdrubecky.zoopraha.manager.QuestionManager;
+import cz.zdrubecky.zoopraha.model.Adoption;
+import cz.zdrubecky.zoopraha.model.Animal;
 import cz.zdrubecky.zoopraha.model.JsonApiObject;
 import cz.zdrubecky.zoopraha.model.Question;
 
@@ -35,25 +39,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 //        getApplicationContext().deleteDatabase(ZooBaseHelper.DATABASE_NAME);
-//
-//        DataFetcher dataFetcherAdoptions = new DataFetcher();
-//        dataFetcherAdoptions.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
-//            @Override
-//            public void onDataFetched(JsonApiObject response) {
-//                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
-//                AdoptionManager manager = new AdoptionManager(MainActivity.this);
-//                List<JsonApiObject.Resource> data = response.getData();
-//                Gson gson = new Gson();
-//
-//                // todo make this threaded
-//                for (int i = 0; i < data.size(); i++) {
-//                    Adoption adoption = gson.fromJson(data.get(i).getDocument(), Adoption.class);
-//                    adoption.setId(data.get(i).getId());
-//                    manager.addAdoption(adoption);
-//                }
-//            }
-//        });
-//        dataFetcherAdoptions.getAdoptions(null, null, null);
 //
 //        DataFetcher dataFetcherAnimals = new DataFetcher();
 //        dataFetcherAnimals.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
