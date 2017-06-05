@@ -31,6 +31,10 @@ public class QuestionManager {
         return mQuestions;
     }
 
+    public void deleteQuestions() {
+        mQuestions.clear();
+    }
+
     public Question getQuestion(int position) {
         return mQuestions.get(position);
     }
@@ -39,7 +43,41 @@ public class QuestionManager {
         mQuestions.add(question);
     }
 
-    public void updateQuestion(Question question) {
+    public int getQuestionCount() {
+        return mQuestions.size();
+    }
 
+    public int getCorrectAnswersCount() {
+        int correctAnswersCount = 0;
+
+        for (Question question : mQuestions) {
+            if (question.isAnsweredCorrectly()) {
+                correctAnswersCount++;
+            }
+        }
+
+        return correctAnswersCount;
+    }
+
+    public int getIncorrectAnswersCount() {
+        int incorrectAnswersCount = 0;
+
+        for (Question question : mQuestions) {
+            if (question.isAnsweredCorrectly() == false) {
+                incorrectAnswersCount++;
+            }
+        }
+
+        return incorrectAnswersCount;
+    }
+
+    public int getTotalTime() {
+        int totalTime = 0;
+
+        for (Question question : mQuestions) {
+            totalTime += question.getTimeToAnswer();
+        }
+
+        return totalTime;
     }
 }

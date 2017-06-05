@@ -5,47 +5,53 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/fragment_question_text_textview"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Question text"/>
-    <ImageView
-        android:id="@+id/fragment_question_image_imageview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"/>
+        android:orientation="horizontal"
+        android:layout_weight="1">
 
-    <TableLayout
+        <TextView
+            android:id="@+id/fragment_question_number_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:text="Otazka c. 1"/>
+
+        <TextView
+            android:id="@+id/fragment_question_score_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            tools:text="Skore: 0 / 10"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/fragment_question_button_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Answer no.1"/>
-            <Button
-                android:id="@+id/fragment_question_button_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Answer no.2"/>
-        </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/fragment_question_button_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Answer no.3"/>
-            <Button
-                android:id="@+id/fragment_question_button_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Answer no.4"/>
-        </TableRow>
-    </TableLayout>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="4">
+
+        <TextView
+            android:id="@+id/fragment_question_text_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            tools:text="Question text"/>
+        <ImageView
+            android:id="@+id/fragment_question_image_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:layout_gravity="center"
+            tools:src="@android:drawable/btn_star"/>
+    </LinearLayout>
+
+    <include
+        layout="@layout/show_answers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
 </LinearLayout>

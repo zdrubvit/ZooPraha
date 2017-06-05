@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/quiz_result_header"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="2">
+
+        <TextView
+            android:id="@+id/quiz_result_correct_answers_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Spravne odpovedi: 1 / 10"/>
+        <TextView
+            android:id="@+id/quiz_result_incorrect_answers_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Nespravne odpovedi: 9 / 10"/>
+        <TextView
+            android:id="@+id/quiz_result_total_time_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Celkový čas: 35 sekund"/>
+        <TextView
+            android:id="@+id/quiz_result_score_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Výsledné skóre: 42"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="4">
+
+        <Button
+            android:id="@+id/quiz_result_new_game_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quiz_result_new_game_button_text"/>
+        <Button
+            android:id="@+id/quiz_result_leaderboard_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quiz_result_leaderboard_button_text"/>
+        <Button
+            android:id="@+id/quiz_result_menu_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quiz_result_menu_button_text"/>
+    </LinearLayout>
+
+</LinearLayout>

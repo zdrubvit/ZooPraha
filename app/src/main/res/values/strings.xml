@@ -26,4 +26,19 @@
     <string name="quiz_menu_badges_button_text">Medaile</string>
     <string name="quiz_menu_settings_button_text">Nastavení</string>
     <string name="quiz_menu_help_button_text">Nápověda</string>
+    <string name="fragment_question_number_textview_text">Otázka č. %1$d</string>
+    <string name="fragment_question_score_textview_text">Skóre: %1$d / %2$d</string>
+    <string name="question_answered_animal_detail_button_text">Detail zvířete</string>
+    <string name="question_answered_next_question_button_text">Další otázka</string>
+    <string name="question_answered_next_question_button_finish_text">Výsledek</string>
+    <string name="question_answered_result_correct_textview_text">Otázka byla zodpovězena správně!</string>
+    <string name="question_answered_result_incorrect_textview_text">Otázka byla zodpovězena špatně. Správná odpověď zní: %1$s.</string>
+    <string name="quiz_result_header">Konec hry</string>
+    <string name="quiz_result_correct_answers_textview_text">Správné odpovědi: %1$d / %2$d</string>
+    <string name="quiz_result_incorrect_answers_textview_text">Špatné odpovědi: %1$d / %2$d</string>
+    <string name="quiz_result_total_time_textview_text">Celkový čas: %1$d sekund</string>
+    <string name="quiz_result_score_textview_text">Výsledné skóre: %1$d</string>
+    <string name="quiz_result_new_game_button_text">Nová hra</string>
+    <string name="quiz_result_leaderboard_button_text">Nejlepší skóre</string>
+    <string name="quiz_result_menu_button_text">Zpět do menu</string>
 </resources>

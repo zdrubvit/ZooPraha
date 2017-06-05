@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_question_answers"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:showIn="@layout/fragment_question">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/fragment_question_button_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Answer no.1"/>
+        <Button
+            android:id="@+id/fragment_question_button_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Answer no.2"/>
+    </TableRow>
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/fragment_question_button_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Answer no.3"/>
+        <Button
+            android:id="@+id/fragment_question_button_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Answer no.4"/>
+    </TableRow>
+</TableLayout>

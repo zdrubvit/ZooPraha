@@ -7,6 +7,8 @@ public class Question {
     private String mId;
     @SerializedName("text")
     private String mText;
+    @SerializedName("image")
+    private String mImage;
     @SerializedName("correct_answer")
     private String mCorrectAnswer;
     @SerializedName("incorrect_answers")
@@ -39,6 +41,14 @@ public class Question {
 
     public void setText(String text) {
         mText = text;
+    }
+
+    public String getImage() {
+        return mImage;
+    }
+
+    public void setImage(String image) {
+        mImage = image;
     }
 
     public String getCorrectAnswer() {

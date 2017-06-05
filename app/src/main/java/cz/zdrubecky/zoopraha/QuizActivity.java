@@ -1,5 +1,6 @@
 package cz.zdrubecky.zoopraha;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,26 +21,28 @@ public class QuizActivity
     
     private static final String TAG = "QuizActivity";
 
+    private QuestionManager mQuestionManager;
     private int mQuestionCount;
     private int mQuestionPosition;
-    private int mCorrectAnswers;
-    private int mIncorrectAnswers;
-    private int mTotalTime;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mQuestionManager = QuestionManager.get(this);
+
+        // It's a new game - remove the old questions
+        mQuestionManager.deleteQuestions();
+
         // Set all the variables to their default values
-        mQuestionCount = 10;
-        mQuestionPosition = mCorrectAnswers = mIncorrectAnswers = mTotalTime = 0;
+        mQuestionCount = 2;
+        mQuestionPosition = 0;
 
         DataFetcher dataFetcher = new DataFetcher();
         dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
             @Override
             public void onDataFetched(JsonApiObject response) {
                 Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
-                QuestionManager manager = QuestionManager.get(QuizActivity.this);
                 List<JsonApiObject.Resource> data = response.getData();
                 Gson gson = new Gson();
 
@@ -47,9 +50,10 @@ public class QuizActivity
                 for (int i = 0; i < data.size(); i++) {
                     Question question = gson.fromJson(data.get(i).getDocument(), Question.class);
                     question.setId(data.get(i).getId());
-                    manager.addQuestion(question);
+                    mQuestionManager.addQuestion(question);
                 }
 
+                // The questions have been imported and the first one can finally be displayed
                 replaceQuestionFragment();
             }
         });
@@ -72,20 +76,14 @@ public class QuizActivity
 
     @Override
     public void onQuestionAnswered(Question question) {
-        // Check the answer's accuracy and increment the respective counter
-        if (question.isAnsweredCorrectly()) {
-            mCorrectAnswers++;
-        } else {
-            mIncorrectAnswers++;
-        }
-
-        // Increase the total quiz time
-        mTotalTime += question.getTimeToAnswer();
-
         mQuestionPosition++;
         if (mQuestionPosition < mQuestionCount) {
             // Create and add a fragment with the next question
             replaceQuestionFragment();
+        } else {
+            Intent i = new Intent(QuizActivity.this, QuizResultActivity.class);
+
+            startActivity(i);
         }
     }
 }
