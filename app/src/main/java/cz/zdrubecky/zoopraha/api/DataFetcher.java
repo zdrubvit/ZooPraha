@@ -1,9 +1,12 @@
 package cz.zdrubecky.zoopraha.api;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -108,5 +111,9 @@ public class DataFetcher {
         Call<JsonApiObject> call = mService.getQuestions(limit);
 
         call.enqueue(new RequestCallback<JsonApiObject>());
+    }
+
+    public static void loadImage(Context context, String url, int placeholderId, ImageView view) {
+        Picasso.with(context).load(url).placeholder(placeholderId).into(view);
     }
 }

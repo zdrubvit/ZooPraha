@@ -3,6 +3,7 @@ package cz.zdrubecky.zoopraha;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import cz.zdrubecky.zoopraha.api.DataFetcher;
 import cz.zdrubecky.zoopraha.manager.AnimalManager;
 import cz.zdrubecky.zoopraha.model.Animal;
 
@@ -66,10 +68,15 @@ public class AnimalFragment extends DialogFragment {
 
         mNameTextView = (TextView) v.findViewById(R.id.fragment_animal_name_textview);
         setAttributeText(mNameTextView, mAnimal.getName() + " (" + mAnimal.getLatinName() + ")");
+        mImageImageView = (ImageView) v.findViewById(R.id.fragment_animal_image_imageview);
+        if (!mAnimal.getImage().equals("")) {
+            // If there's an image present, place it in the view (beware the secure protocol, Picasso can't cope with that)
+            DataFetcher.loadImage(getActivity(), mAnimal.getImage().replaceFirst("https", "http"), R.mipmap.flag_question, mImageImageView);
+        }
         mClassTextView = (TextView) v.findViewById(R.id.fragment_animal_class_textview);
-        setAttributeText(mClassTextView, mAnimal.getClass() + " (" + mAnimal.getClassLatinName() + ")");
+        setAttributeText(mClassTextView, mAnimal.getClassName() + " (" + mAnimal.getClassLatinName() + ")");
         mOrderTextView = (TextView) v.findViewById(R.id.fragment_animal_order_textview);
-        setAttributeText(mOrderTextView, mAnimal.getClass() + " (" + mAnimal.getOrderLatinName() + ")");
+        setAttributeText(mOrderTextView, mAnimal.getOrderName() + " (" + mAnimal.getOrderLatinName() + ")");
         mDescriptionTextView = (TextView) v.findViewById(R.id.fragment_animal_description_textview);
         setAttributeText(mDescriptionTextView, mAnimal.getDescription());
         mDistributionTextView = (TextView) v.findViewById(R.id.fragment_animal_distribution_textview);
