@@ -41,4 +41,15 @@
     <string name="quiz_result_new_game_button_text">Nová hra</string>
     <string name="quiz_result_leaderboard_button_text">Nejlepší skóre</string>
     <string name="quiz_result_menu_button_text">Zpět do menu</string>
+    <string name="fragment_animal_class_label">Třída</string>
+    <string name="fragment_animal_order_label">Druh</string>
+    <string name="fragment_animal_continents_label">Kontinent</string>
+    <string name="fragment_animal_distribution_label">Rozšíření</string>
+    <string name="fragment_animal_biotopes_label">Biotop</string>
+    <string name="fragment_animal_food_label">Potrava</string>
+    <string name="fragment_animal_proportions_label">Rozměry</string>
+    <string name="fragment_animal_attractions_label">Zajímavosti</string>
+    <string name="fragment_animal_location_label">V ZOO</string>
+    <string name="fragment_animal_breeding_label">Chov</string>
+    <string name="fragment_animal_projects_label">Ohrožení</string>
 </resources>

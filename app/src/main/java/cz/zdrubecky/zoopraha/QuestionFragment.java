@@ -168,6 +168,7 @@ public class QuestionFragment extends Fragment {
             TextView result = (TextView) newView.findViewById(R.id.question_answered_result_textview);
             result.setText(resultText);
 
+            // Provide the user with the ability to see the answer animal's detail
             Button animalDetail = (Button) newView.findViewById(R.id.question_answered_animal_detail_button);
             animalDetail.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -35,7 +35,7 @@ public class QuizActivity
         mQuestionManager.deleteQuestions();
 
         // Set all the variables to their default values
-        mQuestionCount = 2;
+        mQuestionCount = 10;
         mQuestionPosition = 0;
 
         DataFetcher dataFetcher = new DataFetcher();
