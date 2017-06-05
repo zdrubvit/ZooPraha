@@ -2,6 +2,7 @@ package cz.zdrubecky.zoopraha;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 import cz.zdrubecky.zoopraha.manager.AnimalManager;
 import cz.zdrubecky.zoopraha.model.Animal;
 
-public class AnimalFragment extends Fragment {
+public class AnimalFragment extends DialogFragment {
     private static final String TAG = "AnimalFragment";
     private static final String ARG_ANIMAL_ID = "animal_id";
 
@@ -41,6 +42,7 @@ public class AnimalFragment extends Fragment {
 
         String animalId = (String) getArguments().getSerializable(ARG_ANIMAL_ID);
 
+        // todo check for the animal in the db first, then download it - everything in the manager
         mAnimal = mAnimalManager.getAnimal(animalId);
     }
 

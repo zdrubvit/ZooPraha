@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import cz.zdrubecky.zoopraha.model.Question;
 public class QuestionFragment extends Fragment {
     private static final String TAG = "QuestionFragment";
     private static final String ARG_QUESTION_POSITION = "question_position";
+    private static final String ANIMAL_DETAIL_FRAGMENT = "AnimalDetailFragment";
 
     private TextView mQuestionNumberTextView;
     private TextView mScoreTextView;
@@ -165,6 +167,18 @@ public class QuestionFragment extends Fragment {
 
             TextView result = (TextView) newView.findViewById(R.id.question_answered_result_textview);
             result.setText(resultText);
+
+            Button animalDetail = (Button) newView.findViewById(R.id.question_answered_animal_detail_button);
+            animalDetail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager manager = getFragmentManager();
+                    AnimalFragment animalFragment = AnimalFragment.newInstance(mQuestion.getAnswerObjectId());
+
+                    // Use the fragment's dialog ability and display the overlay with an animal's detail
+                    animalFragment.show(manager, ANIMAL_DETAIL_FRAGMENT);
+                }
+            });
 
             Button nextQuestion = (Button) newView.findViewById(R.id.question_answered_next_question_button);
             nextQuestion.setOnClickListener(new View.OnClickListener() {
