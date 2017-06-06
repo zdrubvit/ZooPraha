@@ -25,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
 
     private Button mMainButtonLexicon;
-    private Button mMainButtonAdoptions;
-    private Button mMainButtonEvents;
     private Button mMainButtonQuiz;
     private Button mMainButtonMap;
+    private Button mMainButtonEvents;
+    private Button mMainButtonAdoptions;
     private Button mMainButtonProfile;
 
     private ZooBaseHelper mZooBaseHelper;
@@ -99,21 +99,21 @@ public class MainActivity extends AppCompatActivity {
 //        });
 //        dataFetcherClassifications.getClassifications(true, true, true);
 
-        mMainButtonAdoptions = (Button) findViewById(R.id.main_button_adoptions);
-        mMainButtonAdoptions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, AdoptionListActivity.class);
-
-                startActivity(i);
-            }
-        });
-
         mMainButtonLexicon = (Button) findViewById(R.id.main_button_lexicon);
         mMainButtonLexicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MainActivity.this, LexiconActivity.class);
+
+                startActivity(i);
+            }
+        });
+
+        mMainButtonQuiz = (Button) findViewById(R.id.main_button_quiz);
+        mMainButtonQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, QuizMenuActivity.class);
 
                 startActivity(i);
             }
@@ -129,11 +129,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mMainButtonQuiz = (Button) findViewById(R.id.main_button_quiz);
-        mMainButtonQuiz.setOnClickListener(new View.OnClickListener() {
+        mMainButtonAdoptions = (Button) findViewById(R.id.main_button_adoptions);
+        mMainButtonAdoptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, QuizMenuActivity.class);
+                Intent i = new Intent(MainActivity.this, AdoptionListActivity.class);
 
                 startActivity(i);
             }

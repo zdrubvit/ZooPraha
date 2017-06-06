@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -46,6 +47,9 @@ public class AnimalFragment extends DialogFragment {
         AnimalFragment fragment = new AnimalFragment();
         fragment.setArguments(args);
 
+        // Override the default capability to be displayed as a dialog, so that it acts as a standard fragment until being treated otherwise
+        fragment.setShowsDialog(false);
+
         return fragment;
     }
 
@@ -65,6 +69,36 @@ public class AnimalFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_animal, container, false);
+
+        // If the fragment acts as a dialog, respond to a touch event by closing it
+        if (getShowsDialog()) {
+            // Use the root scroll view as a basis for catching the events
+            View rootView = v.findViewById(R.id.fragment_animal_scrollview);
+            if (rootView != null) {
+                rootView.setOnTouchListener(new View.OnTouchListener() {
+                    int mLastAction = 0;
+                    int mSecondToLastAction = 0;
+                    
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        // Tolerate one move event after the initial down event before dismissing the dialog
+                        if (event.getActionMasked() == MotionEvent.ACTION_UP
+                                && mSecondToLastAction == MotionEvent.ACTION_DOWN
+                                && mLastAction == MotionEvent.ACTION_MOVE) {
+                            dismiss();
+
+                            return true;
+                        }
+
+                        mSecondToLastAction = mLastAction;
+                        mLastAction = event.getActionMasked();
+
+                        // Mark the touch event as "not consumed" and let the listener propagate it further
+                        return false;
+                    }
+                });
+            }
+        }
 
         mNameTextView = (TextView) v.findViewById(R.id.fragment_animal_name_textview);
         setAttributeText(mNameTextView, mAnimal.getName() + " (" + mAnimal.getLatinName() + ")");

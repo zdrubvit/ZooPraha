@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import cz.zdrubecky.zoopraha.api.DataFetcher;
 import cz.zdrubecky.zoopraha.manager.QuestionManager;
 import cz.zdrubecky.zoopraha.model.Question;
 
@@ -40,6 +42,7 @@ public class QuestionFragment extends Fragment {
     private int mQuestionPosition;
     private Question mQuestion;
     private Callbacks mCallbacks;
+    private View mView;
 
     public static QuestionFragment newInstance(int questionPosition) {
         Bundle args = new Bundle();
@@ -92,31 +95,30 @@ public class QuestionFragment extends Fragment {
         Collections.shuffle(answers);
 
         View v = inflater.inflate(R.layout.fragment_question, container, false);
+        // Remember the content view so it can be modified from inner methods
+        mView = v;
 
         // Fill the top part of the question view
         mQuestionNumberTextView = (TextView) v.findViewById(R.id.fragment_question_number_textview);
         String questionNumberText = getString(R.string.fragment_question_number_textview_text, mQuestionPosition + 1);
         mQuestionNumberTextView.setText(questionNumberText);
 
-        mScoreTextView = (TextView) v.findViewById(R.id.fragment_question_score_textview);
-        String scoreText = getString(
-                R.string.fragment_question_score_textview_text,
-                mQuestionManager.getCorrectAnswersCount(),
-                mQuestionManager.getQuestionCount()
-        );
-        mScoreTextView.setText(scoreText);
+        updateScoreText();
 
         // Take care of displaying the question
         mTextTextView = (TextView) v.findViewById(R.id.fragment_question_text_textview);
         mTextTextView.setText(mQuestion.getText());
 
         if (mQuestion.getType().equals("guess_animal_image")) {
-            String imageUrl = mQuestion.getImage();
-
-//            mImageView = (ImageView) v.findViewById(R.id.fragment_question_image_imageview);
-//            mImageView.setImageBitmap(image);
-            // todo switch to a bitmap getter
-            mTextTextView.setText(imageUrl);
+            mImageImageView = (ImageView) v.findViewById(R.id.fragment_question_image_imageview);
+            DataFetcher.loadImage(
+                    getActivity(),
+                    mQuestion.getImage(),
+                    R.mipmap.image_placeholder,
+                    R.mipmap.image_broken,
+                    mImageImageView,
+                    getString(R.string.datafetcher_error_loading_image)
+            );
         }
 
         // Handle the buttons with answers
@@ -149,6 +151,7 @@ public class QuestionFragment extends Fragment {
             if (mQuestion.getCorrectAnswer().equals(button.getText())) {
                 mQuestion.setAnsweredCorrectly(true);
                 resultText = getString(R.string.question_answered_result_correct_textview_text);
+                updateScoreText();
                 Log.i(TAG, "Right answer selected");
             } else {
                 mQuestion.setAnsweredCorrectly(false);
@@ -169,15 +172,16 @@ public class QuestionFragment extends Fragment {
             result.setText(resultText);
 
             // Provide the user with the ability to see the answer animal's detail
-            Button animalDetail = (Button) newView.findViewById(R.id.question_answered_animal_detail_button);
+            final Button animalDetail = (Button) newView.findViewById(R.id.question_answered_animal_detail_button);
             animalDetail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     FragmentManager manager = getFragmentManager();
-                    AnimalFragment animalFragment = AnimalFragment.newInstance(mQuestion.getAnswerObjectId());
-
+                    final AnimalFragment animalFragment = AnimalFragment.newInstance(mQuestion.getAnswerObjectId());
+                    
                     // Use the fragment's dialog ability and display the overlay with an animal's detail
                     animalFragment.show(manager, ANIMAL_DETAIL_FRAGMENT);
+
                 }
             });
 
@@ -196,4 +200,14 @@ public class QuestionFragment extends Fragment {
             parent.addView(newView, index);
         }
     };
+
+    private void updateScoreText() {
+        mScoreTextView = (TextView) mView.findViewById(R.id.fragment_question_score_textview);
+        String scoreText = getString(
+                R.string.fragment_question_score_textview_text,
+                mQuestionManager.getCorrectAnswersCount(),
+                mQuestionManager.getQuestionCount()
+        );
+        mScoreTextView.setText(scoreText);
+    }
 }
