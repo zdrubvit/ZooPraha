@@ -1,6 +1,7 @@
 package cz.zdrubecky.zoopraha;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,35 +22,22 @@ public class AdoptionListActivity
 
     private static final String TAG = "AdoptionListActivity";
 
-    private AdoptionManager mAdoptionManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAdoptionManager = new AdoptionManager(this);
-
-        DataFetcher dataFetcherAdoptions = new DataFetcher();
-        dataFetcherAdoptions.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
+        DataFetcher dataFetcher = new DataFetcher();
+        dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
             @Override
             public void onDataFetched(JsonApiObject response) {
-                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
-                List<JsonApiObject.Resource> data = response.getData();
-                Gson gson = new Gson();
-
-                // todo make this threaded
-                for (int i = 0; i < data.size(); i++) {
-                    Adoption adoption = gson.fromJson(data.get(i).getDocument(), Adoption.class);
-                    adoption.setId(data.get(i).getId());
-                    mAdoptionManager.addAdoption(adoption);
-                }
-
-                // All the adoptions have been served - display them
-                replaceListFragment();
+                Log.i(TAG, "API response listener called with " + response.getMeta().getCount() + " resource objects.");
+                
+                // Hand the response handling over to a background thread and avoid blocking the UI thread
+                new SaveItemsTask(response).execute();
             }
         });
 
-        dataFetcherAdoptions.getAdoptions(null, null, null);
+        dataFetcher.getAdoptions(null, null, null);
     }
 
     @Override
@@ -88,6 +76,41 @@ public class AdoptionListActivity
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.detail_fragment_container, animalDetail)
                     .commit();
+        }
+    }
+
+    // This class is not static and therefore can block the garbage collection of its parent class, but it's useful to update the fragment from here
+    private class SaveItemsTask extends AsyncTask<Void, Void, Void> {
+        private AdoptionManager mAdoptionManager;
+        private JsonApiObject mResponse;
+
+        public SaveItemsTask(JsonApiObject response) {
+            mAdoptionManager = new AdoptionManager(AdoptionListActivity.this);
+            mResponse = response;
+        }
+
+        // Parse the response and update the database with newly acquired data
+        @Override
+        protected Void doInBackground(Void... voids) {
+            List<JsonApiObject.Resource> data = mResponse.getData();
+            Gson gson = new Gson();
+
+            // Iterate over the incoming objects and use them to create adoptions
+            for (int i = 0; i < data.size(); i++) {
+                Adoption adoption = gson.fromJson(data.get(i).getDocument(), Adoption.class);
+                // The ID has to be set explicitly because of its placement thanks to JSON-API standard
+                adoption.setId(data.get(i).getId());
+                mAdoptionManager.addAdoption(adoption);
+            }
+
+            // Don't return anything, there's no need
+            return null;
+        }
+
+        // This method is handled by the UI thread so it can update the UI safely after all items have been updated
+        @Override
+        protected void onPostExecute(Void v) {
+            replaceListFragment();
         }
     }
 }
