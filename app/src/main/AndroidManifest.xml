@@ -18,15 +18,23 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".AdoptionListActivity"/>
+        <activity android:name=".AdoptionListActivity"
+                  android:parentActivityName=".MainActivity"/>
         <activity android:name=".AnimalPagerActivity"/>
-        <activity android:name=".AnimalDetailActivity"/>
-        <activity android:name=".EventListActivity"/>
-        <activity android:name=".EventDetailActivity"/>
-        <activity android:name=".LexiconActivity"/>
-        <activity android:name=".QuizMenuActivity"/>
-        <activity android:name=".QuizActivity"/>
-        <activity android:name=".QuizResultActivity"/>
+        <activity android:name=".AnimalDetailActivity"
+                  android:parentActivityName=".EventListActivity"/>
+        <activity android:name=".EventListActivity"
+                  android:parentActivityName=".MainActivity"/>
+        <activity android:name=".EventDetailActivity"
+                  android:parentActivityName=".EventListActivity"/>
+        <activity android:name=".LexiconActivity"
+                  android:parentActivityName=".MainActivity"/>
+        <activity android:name=".QuizMenuActivity"
+                  android:parentActivityName=".MainActivity"/>
+        <activity android:name=".QuizActivity"
+                  android:parentActivityName=".QuizMenuActivity"/>
+        <activity android:name=".QuizResultActivity"
+                  android:parentActivityName=".QuizMenuActivity"/>
     </application>
 
 </manifest>
