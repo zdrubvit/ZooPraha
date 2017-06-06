@@ -2,11 +2,14 @@ package cz.zdrubecky.zoopraha;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -174,6 +178,15 @@ public class QuestionFragment extends Fragment {
         TextView result = (TextView) newView.findViewById(R.id.question_answered_result_textview);
         result.setText(resultText);
 
+        // Let the user flag the question as "wrong" through a dialog
+        final ImageView flag = (ImageView) newView.findViewById(R.id.question_answered_flag_imageview);
+        flag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createAlertDialog(flag);
+            }
+        });
+
         // Provide the user with the ability to see the answer animal's detail
         final Button animalDetail = (Button) newView.findViewById(R.id.question_answered_animal_detail_button);
         animalDetail.setOnClickListener(new View.OnClickListener() {
@@ -238,6 +251,37 @@ public class QuestionFragment extends Fragment {
                 mQuestionManager.getQuestionCount()
         );
         mScoreTextView.setText(scoreText);
+    }
+
+    private void createAlertDialog(final ImageView flag) {
+        AlertDialog.Builder builder;
+
+        // Create the builder's instance based on the current OS version
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(getActivity());
+        }
+
+        builder.setTitle(R.string.question_answered_flag_alert_title)
+            .setMessage(R.string.question_answered_flag_alert_text)
+            .setPositiveButton(R.string.question_answered_flag_alert_yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    // Set the question as flagged, hide the flag image and inform the user
+                    mQuestion.setFlagged(true);
+
+                    flag.setVisibility(View.GONE);
+
+                    Toast.makeText(getActivity(), R.string.question_answered_flag_alert_flagged, Toast.LENGTH_SHORT).show();
+                }
+            })
+            .setNegativeButton(R.string.question_answered_flag_alert_no, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    mQuestion.setFlagged(false);
+                }
+            })
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show();
     }
 
     // Counter class, updating the progress bar with each iteration

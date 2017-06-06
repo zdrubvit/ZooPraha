@@ -45,6 +45,9 @@
     <string name="question_answered_result_correct_textview_text">Otázka byla zodpovězena správně!</string>
     <string name="question_answered_result_incorrect_textview_text">Otázka byla zodpovězena špatně. Správná odpověď zní: %1$s.</string>
     <string name="question_answered_result_timeout_textview_text">Časový limit vypršel. Správná odpověď zní: %1$s.</string>
+    <string name="question_answered_flag_alert_text">Opravdu chcete otázku označit jako chybnou?</string>
+    <string name="question_answered_flag_alert_yes">Ano</string>
+    <string name="question_answered_flag_alert_no">Ne</string>
     <string name="quiz_result_header">Konec hry</string>
     <string name="quiz_result_correct_answers_textview_text">Správné odpovědi: %1$d / %2$d</string>
     <string name="quiz_result_incorrect_answers_textview_text">Špatné odpovědi: %1$d / %2$d</string>
@@ -54,4 +57,6 @@
     <string name="quiz_result_leaderboard_button_text">Nejlepší skóre</string>
     <string name="quiz_result_menu_button_text">Zpět do menu</string>
     <string name="datafetcher_error_loading_image">Při načítání obrázku došlo k chybě.</string>
+    <string name="question_answered_flag_alert_title">Nahlášení chyby</string>
+    <string name="question_answered_flag_alert_flagged">Otázka byla nahlášena a její správnost prozkoumáme, děkujeme za reakci!</string>
 </resources>
