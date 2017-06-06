@@ -160,6 +160,7 @@ public class QuestionFragment extends Fragment {
         return v;
     }
 
+    // Replace the answers with a new layout when the guessing part is finished
     private void replaceAnswers(String resultText) {
         // Remove the old view from its parent
         View oldView = getView().findViewById(R.id.fragment_question_answers);
@@ -204,6 +205,7 @@ public class QuestionFragment extends Fragment {
         mQuestion.setTimeToAnswer(mTimerProgressBar.getMax() - mTimerProgressBar.getProgress());
     }
 
+    // A listener for all the answer buttons, fired whenever user selects one of them
     private View.OnClickListener questionAnswered = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -227,6 +229,7 @@ public class QuestionFragment extends Fragment {
         }
     };
 
+    // Update the TextView with quiz score to reflect the number of correct answers
     private void updateScoreText() {
         mScoreTextView = (TextView) mView.findViewById(R.id.fragment_question_score_textview);
         String scoreText = getString(
@@ -237,6 +240,7 @@ public class QuestionFragment extends Fragment {
         mScoreTextView.setText(scoreText);
     }
 
+    // Counter class, updating the progress bar with each iteration
     private class QuestionCountDownTimer extends CountDownTimer {
         public QuestionCountDownTimer(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);

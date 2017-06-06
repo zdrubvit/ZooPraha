@@ -3,6 +3,7 @@ package cz.zdrubecky.zoopraha;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -34,5 +35,11 @@ public class QuizMenuActivity extends AppCompatActivity {
         mQuizButtonBadges = (Button) findViewById(R.id.quiz_menu_badges_button);
         mQuizButtonSettings = (Button) findViewById(R.id.quiz_menu_settings_button);
         mQuizButtonHelp = (Button) findViewById(R.id.quiz_menu_help_button);
+    }
+
+    // Move up to the activity's parent when the back button is pressed
+    @Override
+    public void onBackPressed() {
+        NavUtils.navigateUpFromSameTask(this);
     }
 }
