@@ -44,6 +44,7 @@
     <string name="question_answered_next_question_button_finish_text">Výsledek</string>
     <string name="question_answered_result_correct_textview_text">Otázka byla zodpovězena správně!</string>
     <string name="question_answered_result_incorrect_textview_text">Otázka byla zodpovězena špatně. Správná odpověď zní: %1$s.</string>
+    <string name="question_answered_result_timeout_textview_text">Časový limit vypršel. Správná odpověď zní: %1$s.</string>
     <string name="quiz_result_header">Konec hry</string>
     <string name="quiz_result_correct_answers_textview_text">Správné odpovědi: %1$d / %2$d</string>
     <string name="quiz_result_incorrect_answers_textview_text">Špatné odpovědi: %1$d / %2$d</string>

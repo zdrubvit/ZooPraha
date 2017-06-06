@@ -18,6 +18,18 @@
             android:layout_weight="1"
             tools:text="Otazka c. 1"/>
 
+        <ProgressBar
+            android:id="@+id/fragment_question_timer_progressbar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:indeterminate="false"
+            android:max="10"
+            android:minHeight="50dp"
+            android:minWidth="200dp"
+            android:progress="10" />
+
         <TextView
             android:id="@+id/fragment_question_score_textview"
             android:layout_width="wrap_content"

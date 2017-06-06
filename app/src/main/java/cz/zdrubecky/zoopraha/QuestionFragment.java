@@ -3,16 +3,18 @@ package cz.zdrubecky.zoopraha;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class QuestionFragment extends Fragment {
     private static final String ANIMAL_DETAIL_FRAGMENT = "AnimalDetailFragment";
 
     private TextView mQuestionNumberTextView;
+    private ProgressBar mTimerProgressBar;
     private TextView mScoreTextView;
     private TextView mTextTextView;
     private ImageView mImageImageView;
@@ -43,6 +46,7 @@ public class QuestionFragment extends Fragment {
     private Question mQuestion;
     private Callbacks mCallbacks;
     private View mView;
+    private QuestionCountDownTimer mQuestionCountDownTimer;
 
     public static QuestionFragment newInstance(int questionPosition) {
         Bundle args = new Bundle();
@@ -103,6 +107,21 @@ public class QuestionFragment extends Fragment {
         String questionNumberText = getString(R.string.fragment_question_number_textview_text, mQuestionPosition + 1);
         mQuestionNumberTextView.setText(questionNumberText);
 
+        mTimerProgressBar = (ProgressBar) v.findViewById(R.id.fragment_question_timer_progressbar);
+        // Set the layout listener to wait for the layout pass
+        mTimerProgressBar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                // The View is now visible, start the timer (set the interval at half a second to be able to display the last tick)
+                // ...also, set the time one second above the actual number to seem more fluent
+                mQuestionCountDownTimer = new QuestionCountDownTimer(11000, 500);
+                mQuestionCountDownTimer.start();
+
+                // Remove the listener, it's no longer needed
+                mTimerProgressBar.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+
         updateScoreText();
 
         // Take care of displaying the question
@@ -141,9 +160,56 @@ public class QuestionFragment extends Fragment {
         return v;
     }
 
+    private void replaceAnswers(String resultText) {
+        // Remove the old view from its parent
+        View oldView = getView().findViewById(R.id.fragment_question_answers);
+        ViewGroup parent = (ViewGroup) oldView.getParent();
+        int index = parent.indexOfChild(oldView);
+        parent.removeView(oldView);
+
+        // Add the new view based on the index of the previous, old one
+        View newView = LayoutInflater.from(getActivity()).inflate(R.layout.question_answered, parent, false);
+
+        TextView result = (TextView) newView.findViewById(R.id.question_answered_result_textview);
+        result.setText(resultText);
+
+        // Provide the user with the ability to see the answer animal's detail
+        final Button animalDetail = (Button) newView.findViewById(R.id.question_answered_animal_detail_button);
+        animalDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getFragmentManager();
+                final AnimalFragment animalFragment = AnimalFragment.newInstance(mQuestion.getAnswerObjectId());
+
+                // Use the fragment's dialog ability and display the overlay with an animal's detail
+                animalFragment.show(manager, ANIMAL_DETAIL_FRAGMENT);
+
+            }
+        });
+
+        Button nextQuestion = (Button) newView.findViewById(R.id.question_answered_next_question_button);
+        nextQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallbacks.onQuestionAnswered(mQuestion);
+            }
+        });
+
+        if (mQuestionPosition + 1 == mQuestionManager.getQuestionCount()) {
+            nextQuestion.setText(getString(R.string.question_answered_next_question_button_finish_text));
+        }
+
+        parent.addView(newView, index);
+
+        mQuestion.setTimeToAnswer(mTimerProgressBar.getMax() - mTimerProgressBar.getProgress());
+    }
+
     private View.OnClickListener questionAnswered = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            // Stop the timer immediately
+            mQuestionCountDownTimer.cancel();
+
             Button button = (Button) v;
             String resultText;
 
@@ -152,52 +218,12 @@ public class QuestionFragment extends Fragment {
                 mQuestion.setAnsweredCorrectly(true);
                 resultText = getString(R.string.question_answered_result_correct_textview_text);
                 updateScoreText();
-                Log.i(TAG, "Right answer selected");
             } else {
                 mQuestion.setAnsweredCorrectly(false);
                 resultText = getString(R.string.question_answered_result_incorrect_textview_text, mQuestion.getCorrectAnswer());
-                Log.i(TAG, "Wrong answer selected");
             }
 
-            // Remove the old view from its parent
-            View oldView = getView().findViewById(R.id.fragment_question_answers);
-            ViewGroup parent = (ViewGroup) oldView.getParent();
-            int index = parent.indexOfChild(oldView);
-            parent.removeView(oldView);
-
-            // Add the new view based on the index of the previous, old one
-            View newView = LayoutInflater.from(getActivity()).inflate(R.layout.question_answered, parent, false);
-
-            TextView result = (TextView) newView.findViewById(R.id.question_answered_result_textview);
-            result.setText(resultText);
-
-            // Provide the user with the ability to see the answer animal's detail
-            final Button animalDetail = (Button) newView.findViewById(R.id.question_answered_animal_detail_button);
-            animalDetail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentManager manager = getFragmentManager();
-                    final AnimalFragment animalFragment = AnimalFragment.newInstance(mQuestion.getAnswerObjectId());
-                    
-                    // Use the fragment's dialog ability and display the overlay with an animal's detail
-                    animalFragment.show(manager, ANIMAL_DETAIL_FRAGMENT);
-
-                }
-            });
-
-            Button nextQuestion = (Button) newView.findViewById(R.id.question_answered_next_question_button);
-            nextQuestion.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mCallbacks.onQuestionAnswered(mQuestion);
-                }
-            });
-
-            if (mQuestionPosition + 1 == mQuestionManager.getQuestionCount()) {
-                nextQuestion.setText(getString(R.string.question_answered_next_question_button_finish_text));
-            }
-
-            parent.addView(newView, index);
+            replaceAnswers(resultText);
         }
     };
 
@@ -209,5 +235,27 @@ public class QuestionFragment extends Fragment {
                 mQuestionManager.getQuestionCount()
         );
         mScoreTextView.setText(scoreText);
+    }
+
+    private class QuestionCountDownTimer extends CountDownTimer {
+        public QuestionCountDownTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            int progress = (int) (millisUntilFinished / 1000);
+
+            // Update the progress with a lower value
+            mTimerProgressBar.setProgress(progress);
+        }
+
+        @Override
+        public void onFinish() {
+            // Set the timeout text and prevent the user from answering the question anymore
+            String resultText = getString(R.string.question_answered_result_timeout_textview_text, mQuestion.getCorrectAnswer());
+
+            replaceAnswers(resultText);
+        }
     }
 }
