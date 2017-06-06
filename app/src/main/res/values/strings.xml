@@ -52,4 +52,5 @@
     <string name="quiz_result_new_game_button_text">Nová hra</string>
     <string name="quiz_result_leaderboard_button_text">Nejlepší skóre</string>
     <string name="quiz_result_menu_button_text">Zpět do menu</string>
+    <string name="datafetcher_error_loading_image">Při načítání obrázku došlo k chybě.</string>
 </resources>

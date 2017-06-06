@@ -68,10 +68,18 @@ public class AnimalFragment extends DialogFragment {
 
         mNameTextView = (TextView) v.findViewById(R.id.fragment_animal_name_textview);
         setAttributeText(mNameTextView, mAnimal.getName() + " (" + mAnimal.getLatinName() + ")");
-        mImageImageView = (ImageView) v.findViewById(R.id.fragment_animal_image_imageview);
+
         if (!mAnimal.getImage().equals("")) {
-            // If there's an image present, place it in the view (beware the secure protocol, Picasso can't cope with that)
-            DataFetcher.loadImage(getActivity(), mAnimal.getImage().replaceFirst("https", "http"), R.mipmap.flag_question, mImageImageView);
+            // If there's an image present, place it in the view
+            mImageImageView = (ImageView) v.findViewById(R.id.fragment_animal_image_imageview);
+            DataFetcher.loadImage(
+                    getActivity(),
+                    mAnimal.getImage(),
+                    R.mipmap.image_placeholder,
+                    R.mipmap.image_broken,
+                    mImageImageView,
+                    getString(R.string.datafetcher_error_loading_image)
+            );
         }
         mClassTextView = (TextView) v.findViewById(R.id.fragment_animal_class_textview);
         setAttributeText(mClassTextView, mAnimal.getClassName() + " (" + mAnimal.getClassLatinName() + ")");
@@ -92,7 +100,7 @@ public class AnimalFragment extends DialogFragment {
         mReproductionTextView = (TextView) v.findViewById(R.id.fragment_animal_reproduction_textview);
         setAttributeText(mReproductionTextView, mAnimal.getReproduction());
         mAttractionsTextView = (TextView) v.findViewById(R.id.fragment_animal_attractions_textview);
-        setAttributeText(mAttractionsTextView, mAnimal.getProportions());
+        setAttributeText(mAttractionsTextView, mAnimal.getAttractions());
         mLocationTextView = (TextView) v.findViewById(R.id.fragment_animal_location_textview);
         setAttributeText(mLocationTextView, mAnimal.getLocation());
         mBreedingTextView = (TextView) v.findViewById(R.id.fragment_animal_breeding_textview);
@@ -103,7 +111,7 @@ public class AnimalFragment extends DialogFragment {
         return v;
     }
 
-    // A helper method to set a text to a TextView if it's not empty - otherwise the View is hidden
+    // A helper method to set a text to a TextView if it's non-empty - the View is hidden otherwise
     private void setAttributeText(TextView attribute, String text) {
         if (text != null && !text.equals("")) {
             attribute.setText(text);
