@@ -5,6 +5,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 
 public abstract class SingleFragmentActivity extends AppCompatActivity {
@@ -35,6 +36,12 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     @IdRes
     protected int getFragmentContainerId() {
         return R.id.fragment_container;
+    }
+
+    // Move up to the activity's parent when the back button is pressed
+    @Override
+    public void onBackPressed() {
+        NavUtils.navigateUpFromSameTask(this);
     }
 
     // Get the specific fragment - all the children have to implement this method
