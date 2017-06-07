@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +14,16 @@ import cz.zdrubecky.zoopraha.database.ZooCursorWrapper;
 import cz.zdrubecky.zoopraha.database.ZooDBSchema;
 import cz.zdrubecky.zoopraha.database.ZooDBSchema.EventsTable;
 import cz.zdrubecky.zoopraha.model.Event;
+import cz.zdrubecky.zoopraha.model.Event;
 
 public class EventManager {
     private SQLiteDatabase mDatabase;
+    private List<Event> mEvents;
 
     public EventManager(Context context) {
         ZooBaseHelper zooBaseHelper = ZooBaseHelper.getInstance(context);
         mDatabase = zooBaseHelper.getWritableDatabase();
+        mEvents = new ArrayList<>();
     }
 
     public List<Event> getEvents() {
@@ -60,11 +64,7 @@ public class EventManager {
     }
 
     public void addEvent(Event event) {
-        // todo check if it exists and then update
-        ContentValues values = getContentValues(event);
-
-        // The second argument - nullColumnHack - is used to force insert in the case of empty values
-        mDatabase.insert(EventsTable.NAME, null, values);
+        mEvents.add(event);
     }
 
     public void updateEvent(Event event) {
@@ -75,6 +75,45 @@ public class EventManager {
 
     public boolean removeEvent(Event event) {
         return mDatabase.delete(EventsTable.NAME, EventsTable.Cols.ID + " = ?", new String[] {event.getId()}) > 0;
+    }
+
+    // Bind one object to the statement
+    private void bindEvent(SQLiteStatement statement, Event event) {
+        // The binding index starts at "1"
+        statement.bindString(1, event.getId());
+        statement.bindString(2, event.getStart());
+        statement.bindString(3, event.getEnd());
+        statement.bindString(4, Integer.toString(event.getDuration()));
+        statement.bindString(5, event.getName());
+        statement.bindString(6, event.getDescription());
+
+        statement.execute();
+        statement.clearBindings();
+    }
+
+    // Flush all the events into the database at once
+    public void flushEvents() {
+        // Prepare the query for late binding
+        String query = "INSERT OR REPLACE INTO " + ZooDBSchema.EventsTable.NAME + " ( " +
+                EventsTable.Cols.ID + ", " +
+                EventsTable.Cols.START + ", " +
+                EventsTable.Cols.END + ", " +
+                EventsTable.Cols.DURATION + ", " +
+                EventsTable.Cols.NAME + ", " +
+                EventsTable.Cols.DESCRIPTION + " ) VALUES ( ?, ?, ?, ?, ?, ? )";
+
+        // Lock the DB file for the time being
+        mDatabase.beginTransactionNonExclusive();
+
+        SQLiteStatement statement = mDatabase.compileStatement(query);
+
+        // Bind every event from the list
+        for (Event event : mEvents) {
+            bindEvent(statement, event);
+        }
+
+        mDatabase.setTransactionSuccessful();
+        mDatabase.endTransaction();
     }
 
     public void dropTable() {
