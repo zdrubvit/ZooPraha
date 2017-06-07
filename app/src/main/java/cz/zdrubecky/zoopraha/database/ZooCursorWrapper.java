@@ -83,25 +83,6 @@ public class ZooCursorWrapper extends CursorWrapper {
         return animal;
     }
 
-    public Event getEvent() {
-        String id = getString(getColumnIndex(EventsTable.Cols.ID));
-        String start = getString(getColumnIndex(EventsTable.Cols.START));
-        String end = getString(getColumnIndex(EventsTable.Cols.END));
-        int duration = getInt(getColumnIndex(EventsTable.Cols.DURATION));
-        String description = getString(getColumnIndex(EventsTable.Cols.DESCRIPTION));
-        String name = getString(getColumnIndex(EventsTable.Cols.NAME));
-
-        Event event = new Event();
-        event.setId(id);
-        event.setStart(start);
-        event.setEnd(end);
-        event.setDuration(duration);
-        event.setDescription(description);
-        event.setName(name);
-
-        return event;
-    }
-
     public Classification getClassification() {
         String id = getString(getColumnIndex(ClassificationsTable.Cols.ID));
         int opendataId = getInt(getColumnIndex(ClassificationsTable.Cols.OPENDATA_ID));
@@ -121,5 +102,37 @@ public class ZooCursorWrapper extends CursorWrapper {
         classification.setSlug(slug);
 
         return classification;
+    }
+
+    public Event getEvent() {
+        String id = getString(getColumnIndex(EventsTable.Cols.ID));
+        String start = getString(getColumnIndex(EventsTable.Cols.START));
+        String end = getString(getColumnIndex(EventsTable.Cols.END));
+        int duration = getInt(getColumnIndex(EventsTable.Cols.DURATION));
+        String description = getString(getColumnIndex(EventsTable.Cols.DESCRIPTION));
+        String name = getString(getColumnIndex(EventsTable.Cols.NAME));
+
+        Event event = new Event();
+        event.setId(id);
+        event.setStart(start);
+        event.setEnd(end);
+        event.setDuration(duration);
+        event.setDescription(description);
+        event.setName(name);
+
+        return event;
+    }
+
+    public Filter getFilter() {
+        String name = getString(getColumnIndex(FiltersTable.Cols.NAME));
+        String value = getString(getColumnIndex(FiltersTable.Cols.VALUE));
+        int count = getInt(getColumnIndex(FiltersTable.Cols.COUNT));
+
+        Filter filter = new Filter();
+        filter.setName(name);
+        filter.setValue(value);
+        filter.setCount(count);
+
+        return filter;
     }
 }

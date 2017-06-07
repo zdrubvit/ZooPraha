@@ -90,20 +90,38 @@ public class DataFetcher {
         call.enqueue(new RequestCallback<JsonApiObject>());
     }
 
-    public void getClassifications(boolean getClass, boolean getOrder, boolean getFamily) {
-        Call<JsonApiObject> call = mService.getClassifications(Boolean.toString(getClass), Boolean.toString(getOrder), Boolean.toString(getFamily));
-
-        call.enqueue(new RequestCallback<JsonApiObject>());
-    }
-
     public void getAnimals(String name, String limit, String offset) {
         Call<JsonApiObject> call = mService.getAnimals(name, limit, offset);
 
         call.enqueue(new RequestCallback<JsonApiObject>());
     }
 
+    public void getBiotopes() {
+        Call<JsonApiObject> call = mService.getBiotopes();
+
+        call.enqueue(new RequestCallback<JsonApiObject>());
+    }
+
+    public void getClassifications(boolean getClass, boolean getOrder, boolean getFamily) {
+        Call<JsonApiObject> call = mService.getClassifications(Boolean.toString(getClass), Boolean.toString(getOrder), Boolean.toString(getFamily));
+
+        call.enqueue(new RequestCallback<JsonApiObject>());
+    }
+
+    public void getContinents() {
+        Call<JsonApiObject> call = mService.getContinents();
+
+        call.enqueue(new RequestCallback<JsonApiObject>());
+    }
+
     public void getEvents(String datetime, String limit, String offset) {
         Call<JsonApiObject> call = mService.getEvents(datetime, limit, offset);
+
+        call.enqueue(new RequestCallback<JsonApiObject>());
+    }
+
+    public void getFood() {
+        Call<JsonApiObject> call = mService.getFood();
 
         call.enqueue(new RequestCallback<JsonApiObject>());
     }

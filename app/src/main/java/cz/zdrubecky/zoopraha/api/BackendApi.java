@@ -12,16 +12,28 @@ public interface BackendApi {
     Call<JsonApiObject> getAdoptions(@Query("name") String name, @Query("limit") String limit, @Query("offset") String offset);
 
     @Headers({"Accept: application/vnd.api+json"})
+    @GET("lexicon")
+    Call<JsonApiObject> getAnimals(@Query("name") String name, @Query("limit") String limit, @Query("offset") String offset);
+
+    @Headers({"Accept: application/vnd.api+json"})
+    @GET("biotopes")
+    Call<JsonApiObject> getBiotopes();
+
+    @Headers({"Accept: application/vnd.api+json"})
     @GET("classifications")
     Call<JsonApiObject> getClassifications(@Query("class") String className, @Query("order") String order, @Query("family") String family);
+
+    @Headers({"Accept: application/vnd.api+json"})
+    @GET("continents")
+    Call<JsonApiObject> getContinents();
 
     @Headers({"Accept: application/vnd.api+json"})
     @GET("events")
     Call<JsonApiObject> getEvents(@Query("datetime") String datetime, @Query("limit") String limit, @Query("offset") String offset);
 
     @Headers({"Accept: application/vnd.api+json"})
-    @GET("lexicon")
-    Call<JsonApiObject> getAnimals(@Query("name") String name, @Query("limit") String limit, @Query("offset") String offset);
+    @GET("food")
+    Call<JsonApiObject> getFood();
 
     @Headers({"Accept: application/vnd.api+json"})
     @GET("questions")

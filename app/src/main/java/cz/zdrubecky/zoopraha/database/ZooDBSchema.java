@@ -69,4 +69,14 @@ public class ZooDBSchema {
             public static final String NAME = "name";
         }
     }
+
+    public static final class FiltersTable {
+        public static final String NAME = "filters";
+
+        public static final class Cols {
+            public static final String NAME = "name";
+            public static final String VALUE = "value";
+            public static final String COUNT = "count";
+        }
+    }
 }

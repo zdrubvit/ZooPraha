@@ -30,7 +30,7 @@ public class ZooBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + AdoptionsTable.NAME + "(" +
                 " _id integer primary key autoincrement, " +
-                AdoptionsTable.Cols.ID + ", " +
+                AdoptionsTable.Cols.ID + " NOT NULL, " +
                 AdoptionsTable.Cols.LEXICON_ID + ", " +
                 AdoptionsTable.Cols.NAME + ", " +
                 AdoptionsTable.Cols.PRICE + ", " +
@@ -38,9 +38,11 @@ public class ZooBaseHelper extends SQLiteOpenHelper {
                 ")"
         );
 
+        db.execSQL("CREATE UNIQUE INDEX idx_adoptions_id ON " + AdoptionsTable.NAME + " (" + AdoptionsTable.Cols.ID + ")");
+
         db.execSQL("CREATE TABLE " + AnimalsTable.NAME + "(" +
                 " _id integer primary key autoincrement, " +
-                AnimalsTable.Cols.ID + ", " +
+                AnimalsTable.Cols.ID + " NOT NULL, " +
                 AnimalsTable.Cols.NAME + ", " +
                 AnimalsTable.Cols.LATIN_NAME + ", " +
                 AnimalsTable.Cols.CLASS_NAME + ", " +
@@ -65,9 +67,11 @@ public class ZooBaseHelper extends SQLiteOpenHelper {
                 ")"
         );
 
+        db.execSQL("CREATE UNIQUE INDEX idx_animals_id ON " + AnimalsTable.NAME + " (" + AnimalsTable.Cols.ID + ")");
+
         db.execSQL("CREATE TABLE " + ClassificationsTable.NAME + "(" +
                 " _id integer primary key autoincrement, " +
-                ClassificationsTable.Cols.ID + ", " +
+                ClassificationsTable.Cols.ID + " NOT NULL, " +
                 ClassificationsTable.Cols.OPENDATA_ID + ", " +
                 ClassificationsTable.Cols.TYPE + ", " +
                 ClassificationsTable.Cols.PARENT_ID + ", " +
@@ -81,7 +85,7 @@ public class ZooBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE " + EventsTable.NAME + "(" +
                 " _id integer primary key autoincrement, " +
-                EventsTable.Cols.ID + ", " +
+                EventsTable.Cols.ID + " NOT NULL, " +
                 EventsTable.Cols.START + ", " +
                 EventsTable.Cols.END + ", " +
                 EventsTable.Cols.DURATION + ", " +
@@ -89,6 +93,18 @@ public class ZooBaseHelper extends SQLiteOpenHelper {
                 EventsTable.Cols.NAME +
                 ")"
         );
+
+        db.execSQL("CREATE UNIQUE INDEX idx_events_id ON " + EventsTable.NAME + " (" + EventsTable.Cols.ID + ")");
+
+        db.execSQL("CREATE TABLE " + FiltersTable.NAME + "(" +
+                " _id integer primary key autoincrement, " +
+                FiltersTable.Cols.NAME + " NOT NULL, " +
+                FiltersTable.Cols.VALUE + " NOT NULL, " +
+                FiltersTable.Cols.COUNT +
+                ")"
+        );
+
+        db.execSQL("CREATE UNIQUE INDEX idx_filters_name_value ON " + FiltersTable.NAME + " (" + FiltersTable.Cols.NAME + ", " + FiltersTable.Cols.VALUE + ")");
     }
 
     // Called when there's a lower version present
