@@ -173,7 +173,7 @@ public class ClassificationManager {
     }
 
     private ZooCursorWrapper queryClassifications(String whereClause, String[] whereArgs) {
-        Cursor cursor = mDatabase.query(ClassificationsTable.NAME, null, whereClause, whereArgs, null, null, null);
+        Cursor cursor = mDatabase.query(ClassificationsTable.NAME, null, whereClause, whereArgs, null, null, ClassificationsTable.Cols.NAME + " ASC");
 
         return new ZooCursorWrapper(cursor);
     }

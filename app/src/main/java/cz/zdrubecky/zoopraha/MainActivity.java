@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getApplicationContext().deleteDatabase(ZooBaseHelper.DATABASE_NAME);
+//        getApplicationContext().deleteDatabase(ZooBaseHelper.DATABASE_NAME);
 
 //        DataFetcher dataFetcherBiotopes = new DataFetcher();
 //        dataFetcherBiotopes.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
@@ -102,26 +102,26 @@ public class MainActivity extends AppCompatActivity {
 //        });
 //        dataFetcherEvents.getEvents(null, null, null);
 
-        DataFetcher dataFetcherClassifications = new DataFetcher();
-        dataFetcherClassifications.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
-            @Override
-            public void onDataFetched(JsonApiObject response) {
-                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
-                ClassificationManager manager = new ClassificationManager(MainActivity.this);
-                List<JsonApiObject.Resource> data = response.getData();
-                Gson gson = new Gson();
-
-                // todo make this threaded
-                for (int i = 0; i < data.size(); i++) {
-                    Classification classification = gson.fromJson(data.get(i).getDocument(), Classification.class);
-                    classification.setId(data.get(i).getId());
-                    manager.addClassification(classification);
-                }
-
-                manager.flushClassifications();
-            }
-        });
-        dataFetcherClassifications.getClassifications(true, true, true);
+//        DataFetcher dataFetcherClassifications = new DataFetcher();
+//        dataFetcherClassifications.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
+//            @Override
+//            public void onDataFetched(JsonApiObject response) {
+//                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
+//                ClassificationManager manager = new ClassificationManager(MainActivity.this);
+//                List<JsonApiObject.Resource> data = response.getData();
+//                Gson gson = new Gson();
+//
+//                // todo make this threaded
+//                for (int i = 0; i < data.size(); i++) {
+//                    Classification classification = gson.fromJson(data.get(i).getDocument(), Classification.class);
+//                    classification.setId(data.get(i).getId());
+//                    manager.addClassification(classification);
+//                }
+//
+//                manager.flushClassifications();
+//            }
+//        });
+//        dataFetcherClassifications.getClassifications(true, true, true);
 
         mMainButtonLexicon = (Button) findViewById(R.id.main_button_lexicon);
         mMainButtonLexicon.setOnClickListener(new View.OnClickListener() {
