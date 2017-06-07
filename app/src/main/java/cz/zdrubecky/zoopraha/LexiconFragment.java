@@ -40,7 +40,7 @@ public class LexiconFragment extends Fragment {
         filterGroups.put("continents", getString(R.string.lexicon_menu_continents_filter_text));
         filterGroups.put("food", getString(R.string.lexicon_menu_food_filter_text));
 
-        mFiltersExpandableListData = TaxonomyListDataMapper.getFilterData(getActivity(), filterGroups);
+        mFiltersExpandableListData = TaxonomyListDataMapper.getData(getActivity(), filterGroups, getString(R.string.lexicon_menu_locations_filter_text));
         mFiltersExpandableListTitles = new ArrayList<>(mFiltersExpandableListData.keySet());
         mFiltersExpandableListAdapter = new TaxonomyExpandableListAdapter(getActivity(), mFiltersExpandableListTitles, mFiltersExpandableListData);
 

@@ -11,9 +11,9 @@ public class Location {
     private int mOrdering;
     @SerializedName("url")
     private String mUrl;
-    @SerializedName("gps.x")
+    @SerializedName("gps_x")
     private String mGpsX;
-    @SerializedName("gps.y")
+    @SerializedName("gps_y")
     private String mGpsY;
     @SerializedName("name")
     private String mName;

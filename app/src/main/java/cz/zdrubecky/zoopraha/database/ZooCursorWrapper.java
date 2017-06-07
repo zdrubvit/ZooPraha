@@ -135,4 +135,27 @@ public class ZooCursorWrapper extends CursorWrapper {
 
         return filter;
     }
+
+    public Location getLocation() {
+        String id = getString(getColumnIndex(LocationsTable.Cols.ID));
+        String description = getString(getColumnIndex(LocationsTable.Cols.DESCRIPTION));
+        int ordering = getInt(getColumnIndex(LocationsTable.Cols.ORDERING));
+        String url = getString(getColumnIndex(LocationsTable.Cols.URL));
+        String gps_x = getString(getColumnIndex(LocationsTable.Cols.GPS_X));
+        String gps_y = getString(getColumnIndex(LocationsTable.Cols.GPS_Y));
+        String name = getString(getColumnIndex(LocationsTable.Cols.NAME));
+        String slug = getString(getColumnIndex(LocationsTable.Cols.SLUG));
+
+        Location location = new Location();
+        location.setId(id);
+        location.setDescription(description);
+        location.setOrdering(ordering);
+        location.setUrl(url);
+        location.setGpsX(gps_x);
+        location.setGpsY(gps_y);
+        location.setName(name);
+        location.setSlug(slug);
+
+        return location;
+    }
 }

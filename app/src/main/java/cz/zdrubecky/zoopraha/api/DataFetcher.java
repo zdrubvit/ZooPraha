@@ -152,6 +152,16 @@ public class DataFetcher {
         }
     }
 
+    public JsonApiObject getLocations() {
+        Call<JsonApiObject> call = mService.getLocations();
+
+        try {
+            return (JsonApiObject) call.execute().body();
+        } catch (IOException ioe) {
+            return null;
+        }
+    }
+
     public void getQuestions(String limit) {
         Call<JsonApiObject> call = mService.getQuestions(limit);
 

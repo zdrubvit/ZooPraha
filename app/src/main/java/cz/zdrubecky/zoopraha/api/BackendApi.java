@@ -36,6 +36,10 @@ public interface BackendApi {
     Call<JsonApiObject> getFood();
 
     @Headers({"Accept: application/vnd.api+json"})
+    @GET("locations")
+    Call<JsonApiObject> getLocations();
+
+    @Headers({"Accept: application/vnd.api+json"})
     @GET("questions")
     Call<JsonApiObject> getQuestions(@Query("limit") String limit);
 }

@@ -79,4 +79,19 @@ public class ZooDBSchema {
             public static final String COUNT = "count";
         }
     }
+
+    public static final class LocationsTable {
+        public static final String NAME = "locations";
+
+        public static final class Cols {
+            public static final String ID = "backend_id";
+            public static final String DESCRIPTION = "description";
+            public static final String ORDERING = "ordering";
+            public static final String URL = "url";
+            public static final String GPS_X = "gps_x";
+            public static final String GPS_Y = "gps_y";
+            public static final String NAME = "name";
+            public static final String SLUG = "slug";
+        }
+    }
 }

@@ -14,9 +14,11 @@ import java.util.List;
 import cz.zdrubecky.zoopraha.api.DataFetcher;
 import cz.zdrubecky.zoopraha.manager.ClassificationManager;
 import cz.zdrubecky.zoopraha.manager.FilterManager;
+import cz.zdrubecky.zoopraha.manager.LocationManager;
 import cz.zdrubecky.zoopraha.model.Classification;
 import cz.zdrubecky.zoopraha.model.Filter;
 import cz.zdrubecky.zoopraha.model.JsonApiObject;
+import cz.zdrubecky.zoopraha.model.Location;
 
 public class LexiconActivity extends SingleFragmentActivity {
     private static final String TAG = "LexiconActivity";
@@ -44,10 +46,14 @@ public class LexiconActivity extends SingleFragmentActivity {
         protected Void doInBackground(Void... voids) {
             DataFetcher dataFetcher = new DataFetcher();
             Gson gson = new Gson();
+
             List<JsonApiObject> filterResponses = new ArrayList<>();
             JsonApiObject classificationsResponse;
+            JsonApiObject locationResponse;
+
             FilterManager filterManager = new FilterManager(LexiconActivity.this);
             ClassificationManager classificationManager = new ClassificationManager(LexiconActivity.this);
+            LocationManager locationManager = new LocationManager(LexiconActivity.this);
 
             // Get the resources one by one and save them to the database
             filterResponses.add(dataFetcher.getBiotopes());
@@ -66,12 +72,12 @@ public class LexiconActivity extends SingleFragmentActivity {
             }
 
             filterManager.flushFilters();
-            
+
+            // Take care of the classifications
             classificationsResponse = dataFetcher.getClassifications(true, true, false);
 
             List<JsonApiObject.Resource> classificationsResponseData = classificationsResponse.getData();
 
-            // Iterate over the incoming objects and use them to create the filters
             for (int i = 0; i < classificationsResponseData.size(); i++) {
                 Classification classification = gson.fromJson(classificationsResponseData.get(i).getDocument(), Classification.class);
                 classification.setId(classificationsResponseData.get(i).getId());
@@ -79,6 +85,19 @@ public class LexiconActivity extends SingleFragmentActivity {
             }
 
             classificationManager.flushClassifications();
+
+            // And finally the locations
+            locationResponse = dataFetcher.getLocations();
+
+            List<JsonApiObject.Resource> locationResponseData = locationResponse.getData();
+
+            for (int i = 0; i < locationResponseData.size(); i++) {
+                Location location = gson.fromJson(locationResponseData.get(i).getDocument(), Location.class);
+                location.setId(locationResponseData.get(i).getId());
+                locationManager.addLocation(location);
+            }
+
+            locationManager.flushLocations();
 
             return null;
         }

@@ -8,8 +8,10 @@ import java.util.List;
 
 import cz.zdrubecky.zoopraha.manager.ClassificationManager;
 import cz.zdrubecky.zoopraha.manager.FilterManager;
+import cz.zdrubecky.zoopraha.manager.LocationManager;
 import cz.zdrubecky.zoopraha.model.Classification;
 import cz.zdrubecky.zoopraha.model.Filter;
+import cz.zdrubecky.zoopraha.model.Location;
 
 public class TaxonomyListDataMapper {
     public static HashMap<String, List<String>> getData(Context context) {
@@ -30,15 +32,18 @@ public class TaxonomyListDataMapper {
         return expandableListData;
     }
 
-    public static HashMap<String, List<String>> getFilterData(Context context, HashMap<String, String> groups) {
+    public static HashMap<String, List<String>> getData(Context context, HashMap<String, String> filterGroups, String locationGroupName) {
         HashMap<String, List<String>> expandableListData = new HashMap<String, List<String>>();
         FilterManager filterManager = new FilterManager(context);
+        LocationManager locationManager = new LocationManager(context);
         String[] filterNames = new String[] {"biotopes", "continents", "food"};
 
-        for (HashMap.Entry<String, String> entry : groups.entrySet()) {
+        for (HashMap.Entry<String, String> entry : filterGroups.entrySet()) {
             List<String> filterValues = getFilterValues(filterManager, entry.getKey());
             expandableListData.put(entry.getValue(), filterValues);
         }
+
+        expandableListData.put(locationGroupName, getLocationValues(locationManager));
 
         return expandableListData;
     }
@@ -49,6 +54,17 @@ public class TaxonomyListDataMapper {
 
         for (Filter filter : filters) {
             filterValues.add(filter.getValue());
+        }
+
+        return filterValues;
+    }
+
+    public static List<String> getLocationValues(LocationManager locationManager) {
+        List<Location> locations = locationManager.getLocations();
+        List<String> filterValues = new ArrayList<>();
+
+        for (Location location : locations) {
+            filterValues.add(location.getName());
         }
 
         return filterValues;
