@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        getApplicationContext().deleteDatabase(ZooBaseHelper.DATABASE_NAME);
+        getApplicationContext().deleteDatabase(ZooBaseHelper.DATABASE_NAME);
 
 //        DataFetcher dataFetcherBiotopes = new DataFetcher();
 //        dataFetcherBiotopes.setDataFetchedListener(new DataFetcher.DataFetchedListener() {

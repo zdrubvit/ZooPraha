@@ -40,11 +40,6 @@ public class AdoptionListActivity
         dataFetcher.getAdoptions(null, null, null);
     }
 
-    @Override
-    protected Fragment createInitialFragment() {
-        return new LoadingScreenFragment();
-    }
-
     private void replaceListFragment() {
         Fragment fragment = new AdoptionListFragment();
 

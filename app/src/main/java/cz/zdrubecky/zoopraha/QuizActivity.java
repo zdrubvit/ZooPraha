@@ -61,11 +61,6 @@ public class QuizActivity
         dataFetcher.getQuestions(Integer.toString(mQuestionCount));
     }
 
-    @Override
-    protected Fragment createInitialFragment() {
-        return new LoadingScreenFragment();
-    }
-
     private void replaceQuestionFragment() {
         Fragment newQuestion = QuestionFragment.newInstance(mQuestionPosition);
 

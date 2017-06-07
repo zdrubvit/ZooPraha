@@ -14,8 +14,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import cz.zdrubecky.zoopraha.model.*;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,10 +43,17 @@ public class DataFetcher {
     }
 
     public DataFetcher() {
-        // I can pass here a gson instance with config
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(5, TimeUnit.SECONDS)
+                .writeTimeout(5, TimeUnit.SECONDS)
+                .build();
+
+        // Create a new service instance with the provided converter and client
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ENDPOINT)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
 
         mService = retrofit.create(BackendApi.class);
@@ -96,22 +105,35 @@ public class DataFetcher {
         call.enqueue(new RequestCallback<JsonApiObject>());
     }
 
-    public void getBiotopes() {
+    // Some of the calls are synchronous so that they can be queued (also, there's an issue with multiple concurrent async calls and a resulting closed socket)
+    public JsonApiObject getBiotopes() {
         Call<JsonApiObject> call = mService.getBiotopes();
 
-        call.enqueue(new RequestCallback<JsonApiObject>());
+        try {
+            return (JsonApiObject) call.execute().body();
+        } catch (IOException ioe) {
+            return null;
+        }
     }
 
-    public void getClassifications(boolean getClass, boolean getOrder, boolean getFamily) {
+    public JsonApiObject getClassifications(boolean getClass, boolean getOrder, boolean getFamily) {
         Call<JsonApiObject> call = mService.getClassifications(Boolean.toString(getClass), Boolean.toString(getOrder), Boolean.toString(getFamily));
 
-        call.enqueue(new RequestCallback<JsonApiObject>());
+        try {
+            return (JsonApiObject) call.execute().body();
+        } catch (IOException ioe) {
+            return null;
+        }
     }
 
-    public void getContinents() {
+    public JsonApiObject getContinents() {
         Call<JsonApiObject> call = mService.getContinents();
 
-        call.enqueue(new RequestCallback<JsonApiObject>());
+        try {
+            return (JsonApiObject) call.execute().body();
+        } catch (IOException ioe) {
+            return null;
+        }
     }
 
     public void getEvents(String datetime, String limit, String offset) {
@@ -120,10 +142,14 @@ public class DataFetcher {
         call.enqueue(new RequestCallback<JsonApiObject>());
     }
 
-    public void getFood() {
+    public JsonApiObject getFood() {
         Call<JsonApiObject> call = mService.getFood();
 
-        call.enqueue(new RequestCallback<JsonApiObject>());
+        try {
+            return (JsonApiObject) call.execute().body();
+        } catch (IOException ioe) {
+            return null;
+        }
     }
 
     public void getQuestions(String limit) {

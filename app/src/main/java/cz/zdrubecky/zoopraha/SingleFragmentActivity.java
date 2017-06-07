@@ -32,7 +32,8 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
     protected int getLayoutResId() {
         return R.layout.activity_fragment;
     }
-    
+
+    // Get the ID of the fragment's View
     @IdRes
     protected int getFragmentContainerId() {
         return R.id.fragment_container;
@@ -44,6 +45,8 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         NavUtils.navigateUpFromSameTask(this);
     }
 
-    // Get the specific fragment - all the children have to implement this method
-    protected abstract Fragment createInitialFragment();
+    // Get the specific initial fragment, the default one is an empty loading screen
+    protected Fragment createInitialFragment() {
+        return new LoadingScreenFragment();
+    };
 }
