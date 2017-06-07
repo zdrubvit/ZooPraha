@@ -22,11 +22,11 @@
     <string name="fragment_animal_projects_label">Ohrožení:</string>
     <string name="fragment_animal_description_label">Popis:</string>
     <string name="fragment_animal_reproduction_label">Reprodukce:</string>
-    <string name="lexicon_menu_classifications_button_text">Klasifikace</string>
-    <string name="lexicon_menu_locations_button_text">Umístění v ZOO</string>
-    <string name="lexicon_menu_continents_button_text">Kontinent</string>
-    <string name="lexicon_menu_biotopes_button_text">Biotop</string>
-    <string name="lexicon_menu_food_button_text">Potrava</string>
+    <string name="lexicon_menu_classifications_filter_text">Klasifikace</string>
+    <string name="lexicon_menu_locations_filter_text">Umístění v ZOO</string>
+    <string name="lexicon_menu_continents_filter_text">Kontinent</string>
+    <string name="lexicon_menu_biotopes_filter_text">Biotop</string>
+    <string name="lexicon_menu_food_filter_text">Potrava</string>
     <string name="fragment_event_name_label">Nazev</string>
     <string name="fragment_event_start_label">Zacatek</string>
     <string name="fragment_event_end_label">Konec</string>
