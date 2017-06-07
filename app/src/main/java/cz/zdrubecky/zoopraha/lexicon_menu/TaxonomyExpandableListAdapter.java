@@ -15,18 +15,18 @@ import cz.zdrubecky.zoopraha.R;
 public class TaxonomyExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> expandableListTitle;
-    private HashMap<String, List<String>> expandableListDetail;
+    private HashMap<String, List<String>> expandableListData;
 
     public TaxonomyExpandableListAdapter(Context context, List<String> expandableListTitle,
-                                       HashMap<String, List<String>> expandableListDetail) {
+                                       HashMap<String, List<String>> expandableListData) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
-        this.expandableListDetail = expandableListDetail;
+        this.expandableListData = expandableListData;
     }
 
     @Override
     public Object getChild(int listPosition, int expandedListPosition) {
-        return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
+        return this.expandableListData.get(this.expandableListTitle.get(listPosition))
                 .get(expandedListPosition);
     }
 
@@ -52,7 +52,7 @@ public class TaxonomyExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int listPosition) {
-        return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
+        return this.expandableListData.get(this.expandableListTitle.get(listPosition))
                 .size();
     }
 
