@@ -35,21 +35,13 @@ public class QuestionFragment extends Fragment {
     private static final String ARG_QUESTION_POSITION = "question_position";
     private static final String ANIMAL_DETAIL_FRAGMENT = "AnimalDetailFragment";
 
-    private TextView mQuestionNumberTextView;
     private ProgressBar mTimerProgressBar;
-    private TextView mScoreTextView;
-    private TextView mTextTextView;
-    private ImageView mImageImageView;
-    private Button mAnswerButton1;
-    private Button mAnswerButton2;
-    private Button mAnswerButton3;
-    private Button mAnswerButton4;
+    private View mView;
 
     private QuestionManager mQuestionManager;
     private int mQuestionPosition;
     private Question mQuestion;
     private Callbacks mCallbacks;
-    private View mView;
     private QuestionCountDownTimer mQuestionCountDownTimer;
 
     public static QuestionFragment newInstance(int questionPosition) {
@@ -107,9 +99,9 @@ public class QuestionFragment extends Fragment {
         mView = v;
 
         // Fill the top part of the question view
-        mQuestionNumberTextView = (TextView) v.findViewById(R.id.fragment_question_number_textview);
+        TextView questionNumberTextView = (TextView) v.findViewById(R.id.fragment_question_number_textview);
         String questionNumberText = getString(R.string.fragment_question_number_textview_text, mQuestionPosition + 1);
-        mQuestionNumberTextView.setText(questionNumberText);
+        questionNumberTextView.setText(questionNumberText);
 
         mTimerProgressBar = (ProgressBar) v.findViewById(R.id.fragment_question_timer_progressbar);
         // Set the layout listener to wait for the layout pass
@@ -129,34 +121,34 @@ public class QuestionFragment extends Fragment {
         updateScoreText();
 
         // Take care of displaying the question
-        mTextTextView = (TextView) v.findViewById(R.id.fragment_question_text_textview);
-        mTextTextView.setText(mQuestion.getText());
+        TextView textTextView = (TextView) v.findViewById(R.id.fragment_question_text_textview);
+        textTextView.setText(mQuestion.getText());
 
         if (mQuestion.getType().equals("guess_animal_image")) {
-            mImageImageView = (ImageView) v.findViewById(R.id.fragment_question_image_imageview);
+            ImageView imageImageView = (ImageView) v.findViewById(R.id.fragment_question_image_imageview);
             DataFetcher.loadImage(
                     getActivity(),
                     mQuestion.getImage(),
                     R.mipmap.image_placeholder,
                     R.mipmap.image_broken,
-                    mImageImageView,
+                    imageImageView,
                     getString(R.string.datafetcher_error_loading_image)
             );
         }
 
         // Handle the buttons with answers
-        mAnswerButton1 = (Button) v.findViewById(R.id.fragment_question_button_1);
-        mAnswerButton1.setText(answers.get(0));
-        mAnswerButton1.setOnClickListener(questionAnswered);
-        mAnswerButton2 = (Button) v.findViewById(R.id.fragment_question_button_2);
-        mAnswerButton2.setText(answers.get(1));
-        mAnswerButton2.setOnClickListener(questionAnswered);
-        mAnswerButton3 = (Button) v.findViewById(R.id.fragment_question_button_3);
-        mAnswerButton3.setText(answers.get(2));
-        mAnswerButton3.setOnClickListener(questionAnswered);
-        mAnswerButton4 = (Button) v.findViewById(R.id.fragment_question_button_4);
-        mAnswerButton4.setText(answers.get(3));
-        mAnswerButton4.setOnClickListener(questionAnswered);
+        Button answerButton1 = (Button) v.findViewById(R.id.fragment_question_button_1);
+        answerButton1.setText(answers.get(0));
+        answerButton1.setOnClickListener(questionAnswered);
+        Button answerButton2 = (Button) v.findViewById(R.id.fragment_question_button_2);
+        answerButton2.setText(answers.get(1));
+        answerButton2.setOnClickListener(questionAnswered);
+        Button answerButton3 = (Button) v.findViewById(R.id.fragment_question_button_3);
+        answerButton3.setText(answers.get(2));
+        answerButton3.setOnClickListener(questionAnswered);
+        Button answerButton4 = (Button) v.findViewById(R.id.fragment_question_button_4);
+        answerButton4.setText(answers.get(3));
+        answerButton4.setOnClickListener(questionAnswered);
 
         // Mark the question as "shown", since it's gonna be displayed
         mQuestion.setShown(true);
@@ -244,15 +236,16 @@ public class QuestionFragment extends Fragment {
 
     // Update the TextView with quiz score to reflect the number of correct answers
     private void updateScoreText() {
-        mScoreTextView = (TextView) mView.findViewById(R.id.fragment_question_score_textview);
+        TextView scoreTextView = (TextView) mView.findViewById(R.id.fragment_question_score_textview);
         String scoreText = getString(
                 R.string.fragment_question_score_textview_text,
                 mQuestionManager.getCorrectAnswersCount(),
                 mQuestionManager.getQuestionCount()
         );
-        mScoreTextView.setText(scoreText);
+        scoreTextView.setText(scoreText);
     }
 
+    // Creates the dialog window for the user to confirm his intention to flag a question as invalid
     private void createAlertDialog(final ImageView flag) {
         AlertDialog.Builder builder;
 
