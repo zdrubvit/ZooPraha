@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -20,8 +19,8 @@ import cz.zdrubecky.zoopraha.model.Filter;
 import cz.zdrubecky.zoopraha.model.JsonApiObject;
 import cz.zdrubecky.zoopraha.model.Location;
 
-public class LexiconActivity extends SingleFragmentActivity {
-    private static final String TAG = "LexiconActivity";
+public class LexiconMenuActivity extends SingleFragmentActivity {
+    private static final String TAG = "LexiconMenuActivity";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,7 +31,7 @@ public class LexiconActivity extends SingleFragmentActivity {
     }
 
     private void replaceFragment() {
-        Fragment fragment = new LexiconFragment();
+        Fragment fragment = new LexiconMenuFragment();
 
         getSupportFragmentManager().beginTransaction()
                 .replace(getFragmentContainerId(), fragment)
@@ -51,9 +50,9 @@ public class LexiconActivity extends SingleFragmentActivity {
             JsonApiObject classificationsResponse;
             JsonApiObject locationResponse;
 
-            FilterManager filterManager = new FilterManager(LexiconActivity.this);
-            ClassificationManager classificationManager = new ClassificationManager(LexiconActivity.this);
-            LocationManager locationManager = new LocationManager(LexiconActivity.this);
+            FilterManager filterManager = new FilterManager(LexiconMenuActivity.this);
+            ClassificationManager classificationManager = new ClassificationManager(LexiconMenuActivity.this);
+            LocationManager locationManager = new LocationManager(LexiconMenuActivity.this);
 
             // Get the resources one by one and save them to the database
             filterResponses.add(dataFetcher.getBiotopes());

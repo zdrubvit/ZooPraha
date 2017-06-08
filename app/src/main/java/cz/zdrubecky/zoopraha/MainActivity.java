@@ -3,27 +3,10 @@ package cz.zdrubecky.zoopraha;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.google.gson.Gson;
-
-import java.util.List;
-
-import cz.zdrubecky.zoopraha.api.DataFetcher;
 import cz.zdrubecky.zoopraha.database.ZooBaseHelper;
-import cz.zdrubecky.zoopraha.manager.AdoptionManager;
-import cz.zdrubecky.zoopraha.manager.AnimalManager;
-import cz.zdrubecky.zoopraha.manager.ClassificationManager;
-import cz.zdrubecky.zoopraha.manager.FilterManager;
-import cz.zdrubecky.zoopraha.manager.QuestionManager;
-import cz.zdrubecky.zoopraha.model.Adoption;
-import cz.zdrubecky.zoopraha.model.Animal;
-import cz.zdrubecky.zoopraha.model.Classification;
-import cz.zdrubecky.zoopraha.model.Filter;
-import cz.zdrubecky.zoopraha.model.JsonApiObject;
-import cz.zdrubecky.zoopraha.model.Question;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -68,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         mMainButtonLexicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, LexiconActivity.class);
+                Intent i = new Intent(MainActivity.this, LexiconMenuActivity.class);
 
                 startActivity(i);
             }
