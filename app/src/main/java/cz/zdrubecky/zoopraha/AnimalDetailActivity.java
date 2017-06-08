@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 
 public class AnimalDetailActivity extends SingleFragmentActivity {
-    private static final String ARG_ANIMAL_ID = "animal_id";
     private static final String EXTRA_ANIMAL_ID = "cz.zdrubecky.zoopraha.animal_id";
 
     public static Intent newIntent(Context packageContext, String animalId) {

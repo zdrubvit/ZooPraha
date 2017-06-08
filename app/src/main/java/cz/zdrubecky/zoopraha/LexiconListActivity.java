@@ -63,7 +63,7 @@ public class LexiconListActivity
 
         // Check if there's not a split view and therefore we're not working with a tablet
         if (findViewById(R.id.detail_fragment_container) == null) {
-            Intent intent = AnimalDetailActivity.newIntent(this, animal.getId());
+            Intent intent = AnimalPagerActivity.newIntent(this, animal.getId());
             startActivity(intent);
         } else {
             Fragment animalDetail = AnimalFragment.newInstance(animal.getId());

@@ -67,8 +67,13 @@ public class LexiconListFragment extends Fragment {
         // Save the view so it can be worked on even before this method finishes
         mView = view;
 
+        // Get the recyclerview, provide it with a layout manager and setup the pre-fetching options
         mAnimalRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mAnimalRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAnimalRecyclerView.setHasFixedSize(true);
+        mAnimalRecyclerView.setItemViewCacheSize(20);
+        mAnimalRecyclerView.setDrawingCacheEnabled(true);
+        mAnimalRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
 
         updateUI();
 

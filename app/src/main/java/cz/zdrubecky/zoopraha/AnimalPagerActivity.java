@@ -52,7 +52,7 @@ public class AnimalPagerActivity extends AppCompatActivity {
         // Take the ID from an incoming intent and use it to get the current item + set it inside the pager
         String animalId = (String) getIntent().getSerializableExtra(EXTRA_ANIMAL_ID);
         for (int i = 0; i < mAnimals.size(); i++) {
-            if (mAnimals.get(i).getId() == animalId) {
+            if (mAnimals.get(i).getId().equals(animalId)) {
                 mViewPager.setCurrentItem(i);
                 break;
             }
