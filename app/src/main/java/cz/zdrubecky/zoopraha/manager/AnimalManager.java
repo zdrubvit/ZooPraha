@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +16,12 @@ import cz.zdrubecky.zoopraha.model.Animal;
 
 public class AnimalManager {
     private SQLiteDatabase mDatabase;
+    private List<Animal> mAnimals;
 
     public AnimalManager(Context context) {
         ZooBaseHelper zooBaseHelper = ZooBaseHelper.getInstance(context);
         mDatabase = zooBaseHelper.getWritableDatabase();
+        mAnimals = new ArrayList<>();
     }
 
     public List<Animal> getAnimals() {
@@ -59,11 +62,7 @@ public class AnimalManager {
     }
 
     public void addAnimal(Animal animal) {
-        // todo check if it exists and then update
-        ContentValues values = getContentValues(animal);
-
-        // The second argument - nullColumnHack - is used to force insert in the case of empty values
-        mDatabase.insert(AnimalsTable.NAME, null, values);
+        mAnimals.add(animal);
     }
 
     public void updateAnimal(Animal animal) {
@@ -74,6 +73,77 @@ public class AnimalManager {
 
     public boolean removeAnimal(Animal animal) {
         return mDatabase.delete(AnimalsTable.NAME, AnimalsTable.Cols.ID + " = ?", new String[] {animal.getId()}) > 0;
+    }
+
+    // Bind one object to the statement
+    private void bindAnimal(SQLiteStatement statement, Animal animal) {
+        // The binding index starts at "1"
+        statement.bindString(1, animal.getId());
+        statement.bindString(2, animal.getName());
+        statement.bindString(3, animal.getLatinName());
+        statement.bindString(4, animal.getClassName());
+        statement.bindString(5, animal.getClassLatinName());
+        statement.bindString(6, animal.getOrderName());
+        statement.bindString(7, animal.getOrderLatinName());
+        statement.bindString(8, animal.getDescription());
+        statement.bindString(9, animal.getImage());
+        statement.bindString(10, animal.getContinents());
+        statement.bindString(11, animal.getDistribution());
+        statement.bindString(12, animal.getBiotope());
+        statement.bindString(13, animal.getBiotopesDetail());
+        statement.bindString(14, animal.getFood());
+        statement.bindString(15, animal.getFoodDetail());
+        statement.bindString(16, animal.getProportions());
+        statement.bindString(17, animal.getReproduction());
+        statement.bindString(18, animal.getAttractions());
+        statement.bindString(19, animal.getProjects());
+        statement.bindString(20, animal.getBreeding());
+        statement.bindString(21, animal.getLocation());
+        statement.bindString(22, animal.getLocationUrl());
+
+        statement.execute();
+        statement.clearBindings();
+    }
+
+    // Flush all the animals into the database at once
+    public void flushAnimals() {
+        // Prepare the query for late binding
+        String query = "INSERT OR REPLACE INTO " + AnimalsTable.NAME + " ( " +
+                AnimalsTable.Cols.ID + ", " +
+                AnimalsTable.Cols.NAME + ", " +
+                AnimalsTable.Cols.LATIN_NAME + ", " +
+                AnimalsTable.Cols.CLASS_NAME + ", " +
+                AnimalsTable.Cols.CLASS_LATIN_NAME + ", " +
+                AnimalsTable.Cols.ORDER_NAME + ", " +
+                AnimalsTable.Cols.ORDER_LATIN_NAME + ", " +
+                AnimalsTable.Cols.DESCRIPTION + ", " +
+                AnimalsTable.Cols.IMAGE + ", " +
+                AnimalsTable.Cols.CONTINENTS + ", " +
+                AnimalsTable.Cols.DISTRIBUTION + ", " +
+                AnimalsTable.Cols.BIOTOPE + ", " +
+                AnimalsTable.Cols.BIOTOPES_DETAIL + ", " +
+                AnimalsTable.Cols.FOOD + ", " +
+                AnimalsTable.Cols.FOOD_DETAIL + ", " +
+                AnimalsTable.Cols.PROPORTIONS + ", " +
+                AnimalsTable.Cols.REPRODUCTION + ", " +
+                AnimalsTable.Cols.ATTRACTIONS + ", " +
+                AnimalsTable.Cols.PROJECTS + ", " +
+                AnimalsTable.Cols.BREEDING + ", " +
+                AnimalsTable.Cols.LOCATION + ", " +
+                AnimalsTable.Cols.LOCATION_URL + " ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+
+        // Lock the DB file for the time being
+        mDatabase.beginTransactionNonExclusive();
+
+        SQLiteStatement statement = mDatabase.compileStatement(query);
+
+        // Bind every class and order from the list
+        for (Animal animal : mAnimals) {
+            bindAnimal(statement, animal);
+        }
+
+        mDatabase.setTransactionSuccessful();
+        mDatabase.endTransaction();
     }
 
     public void dropTable() {

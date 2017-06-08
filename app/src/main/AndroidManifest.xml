@@ -30,6 +30,8 @@
                   android:parentActivityName=".EventListActivity"/>
         <activity android:name=".LexiconMenuActivity"
                   android:parentActivityName=".MainActivity"/>
+        <activity android:name=".LexiconListActivity"
+                  android:parentActivityName=".LexiconMenuActivity"/>
         <activity android:name=".QuizMenuActivity"
                   android:launchMode="singleTop"
                   android:parentActivityName=".MainActivity"/>

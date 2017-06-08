@@ -60,12 +60,12 @@ public class AdoptionListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_adoption_list, container, false);
+        View view = inflater.inflate(R.layout.list, container, false);
 
         // Save the view so it can be worked on even before this method finishes
         mView = view;
 
-        mAdoptionRecyclerView = (RecyclerView) view.findViewById(R.id.adoption_recycler_view);
+        mAdoptionRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mAdoptionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         updateUI();
@@ -86,7 +86,7 @@ public class AdoptionListFragment extends Fragment {
                 mAdoptionAdapter.notifyDataSetChanged();
             }
         } else {
-            RelativeLayout emptyList = (RelativeLayout) mView.findViewById(R.id.adoption_list_empty);
+            RelativeLayout emptyList = (RelativeLayout) mView.findViewById(R.id.list_empty);
             emptyList.setVisibility(View.VISIBLE);
         }
     }
@@ -102,9 +102,9 @@ public class AdoptionListFragment extends Fragment {
 
             itemView.setOnClickListener(this);
 
-            mNameTextView = (TextView) itemView.findViewById(R.id.list_item_adoption_name_textview);
-            mPriceTextView = (TextView) itemView.findViewById(R.id.list_item_adoption_price_textview);
-            mVisitTextView = (TextView) itemView.findViewById(R.id.list_item_adoption_visit_textview);
+            mNameTextView = (TextView) itemView.findViewById(R.id.fragment_adoption_list_item_name_textview);
+            mPriceTextView = (TextView) itemView.findViewById(R.id.fragment_adoption_list_item_price_textview);
+            mVisitTextView = (TextView) itemView.findViewById(R.id.fragment_adoption_list_item_visit_textview);
         }
 
         public void bindAdoption(Adoption adoption) {
@@ -132,7 +132,7 @@ public class AdoptionListFragment extends Fragment {
         public AdoptionHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
 
-            View v = inflater.inflate(R.layout.list_item_adoption, parent, false);
+            View v = inflater.inflate(R.layout.fragment_adoption_list_item, parent, false);
 
             return new AdoptionHolder(v);
         }

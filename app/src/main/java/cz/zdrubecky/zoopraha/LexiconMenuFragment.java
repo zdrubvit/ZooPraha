@@ -1,5 +1,6 @@
 package cz.zdrubecky.zoopraha;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -148,16 +149,11 @@ public class LexiconMenuFragment extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-                Toast.makeText(
-                        getActivity().getApplicationContext(),
-                        mFiltersExpandableListTitles.get(groupPosition)
-                                + " -> "
-                                + mFiltersExpandableListData.get(
-                                mFiltersExpandableListTitles.get(groupPosition)).get(
-                                childPosition), Toast.LENGTH_SHORT
-                ).show();
+                Intent i = new Intent(getActivity(), LexiconListActivity.class);
 
-                return false;
+                startActivity(i);
+
+                return true;
             }
         });
 

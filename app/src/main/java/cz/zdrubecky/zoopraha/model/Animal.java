@@ -73,7 +73,7 @@ public class Animal {
     }
 
     public String getClassName() {
-        return mClassName;
+        return mClassName == null ? "" : mClassName;
     }
 
     public void setClassName(String aClassName) {
@@ -81,7 +81,7 @@ public class Animal {
     }
 
     public String getClassLatinName() {
-        return mClassLatinName;
+        return mClassLatinName == null ? "" : mClassLatinName;
     }
 
     public void setClassLatinName(String classLatinName) {
@@ -89,7 +89,7 @@ public class Animal {
     }
 
     public String getOrderName() {
-        return mOrderName;
+        return mOrderName == null ? "" : mOrderName;
     }
 
     public void setOrderName(String orderName) {
@@ -97,7 +97,7 @@ public class Animal {
     }
 
     public String getOrderLatinName() {
-        return mOrderLatinName;
+        return mOrderLatinName == null ? "" : mOrderLatinName;
     }
 
     public void setOrderLatinName(String orderLatinName) {

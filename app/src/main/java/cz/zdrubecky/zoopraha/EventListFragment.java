@@ -57,12 +57,12 @@ public class EventListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_event_list, container, false);
+        View view = inflater.inflate(R.layout.list, container, false);
 
         // Save the view so it can be worked on even before this method finishes
         mView = view;
 
-        mEventRecyclerView = (RecyclerView) view.findViewById(R.id.event_recycler_view);
+        mEventRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mEventRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         updateUI();
@@ -83,7 +83,7 @@ public class EventListFragment extends Fragment {
                 mEventAdapter.notifyDataSetChanged();
             }
         } else {
-            RelativeLayout emptyList = (RelativeLayout) mView.findViewById(R.id.event_list_empty);
+            RelativeLayout emptyList = (RelativeLayout) mView.findViewById(R.id.list_empty);
             emptyList.setVisibility(View.VISIBLE);
         }
     }
@@ -99,9 +99,9 @@ public class EventListFragment extends Fragment {
 
             itemView.setOnClickListener(this);
 
-            mNameTextView = (TextView) itemView.findViewById(R.id.list_item_event_name_textview);
-            mStartTextView = (TextView) itemView.findViewById(R.id.list_item_event_start_textview);
-            mEndTextView = (TextView) itemView.findViewById(R.id.list_item_event_end_textview);
+            mNameTextView = (TextView) itemView.findViewById(R.id.fragment_event_list_item_name_textview);
+            mStartTextView = (TextView) itemView.findViewById(R.id.fragment_event_list_item_start_textview);
+            mEndTextView = (TextView) itemView.findViewById(R.id.fragment_event_list_item_end_textview);
         }
 
         public void bindEvent(Event event) {
@@ -129,7 +129,7 @@ public class EventListFragment extends Fragment {
         public EventListFragment.EventHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
 
-            View v = inflater.inflate(R.layout.list_item_event, parent, false);
+            View v = inflater.inflate(R.layout.fragment_event_list_item, parent, false);
 
             return new EventListFragment.EventHolder(v);
         }

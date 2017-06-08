@@ -25,27 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getApplicationContext().deleteDatabase(ZooBaseHelper.DATABASE_NAME);
-
-//
-//        DataFetcher dataFetcherAnimals = new DataFetcher();
-//        dataFetcherAnimals.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
-//            @Override
-//            public void onDataFetched(JsonApiObject response) {
-//                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
-//                AnimalManager manager = new AnimalManager(MainActivity.this);
-//                List<JsonApiObject.Resource> data = response.getData();
-//                Gson gson = new Gson();
-//
-//                // todo make this threaded
-//                for (int i = 0; i < data.size(); i++) {
-//                    Animal animal = gson.fromJson(data.get(i).getDocument(), Animal.class);
-//                    animal.setId(data.get(i).getId());
-//                    manager.addAnimal(animal);
-//                }
-//            }
-//        });
-//        dataFetcherAnimals.getAnimals(null, null, null);
+//        getApplicationContext().deleteDatabase(ZooBaseHelper.DATABASE_NAME);
 
         mMainButtonLexicon = (Button) findViewById(R.id.main_button_lexicon);
         mMainButtonLexicon.setOnClickListener(new View.OnClickListener() {

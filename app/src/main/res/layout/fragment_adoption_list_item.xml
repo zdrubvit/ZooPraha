@@ -5,20 +5,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
     <TextView
-        android:id="@+id/list_item_adoption_name_textview"
+        android:id="@+id/fragment_adoption_list_item_name_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:padding="4dp"
         tools:text="Animal name"/>
     <TextView
-        android:id="@+id/list_item_adoption_price_textview"
+        android:id="@+id/fragment_adoption_list_item_price_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="4dp"
         tools:text="Animal price"/>
     <TextView
-        android:id="@+id/list_item_adoption_visit_textview"
+        android:id="@+id/fragment_adoption_list_item_visit_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="4dp"

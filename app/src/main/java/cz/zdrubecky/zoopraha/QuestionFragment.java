@@ -156,6 +156,12 @@ public class QuestionFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mQuestionCountDownTimer.cancel();
+    }
+
     // Replace the answers with a new layout when the guessing part is finished
     private void replaceAnswers(String resultText) {
         // Remove the old view from its parent
@@ -165,7 +171,7 @@ public class QuestionFragment extends Fragment {
         parent.removeView(oldView);
 
         // Add the new view based on the index of the previous, old one
-        View newView = LayoutInflater.from(getActivity()).inflate(R.layout.question_answered, parent, false);
+        View newView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_question_answered, parent, false);
 
         TextView result = (TextView) newView.findViewById(R.id.question_answered_result_textview);
         result.setText(resultText);
