@@ -21,9 +21,10 @@
         </activity>
         <activity android:name=".AdoptionListActivity"
                   android:parentActivityName=".MainActivity"/>
-        <activity android:name=".AnimalPagerActivity"/>
+        <activity android:name=".AnimalPagerActivity"
+                  android:parentActivityName=".LexiconListActivity"/>
         <activity android:name=".AnimalDetailActivity"
-                  android:parentActivityName=".EventListActivity"/>
+                  android:parentActivityName=".AdoptionListActivity"/>
         <activity android:name=".EventListActivity"
                   android:parentActivityName=".MainActivity"/>
         <activity android:name=".EventDetailActivity"
