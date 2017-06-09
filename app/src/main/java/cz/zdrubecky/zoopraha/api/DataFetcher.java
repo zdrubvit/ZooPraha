@@ -1,13 +1,9 @@
 package cz.zdrubecky.zoopraha.api;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -166,22 +162,5 @@ public class DataFetcher {
         Call<JsonApiObject> call = mService.getQuestions(limit);
 
         call.enqueue(new RequestCallback<JsonApiObject>());
-    }
-
-    public static void loadImage(final Context context, String url, int placeholderId, int brokenImageId, ImageView view, final String error) {
-        // Beware the secure protocol, Picasso can't cope with that
-        Picasso.with(context)
-                .load(url.replaceFirst("https", "http"))
-                .placeholder(placeholderId)
-                .error(brokenImageId)
-                .into(view, new com.squareup.picasso.Callback() {
-                    @Override
-                    public void onSuccess() {}
-
-                    @Override
-                    public void onError() {
-                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 }

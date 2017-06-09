@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.List;
 
 import cz.zdrubecky.zoopraha.api.DataFetcher;
+import cz.zdrubecky.zoopraha.api.ImageLoader;
 import cz.zdrubecky.zoopraha.manager.QuestionManager;
 import cz.zdrubecky.zoopraha.model.Question;
 
@@ -126,13 +127,9 @@ public class QuestionFragment extends Fragment {
 
         if (mQuestion.getType().equals("guess_animal_image")) {
             ImageView imageImageView = (ImageView) v.findViewById(R.id.fragment_question_image_imageview);
-            DataFetcher.loadImage(
-                    getActivity(),
-                    mQuestion.getImage(),
-                    R.mipmap.image_placeholder,
-                    R.mipmap.image_broken,
-                    imageImageView,
-                    getString(R.string.datafetcher_error_loading_image)
+            ImageLoader.getInstance(getActivity()).loadImage(
+                mQuestion.getImage(),
+                imageImageView
             );
         }
 

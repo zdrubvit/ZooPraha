@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import cz.zdrubecky.zoopraha.api.DataFetcher;
+import cz.zdrubecky.zoopraha.api.ImageLoader;
 import cz.zdrubecky.zoopraha.manager.AnimalManager;
 import cz.zdrubecky.zoopraha.model.Animal;
 
@@ -73,7 +74,6 @@ public class LexiconListFragment extends Fragment {
         mAnimalRecyclerView.setHasFixedSize(true);
         mAnimalRecyclerView.setItemViewCacheSize(20);
         mAnimalRecyclerView.setDrawingCacheEnabled(true);
-        mAnimalRecyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
 
         updateUI();
 
@@ -118,13 +118,9 @@ public class LexiconListFragment extends Fragment {
             mAnimal = animal;
 
             if (!mAnimal.getImage().equals("")) {
-                DataFetcher.loadImage(
-                        getActivity(),
-                        mAnimal.getImage(),
-                        R.mipmap.image_placeholder,
-                        R.mipmap.image_broken,
-                        mImageImageView,
-                        getString(R.string.datafetcher_error_loading_image)
+                ImageLoader.getInstance(getActivity()).loadImage(
+                    mAnimal.getImage(),
+                    mImageImageView
                 );
             }
             mNameTextView.setText(mAnimal.getName());

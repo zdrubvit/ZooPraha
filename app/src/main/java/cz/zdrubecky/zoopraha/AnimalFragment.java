@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import cz.zdrubecky.zoopraha.api.DataFetcher;
+import cz.zdrubecky.zoopraha.api.ImageLoader;
 import cz.zdrubecky.zoopraha.manager.AnimalManager;
 import cz.zdrubecky.zoopraha.model.Animal;
 
@@ -106,13 +107,9 @@ public class AnimalFragment extends DialogFragment {
         if (!mAnimal.getImage().equals("")) {
             // If there's an image present, place it in the view
             mImageImageView = (ImageView) v.findViewById(R.id.fragment_animal_image_imageview);
-            DataFetcher.loadImage(
-                    getActivity(),
+            ImageLoader.getInstance(getActivity()).loadImage(
                     mAnimal.getImage(),
-                    R.mipmap.image_placeholder,
-                    R.mipmap.image_broken,
-                    mImageImageView,
-                    getString(R.string.datafetcher_error_loading_image)
+                    mImageImageView
             );
         }
         mClassTextView = (TextView) v.findViewById(R.id.fragment_animal_class_textview);
