@@ -3,7 +3,6 @@ package cz.zdrubecky.zoopraha;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,13 +11,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import cz.zdrubecky.zoopraha.api.DataFetcher;
 import cz.zdrubecky.zoopraha.api.ImageLoader;
 import cz.zdrubecky.zoopraha.manager.AnimalManager;
 import cz.zdrubecky.zoopraha.model.Animal;
 
-public class AnimalFragment extends DialogFragment {
-    private static final String TAG = "AnimalFragment";
+public class AnimalDetailFragment extends DialogFragment {
+    private static final String TAG = "AnimalDetailFragment";
     private static final String ARG_ANIMAL_ID = "animal_id";
 
     private TextView mNameTextView;
@@ -40,12 +38,12 @@ public class AnimalFragment extends DialogFragment {
     private AnimalManager mAnimalManager;
     private Animal mAnimal;
 
-    public static AnimalFragment newInstance(String animalId) {
+    public static AnimalDetailFragment newInstance(String animalId) {
         Bundle args = new Bundle();
         // Save the ID in fragment rather than parent activity so that they can be decoupled and function independently
         args.putSerializable(ARG_ANIMAL_ID, animalId);
         
-        AnimalFragment fragment = new AnimalFragment();
+        AnimalDetailFragment fragment = new AnimalDetailFragment();
         fragment.setArguments(args);
 
         // Override the default capability to be displayed as a dialog, so that it acts as a standard fragment until being treated otherwise

@@ -26,7 +26,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import cz.zdrubecky.zoopraha.api.DataFetcher;
 import cz.zdrubecky.zoopraha.api.ImageLoader;
 import cz.zdrubecky.zoopraha.manager.QuestionManager;
 import cz.zdrubecky.zoopraha.model.Question;
@@ -188,10 +187,10 @@ public class QuestionFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentManager manager = getFragmentManager();
-                final AnimalFragment animalFragment = AnimalFragment.newInstance(mQuestion.getAnswerObjectId());
+                final AnimalDetailFragment animalDetailFragment = AnimalDetailFragment.newInstance(mQuestion.getAnswerObjectId());
 
                 // Use the fragment's dialog ability and display the overlay with an animal's detail
-                animalFragment.show(manager, ANIMAL_DETAIL_FRAGMENT);
+                animalDetailFragment.show(manager, ANIMAL_DETAIL_FRAGMENT);
 
             }
         });

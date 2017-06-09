@@ -40,7 +40,7 @@ public class AnimalPagerActivity extends AppCompatActivity {
             public Fragment getItem(int position) {
                 Animal animal = mAnimals.get(position);
 
-                return AnimalFragment.newInstance(animal.getId());
+                return AnimalDetailFragment.newInstance(animal.getId());
             }
 
             @Override

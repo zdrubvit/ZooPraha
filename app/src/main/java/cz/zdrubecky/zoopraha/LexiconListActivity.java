@@ -66,7 +66,7 @@ public class LexiconListActivity
             Intent intent = AnimalPagerActivity.newIntent(this, animal.getId());
             startActivity(intent);
         } else {
-            Fragment animalDetail = AnimalFragment.newInstance(animal.getId());
+            Fragment animalDetail = AnimalDetailFragment.newInstance(animal.getId());
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.detail_fragment_container, animalDetail)

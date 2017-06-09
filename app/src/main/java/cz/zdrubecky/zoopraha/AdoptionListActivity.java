@@ -66,7 +66,7 @@ public class AdoptionListActivity
             Intent intent = AnimalDetailActivity.newIntent(this, adoption.getLexiconId());
             startActivity(intent);
         } else {
-            Fragment animalDetail = AnimalFragment.newInstance(adoption.getLexiconId());
+            Fragment animalDetail = AnimalDetailFragment.newInstance(adoption.getLexiconId());
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.detail_fragment_container, animalDetail)
