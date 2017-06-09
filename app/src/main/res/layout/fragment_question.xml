@@ -3,7 +3,8 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+            android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +28,7 @@
             android:indeterminate="false"
             android:max="10"
             android:minHeight="50dp"
-            android:minWidth="200dp"
+            android:minWidth="180dp"
             android:progress="10" />
 
         <TextView
@@ -54,10 +55,12 @@
             tools:text="Question text"/>
         <ImageView
             android:id="@+id/fragment_question_image_imageview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:scaleType="centerInside"
             android:layout_weight="4"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
             tools:src="@android:drawable/btn_star"/>
     </LinearLayout>
 
