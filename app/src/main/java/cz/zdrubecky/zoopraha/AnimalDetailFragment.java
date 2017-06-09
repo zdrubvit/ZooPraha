@@ -102,14 +102,18 @@ public class AnimalDetailFragment extends DialogFragment {
         mNameTextView = (TextView) v.findViewById(R.id.fragment_animal_name_textview);
         setAttributeText(mNameTextView, mAnimal.getName() + " (" + mAnimal.getLatinName() + ")");
 
+        mImageImageView = (ImageView) v.findViewById(R.id.fragment_animal_image_imageview);
         if (!mAnimal.getImage().equals("")) {
             // If there's an image present, place it in the view
-            mImageImageView = (ImageView) v.findViewById(R.id.fragment_animal_image_imageview);
             ImageLoader.getInstance(getActivity()).loadImage(
                     mAnimal.getImage(),
                     mImageImageView
             );
+        } else {
+            // Hide the view otherwise
+            mImageImageView.setVisibility(View.GONE);
         }
+
         mClassTextView = (TextView) v.findViewById(R.id.fragment_animal_class_textview);
         setAttributeText(mClassTextView, mAnimal.getClassName() + " (" + mAnimal.getClassLatinName() + ")");
         mOrderTextView = (TextView) v.findViewById(R.id.fragment_animal_order_textview);
