@@ -11,9 +11,7 @@ import com.google.gson.Gson;
 import java.util.List;
 
 import cz.zdrubecky.zoopraha.api.DataFetcher;
-import cz.zdrubecky.zoopraha.manager.AdoptionManager;
 import cz.zdrubecky.zoopraha.manager.EventManager;
-import cz.zdrubecky.zoopraha.model.Adoption;
 import cz.zdrubecky.zoopraha.model.Event;
 import cz.zdrubecky.zoopraha.model.JsonApiObject;
 
@@ -61,7 +59,7 @@ public class EventListActivity
             Intent intent = EventDetailActivity.newIntent(this, event.getId());
             startActivity(intent);
         } else {
-            Fragment eventDetail = EventFragment.newInstance(event.getId());
+            Fragment eventDetail = EventDetailFragment.newInstance(event.getId());
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.detail_fragment_container, eventDetail)
