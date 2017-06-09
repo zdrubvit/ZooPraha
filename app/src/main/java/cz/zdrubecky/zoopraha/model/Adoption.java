@@ -23,7 +23,7 @@ public class Adoption {
     }
 
     public String getLexiconId() {
-        return mLexiconId;
+        return mLexiconId == null ? "" : mLexiconId;
     }
 
     public void setLexiconId(String lexiconId) {

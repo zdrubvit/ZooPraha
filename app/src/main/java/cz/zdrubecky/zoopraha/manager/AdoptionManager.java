@@ -4,21 +4,26 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cz.zdrubecky.zoopraha.database.ZooBaseHelper;
 import cz.zdrubecky.zoopraha.database.ZooCursorWrapper;
+import cz.zdrubecky.zoopraha.database.ZooDBSchema;
 import cz.zdrubecky.zoopraha.database.ZooDBSchema.AdoptionsTable;
+import cz.zdrubecky.zoopraha.model.Adoption;
 import cz.zdrubecky.zoopraha.model.Adoption;
 
 public class AdoptionManager {
     private SQLiteDatabase mDatabase;
+    private List<Adoption> mAdoptions;
 
     public AdoptionManager(Context context) {
         ZooBaseHelper zooBaseHelper = ZooBaseHelper.getInstance(context);
         mDatabase = zooBaseHelper.getWritableDatabase();
+        mAdoptions = new ArrayList<>();
     }
 
     public List<Adoption> getAdoptions() {
@@ -42,11 +47,7 @@ public class AdoptionManager {
     }
 
     public void addAdoption(Adoption adoption) {
-        // todo check if it exists and then update
-        ContentValues values = getContentValues(adoption);
-
-        // The second argument - nullColumnHack - is used to force insert in the case of empty values
-        mDatabase.insert(AdoptionsTable.NAME, null, values);
+        mAdoptions.add(adoption);
     }
 
     public void updateAdoption(Adoption adoption) {
@@ -57,6 +58,43 @@ public class AdoptionManager {
 
     public boolean removeAdoption(Adoption adoption) {
         return mDatabase.delete(AdoptionsTable.NAME, AdoptionsTable.Cols.ID + " = ?", new String[] {adoption.getId()}) > 0;
+    }
+
+    // Bind one object to the statement
+    private void bindAdoption(SQLiteStatement statement, Adoption adoption) {
+        // The binding index starts at "1"
+        statement.bindString(1, adoption.getId());
+        statement.bindString(2, adoption.getLexiconId());
+        statement.bindString(3, adoption.getName());
+        statement.bindString(4, Integer.toString(adoption.getPrice()));
+        statement.bindString(5, Boolean.toString(adoption.isVisit()));
+
+        statement.execute();
+        statement.clearBindings();
+    }
+
+    // Flush all the adoptions into the database at once
+    public void flushAdoptions() {
+        // Prepare the query for late binding
+        String query = "INSERT OR REPLACE INTO " + AdoptionsTable.NAME + " ( " +
+                AdoptionsTable.Cols.ID + ", " +
+                AdoptionsTable.Cols.LEXICON_ID + ", " +
+                AdoptionsTable.Cols.NAME + ", " +
+                AdoptionsTable.Cols.PRICE + ", " +
+                AdoptionsTable.Cols.VISIT + " ) VALUES ( ?, ?, ?, ?, ? )";
+
+        // Lock the DB file for the time being
+        mDatabase.beginTransactionNonExclusive();
+
+        SQLiteStatement statement = mDatabase.compileStatement(query);
+
+        // Bind every class and order from the list
+        for (Adoption adoption : mAdoptions) {
+            bindAdoption(statement, adoption);
+        }
+
+        mDatabase.setTransactionSuccessful();
+        mDatabase.endTransaction();
     }
 
     public void dropTable() {

@@ -55,7 +55,7 @@ public class AdoptionListActivity
     }
 
     public void onAdoptionSelected(Adoption adoption) {
-        if (adoption.getLexiconId() == null) {
+        if (adoption.getLexiconId().equals("")) {
             Toast.makeText(this, R.string.adoption_no_detail_toast, Toast.LENGTH_SHORT).show();
 
             return;
@@ -97,6 +97,8 @@ public class AdoptionListActivity
                 adoption.setId(data.get(i).getId());
                 mAdoptionManager.addAdoption(adoption);
             }
+
+            mAdoptionManager.flushAdoptions();
 
             // Don't return anything, there's no need
             return null;

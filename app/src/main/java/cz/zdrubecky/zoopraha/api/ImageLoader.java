@@ -30,7 +30,7 @@ public class ImageLoader {
     private ImageLoader(Context context) {
         mContext = context;
 
-        // Beware the secure protocol or any redirection, Picasso can't cope with that and have to use different downloader
+        // Beware the secure protocol or any other http redirection, Picasso can't cope with that and has to use a different downloader
         mPicasso = new Picasso.Builder(context)
             .listener(new Picasso.Listener() {
                 @Override
@@ -43,6 +43,7 @@ public class ImageLoader {
     }
 
     public void loadImage(String url, ImageView view) {
+        // todo "cannot reset" error in some images
         mPicasso.load(url)
             .placeholder(R.mipmap.image_placeholder)
             .error(R.mipmap.image_broken)

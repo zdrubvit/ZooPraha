@@ -68,9 +68,7 @@ public class EventManager {
     }
 
     public void updateEvent(Event event) {
-        ContentValues values = getContentValues(event);
-
-        mDatabase.update(EventsTable.NAME, values, EventsTable.Cols.ID + " = ?", new String[] {event.getId()});
+        mEvents.add(event);
     }
 
     public boolean removeEvent(Event event) {
@@ -94,7 +92,7 @@ public class EventManager {
     // Flush all the events into the database at once
     public void flushEvents() {
         // Prepare the query for late binding
-        String query = "INSERT OR REPLACE INTO " + ZooDBSchema.EventsTable.NAME + " ( " +
+        String query = "INSERT OR REPLACE INTO " + EventsTable.NAME + " ( " +
                 EventsTable.Cols.ID + ", " +
                 EventsTable.Cols.START + ", " +
                 EventsTable.Cols.END + ", " +
