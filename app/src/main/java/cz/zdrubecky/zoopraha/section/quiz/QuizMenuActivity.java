@@ -8,7 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.List;
+
 import cz.zdrubecky.zoopraha.R;
+import cz.zdrubecky.zoopraha.manager.QuizResultManager;
+import cz.zdrubecky.zoopraha.model.QuizResult;
 
 
 public class QuizMenuActivity extends AppCompatActivity {
@@ -33,6 +37,15 @@ public class QuizMenuActivity extends AppCompatActivity {
         });
 
         mQuizButtonLeaderboard = (Button) findViewById(R.id.quiz_menu_leaderboard_button);
+        mQuizButtonLeaderboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(QuizMenuActivity.this, QuizResultListActivity.class);
+
+                startActivity(i);
+            }
+        });
+
         mQuizButtonSettings = (Button) findViewById(R.id.quiz_menu_settings_button);
         mQuizButtonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +55,7 @@ public class QuizMenuActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
         mQuizButtonHelp = (Button) findViewById(R.id.quiz_menu_help_button);
     }
 

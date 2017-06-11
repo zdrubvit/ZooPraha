@@ -158,4 +158,25 @@ public class ZooCursorWrapper extends CursorWrapper {
 
         return location;
     }
+
+    public QuizResult getQuizResult() {
+        String date = getString(getColumnIndex(QuizResultsTable.Cols.DATE));
+        String name = getString(getColumnIndex(QuizResultsTable.Cols.NAME));
+        int score = getInt(getColumnIndex(QuizResultsTable.Cols.SCORE));
+        int questionTime = getInt(getColumnIndex(QuizResultsTable.Cols.QUESTION_TIME));
+        int totalTime = getInt(getColumnIndex(QuizResultsTable.Cols.TOTAL_TIME));
+        int questionCount = getInt(getColumnIndex(QuizResultsTable.Cols.QUESTION_COUNT));
+        int correctAnswerCount = getInt(getColumnIndex(QuizResultsTable.Cols.CORRECT_ANSWER_COUNT));
+
+        QuizResult quizResult = new QuizResult();
+        quizResult.setDate(date);
+        quizResult.setName(name);
+        quizResult.setScore(score);
+        quizResult.setQuestionTime(questionTime);
+        quizResult.setTotalTime(totalTime);
+        quizResult.setQuestionCount(questionCount);
+        quizResult.setCorrectAnswerCount(correctAnswerCount);
+
+        return quizResult;
+    }
 }

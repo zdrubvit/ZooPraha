@@ -94,4 +94,18 @@ public class ZooDBSchema {
             public static final String SLUG = "slug";
         }
     }
+
+    public static final class QuizResultsTable {
+        public static final String NAME = "quiz_results";
+
+        public static final class Cols {
+            public static final String DATE = "date";
+            public static final String NAME = "name";
+            public static final String SCORE = "score";
+            public static final String QUESTION_TIME = "question_time";
+            public static final String TOTAL_TIME = "total_time";
+            public static final String QUESTION_COUNT = "question_count";
+            public static final String CORRECT_ANSWER_COUNT = "correct_answer_count";
+        }
+    }
 }

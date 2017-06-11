@@ -40,6 +40,8 @@
                   android:parentActivityName=".section.quiz.QuizMenuActivity"/>
         <activity android:name=".section.quiz.QuizResultActivity"
                   android:parentActivityName=".section.quiz.QuizMenuActivity"/>
+        <activity android:name=".section.quiz.QuizResultListActivity"
+                  android:parentActivityName=".section.quiz.QuizMenuActivity"/>
         <activity android:name=".section.quiz.QuizSettingsActivity"
                   android:parentActivityName=".section.quiz.QuizMenuActivity"/>
     </application>

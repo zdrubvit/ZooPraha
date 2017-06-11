@@ -19,7 +19,7 @@ public class QuizPreferences {
     }
 
     public static String getUserName(Context context) {
-        return getDefaultSharedPreferences(context).getString(PREF_USER_NAME, null);
+        return getDefaultSharedPreferences(context).getString(PREF_USER_NAME, "");
     }
 
     public static void setQuestionTime(Context context, int questionTime) {

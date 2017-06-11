@@ -75,7 +75,7 @@ public class EventListFragment extends Fragment {
         List<Event> events = mEventManager.getEvents();
 
         if (events.size() > 0) {
-            // If the fragment is already running, update the data in case something changed (some crime)
+            // If the fragment is already running, update the data in case something changed (some event)
             if (mEventAdapter == null) {
                 mEventAdapter = new EventListFragment.EventAdapter(events);
                 mEventRecyclerView.setAdapter(mEventAdapter);

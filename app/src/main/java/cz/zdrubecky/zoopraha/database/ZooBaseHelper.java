@@ -120,6 +120,18 @@ public class ZooBaseHelper extends SQLiteOpenHelper {
         );
 
         db.execSQL("CREATE UNIQUE INDEX idx_locations_id ON " + LocationsTable.NAME + " (" + LocationsTable.Cols.ID + ")");
+
+        db.execSQL("CREATE TABLE " + QuizResultsTable.NAME + "(" +
+                " _id integer primary key autoincrement, " +
+                QuizResultsTable.Cols.DATE + ", " +
+                QuizResultsTable.Cols.NAME + ", " +
+                QuizResultsTable.Cols.SCORE + ", " +
+                QuizResultsTable.Cols.QUESTION_TIME + ", " +
+                QuizResultsTable.Cols.TOTAL_TIME + ", " +
+                QuizResultsTable.Cols.QUESTION_COUNT + ", " +
+                QuizResultsTable.Cols.CORRECT_ANSWER_COUNT +
+                ")"
+        );
     }
 
     // Called when there's a lower version present

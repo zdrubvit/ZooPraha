@@ -9,11 +9,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import cz.zdrubecky.zoopraha.R;
 import cz.zdrubecky.zoopraha.manager.QuestionManager;
+import cz.zdrubecky.zoopraha.manager.QuizResultManager;
+import cz.zdrubecky.zoopraha.model.QuizResult;
 
 public class QuizResultActivity extends AppCompatActivity {
     private QuestionManager mQuestionManager;
+    private QuizResultManager mQuizResultManager;
 
     private TextView mCorrectAnswersTextView;
     private TextView mIncorrectAnswersTextView;
@@ -29,6 +35,7 @@ public class QuizResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz_result);
 
         mQuestionManager = QuestionManager.get(this);
+        mQuizResultManager = new QuizResultManager(this);
 
         mCorrectAnswersTextView = (TextView) findViewById(R.id.quiz_result_correct_answers_textview);
         String correctAnswersText = getString(
@@ -51,14 +58,36 @@ public class QuizResultActivity extends AppCompatActivity {
         mTotalTimeTextView.setText(totalTimeText);
 
         mScoreTextView = (TextView) findViewById(R.id.quiz_result_score_textview);
-        String scoreText = getString(R.string.quiz_result_score_textview_text, 0);
+        Double questionValue = 100.0 / mQuestionManager.getQuestionCount();
+        Double score = questionValue * mQuestionManager.getCorrectAnswersCount();
+        String scoreText = getString(R.string.quiz_result_score_textview_text, score.intValue(), 100);
         mScoreTextView.setText(scoreText);
+
+        QuizResult quizResult = new QuizResult();
+        quizResult.setDate(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()));
+        quizResult.setName(QuizPreferences.getUserName(this));
+        quizResult.setScore(score.intValue());
+        quizResult.setQuestionTime(QuizPreferences.getQuestionTime(this));
+        quizResult.setTotalTime(mQuestionManager.getTotalTime());
+        quizResult.setQuestionCount(mQuestionManager.getQuestionCount());
+        quizResult.setCorrectAnswerCount(mQuestionManager.getCorrectAnswersCount());
+        mQuizResultManager.addQuizResult(quizResult);
 
         mNewGameButton = (Button) findViewById(R.id.quiz_result_new_game_button);
         mNewGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(QuizResultActivity.this, QuizActivity.class);
+
+                startActivity(i);
+            }
+        });
+
+        mLeaderboardButton = (Button) findViewById(R.id.quiz_result_leaderboard_button);
+        mLeaderboardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(QuizResultActivity.this, QuizResultListActivity.class);
 
                 startActivity(i);
             }
