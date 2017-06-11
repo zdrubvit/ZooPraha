@@ -1,9 +1,11 @@
 package cz.zdrubecky.zoopraha.section.lexicon;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -23,10 +25,14 @@ public class LexiconListActivity
         implements LexiconListFragment.Callbacks {
 
     private static final String TAG = "LexiconListActivity";
+    private static final String EXTRA_FILTER_KEY = "cz.zdrubecky.zoopraha.filter_key";
+    private static final String EXTRA_FILTER_VALUE = "cz.zdrubecky.zoopraha.filter_value";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Pair<String, String> filter = Pair.create(getIntent().getStringExtra(EXTRA_FILTER_KEY), getIntent().getStringExtra(EXTRA_FILTER_VALUE));
 
         DataFetcher dataFetcher = new DataFetcher();
         dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
@@ -54,6 +60,14 @@ public class LexiconListActivity
     protected int getLayoutResId() {
         // Choose the appropriate layout according to the device screen size using references
         return R.layout.activity_masterdetail;
+    }
+
+    public static Intent newIntent(Context context, String filterKey, String filterValue) {
+        Intent i = new Intent(context, LexiconListActivity.class);
+        i.putExtra(EXTRA_FILTER_KEY, filterKey);
+        i.putExtra(EXTRA_FILTER_VALUE, filterValue);
+
+        return i;
     }
 
     public void onAnimalSelected(Animal animal) {

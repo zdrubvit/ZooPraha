@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,17 +30,19 @@ public class LexiconMenuFragment extends Fragment {
     private List<String> mFiltersExpandableListTitles;
     private HashMap<String, List<String>> mTaxonomyExpandableListData;
     private HashMap<String, List<String>> mFiltersExpandableListData;
+    private HashMap<String, String> mFilterGroups;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        HashMap<String, String> filterGroups = new HashMap<>();
-        filterGroups.put("biotopes", getString(R.string.lexicon_menu_biotopes_filter_text));
-        filterGroups.put("continents", getString(R.string.lexicon_menu_continents_filter_text));
-        filterGroups.put("food", getString(R.string.lexicon_menu_food_filter_text));
+        mFilterGroups = new HashMap<>();
+        mFilterGroups.put(getString(R.string.lexicon_menu_biotopes_filter_text), "biotopes");
+        mFilterGroups.put(getString(R.string.lexicon_menu_continents_filter_text), "continents");
+        mFilterGroups.put(getString(R.string.lexicon_menu_food_filter_text), "food");
 
-        mFiltersExpandableListData = TaxonomyListDataMapper.getData(getActivity(), filterGroups, getString(R.string.lexicon_menu_locations_filter_text));
+        mFiltersExpandableListData = TaxonomyListDataMapper.getData(getActivity(), mFilterGroups, getString(R.string.lexicon_menu_locations_filter_text));
+        mFilterGroups.put(getString(R.string.lexicon_menu_locations_filter_text), "locations");
         mFiltersExpandableListTitles = new ArrayList<>(mFiltersExpandableListData.keySet());
         mFiltersExpandableListAdapter = new TaxonomyExpandableListAdapter(getActivity(), mFiltersExpandableListTitles, mFiltersExpandableListData);
 
@@ -131,7 +134,7 @@ public class LexiconMenuFragment extends Fragment {
             @Override
             public void onGroupExpand(int groupPosition) {
                 Toast.makeText(getActivity().getApplicationContext(),
-                        mFiltersExpandableListTitles.get(groupPosition) + " List Expanded.",
+                        mFiltersExpandableListTitles.get(groupPosition) + " List Expanded for " + mFilterGroups.get(mFiltersExpandableListTitles.get(groupPosition)),
                         Toast.LENGTH_SHORT).show();
             }
         });
@@ -139,18 +142,17 @@ public class LexiconMenuFragment extends Fragment {
         mFiltersExpandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
             @Override
             public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getActivity().getApplicationContext(),
-                        mFiltersExpandableListTitles.get(groupPosition) + " List Collapsed.",
-                        Toast.LENGTH_SHORT).show();
-
             }
         });
 
         mFiltersExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
-                Intent i = new Intent(getActivity(), LexiconListActivity.class);
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                String groupName = mFiltersExpandableListTitles.get(groupPosition);
+                String key = mFilterGroups.get(groupName);
+                String value = mFiltersExpandableListData.get(groupName).get(childPosition);
+
+                Intent i = LexiconListActivity.newIntent(getActivity(), key, value);
 
                 startActivity(i);
 

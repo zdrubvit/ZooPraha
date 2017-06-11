@@ -36,11 +36,10 @@ public class TaxonomyListDataMapper {
         HashMap<String, List<String>> expandableListData = new HashMap<String, List<String>>();
         FilterManager filterManager = new FilterManager(context);
         LocationManager locationManager = new LocationManager(context);
-        String[] filterNames = new String[] {"biotopes", "continents", "food"};
 
         for (HashMap.Entry<String, String> entry : filterGroups.entrySet()) {
-            List<String> filterValues = getFilterValues(filterManager, entry.getKey());
-            expandableListData.put(entry.getValue(), filterValues);
+            List<String> filterValues = getFilterValues(filterManager, entry.getValue());
+            expandableListData.put(entry.getKey(), filterValues);
         }
 
         expandableListData.put(locationGroupName, getLocationValues(locationManager));
