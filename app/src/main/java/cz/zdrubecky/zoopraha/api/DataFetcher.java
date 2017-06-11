@@ -158,8 +158,9 @@ public class DataFetcher {
         }
     }
 
-    public void getQuestions(String limit) {
-        Call<JsonApiObject> call = mService.getQuestions(limit);
+    public void getQuestions(int limit) {
+        String limitString = Integer.toString(limit);
+        Call<JsonApiObject> call = mService.getQuestions(limitString);
 
         call.enqueue(new RequestCallback<JsonApiObject>());
     }

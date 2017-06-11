@@ -36,7 +36,7 @@ public class QuizActivity
         mQuestionManager.deleteQuestions();
 
         // Set all the variables to their default values
-        mQuestionCount = 10;
+        mQuestionCount = QuizPreferences.getQuestionCount(this);
         mQuestionPosition = 0;
 
         DataFetcher dataFetcher = new DataFetcher();
@@ -59,7 +59,7 @@ public class QuizActivity
             }
         });
 
-        dataFetcher.getQuestions(Integer.toString(mQuestionCount));
+        dataFetcher.getQuestions(mQuestionCount);
     }
 
     private void replaceQuestionFragment() {

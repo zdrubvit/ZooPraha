@@ -110,9 +110,17 @@ public class QuestionFragment extends Fragment {
         mTimerProgressBar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
+                int questionTime = QuizPreferences.getQuestionTime(getActivity());
+
+                // Set the default values for the progress bar
+                mTimerProgressBar.setMax(questionTime);
+                mTimerProgressBar.setProgress(questionTime);
+
                 // The View is now visible, start the timer (set the interval at half a second to be able to display the last tick)
                 // ...also, set the time one second above the actual number to seem more fluent
-                mQuestionCountDownTimer = new QuestionCountDownTimer(11000, 500);
+                long questionTimeMillis = (questionTime + 1) * 1000;
+
+                mQuestionCountDownTimer = new QuestionCountDownTimer(questionTimeMillis, 500);
                 mQuestionCountDownTimer.start();
 
                 // Remove the listener, it's no longer needed

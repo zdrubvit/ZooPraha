@@ -20,13 +20,6 @@
         android:textSize="16sp"
         android:text="@string/quiz_menu_leaderboard_button_text"/>
     <Button
-        android:id="@+id/quiz_menu_badges_button"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="5dp"
-        android:textSize="16sp"
-        android:text="@string/quiz_menu_badges_button_text"/>
-    <Button
         android:id="@+id/quiz_menu_settings_button"
         android:layout_width="150dp"
         android:layout_height="60dp"

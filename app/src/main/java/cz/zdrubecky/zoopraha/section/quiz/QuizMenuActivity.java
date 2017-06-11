@@ -14,7 +14,6 @@ import cz.zdrubecky.zoopraha.R;
 public class QuizMenuActivity extends AppCompatActivity {
     private Button mQuizButtonNewGame;
     private Button mQuizButtonLeaderboard;
-    private Button mQuizButtonBadges;
     private Button mQuizButtonSettings;
     private Button mQuizButtonHelp;
 
@@ -34,8 +33,15 @@ public class QuizMenuActivity extends AppCompatActivity {
         });
 
         mQuizButtonLeaderboard = (Button) findViewById(R.id.quiz_menu_leaderboard_button);
-        mQuizButtonBadges = (Button) findViewById(R.id.quiz_menu_badges_button);
         mQuizButtonSettings = (Button) findViewById(R.id.quiz_menu_settings_button);
+        mQuizButtonSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(QuizMenuActivity.this, QuizSettingsActivity.class);
+
+                startActivity(i);
+            }
+        });
         mQuizButtonHelp = (Button) findViewById(R.id.quiz_menu_help_button);
     }
 
