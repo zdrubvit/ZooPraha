@@ -1,26 +1,27 @@
-package cz.zdrubecky.zoopraha;
+package cz.zdrubecky.zoopraha.section.event;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import java.util.List;
 
+import cz.zdrubecky.zoopraha.R;
+import cz.zdrubecky.zoopraha.SingleFragmentActivity;
 import cz.zdrubecky.zoopraha.api.DataFetcher;
-import cz.zdrubecky.zoopraha.manager.AdoptionManager;
-import cz.zdrubecky.zoopraha.model.Adoption;
+import cz.zdrubecky.zoopraha.manager.EventManager;
+import cz.zdrubecky.zoopraha.model.Event;
 import cz.zdrubecky.zoopraha.model.JsonApiObject;
 
-public class AdoptionListActivity
+public class EventListActivity
         extends SingleFragmentActivity
-        implements AdoptionListFragment.Callbacks {
-
-    private static final String TAG = "AdoptionListActivity";
+        implements EventListFragment.Callbacks {
+    
+    private static final String TAG = "EventListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +32,17 @@ public class AdoptionListActivity
             @Override
             public void onDataFetched(JsonApiObject response) {
                 Log.i(TAG, "API response listener called with " + response.getMeta().getCount() + " resource objects.");
-                
+
                 // Hand the response handling over to a background thread and avoid blocking the UI thread
                 new SaveItemsTask(response).execute();
             }
         });
 
-        dataFetcher.getAdoptions(null, null, null);
+        dataFetcher.getEvents(null, null, null);
     }
 
     private void replaceListFragment() {
-        Fragment fragment = new AdoptionListFragment();
+        Fragment fragment = new EventListFragment();
 
         getSupportFragmentManager().beginTransaction()
                 .replace(getFragmentContainerId(), fragment)
@@ -54,33 +55,27 @@ public class AdoptionListActivity
         return R.layout.activity_masterdetail;
     }
 
-    public void onAdoptionSelected(Adoption adoption) {
-        if (adoption.getLexiconId().equals("")) {
-            Toast.makeText(this, R.string.adoption_no_detail_toast, Toast.LENGTH_SHORT).show();
-
-            return;
-        }
-
+    public void onEventSelected(Event event) {
         // Check if there's not a split view and therefore we're not working with a tablet
         if (findViewById(R.id.detail_fragment_container) == null) {
-            Intent intent = AnimalDetailActivity.newIntent(this, adoption.getLexiconId());
+            Intent intent = EventDetailActivity.newIntent(this, event.getId());
             startActivity(intent);
         } else {
-            Fragment animalDetail = AnimalDetailFragment.newInstance(adoption.getLexiconId());
+            Fragment eventDetail = EventDetailFragment.newInstance(event.getId());
 
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.detail_fragment_container, animalDetail)
+                    .replace(R.id.detail_fragment_container, eventDetail)
                     .commit();
         }
     }
 
     // This class is not static and therefore can block the garbage collection of its parent class, but it's useful to update the fragment from here
     private class SaveItemsTask extends AsyncTask<Void, Void, Void> {
-        private AdoptionManager mAdoptionManager;
+        private EventManager mEventManager;
         private JsonApiObject mResponse;
 
         public SaveItemsTask(JsonApiObject response) {
-            mAdoptionManager = new AdoptionManager(AdoptionListActivity.this);
+            mEventManager = new EventManager(EventListActivity.this);
             mResponse = response;
         }
 
@@ -90,15 +85,15 @@ public class AdoptionListActivity
             List<JsonApiObject.Resource> data = mResponse.getData();
             Gson gson = new Gson();
 
-            // Iterate over the incoming objects and use them to create adoptions
+            // Iterate over the incoming objects and use them to create events
             for (int i = 0; i < data.size(); i++) {
-                Adoption adoption = gson.fromJson(data.get(i).getDocument(), Adoption.class);
+                Event event = gson.fromJson(data.get(i).getDocument(), Event.class);
                 // The ID has to be set explicitly because of its placement thanks to JSON-API standard
-                adoption.setId(data.get(i).getId());
-                mAdoptionManager.addAdoption(adoption);
+                event.setId(data.get(i).getId());
+                mEventManager.addEvent(event);
             }
 
-            mAdoptionManager.flushAdoptions();
+            mEventManager.flushEvents();
 
             // Don't return anything, there's no need
             return null;

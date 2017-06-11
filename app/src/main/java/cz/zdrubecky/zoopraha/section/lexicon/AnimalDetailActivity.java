@@ -1,8 +1,10 @@
-package cz.zdrubecky.zoopraha;
+package cz.zdrubecky.zoopraha.section.lexicon;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+
+import cz.zdrubecky.zoopraha.SingleFragmentActivity;
 
 public class AnimalDetailActivity extends SingleFragmentActivity {
     private static final String EXTRA_ANIMAL_ID = "cz.zdrubecky.zoopraha.animal_id";

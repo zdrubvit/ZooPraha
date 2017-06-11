@@ -1,8 +1,10 @@
-package cz.zdrubecky.zoopraha;
+package cz.zdrubecky.zoopraha.section.event;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+
+import cz.zdrubecky.zoopraha.SingleFragmentActivity;
 
 public class EventDetailActivity extends SingleFragmentActivity {
     private static final String ARG_EVENT_ID = "event_id";

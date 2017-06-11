@@ -1,25 +1,28 @@
-package cz.zdrubecky.zoopraha;
+package cz.zdrubecky.zoopraha.section.lexicon;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import java.util.List;
 
+import cz.zdrubecky.zoopraha.R;
+import cz.zdrubecky.zoopraha.SingleFragmentActivity;
 import cz.zdrubecky.zoopraha.api.DataFetcher;
-import cz.zdrubecky.zoopraha.manager.EventManager;
-import cz.zdrubecky.zoopraha.model.Event;
+import cz.zdrubecky.zoopraha.manager.AnimalManager;
+import cz.zdrubecky.zoopraha.model.Animal;
 import cz.zdrubecky.zoopraha.model.JsonApiObject;
 
-public class EventListActivity
+public class LexiconListActivity
         extends SingleFragmentActivity
-        implements EventListFragment.Callbacks {
-    
-    private static final String TAG = "EventListActivity";
+        implements LexiconListFragment.Callbacks {
+
+    private static final String TAG = "LexiconListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,17 +33,17 @@ public class EventListActivity
             @Override
             public void onDataFetched(JsonApiObject response) {
                 Log.i(TAG, "API response listener called with " + response.getMeta().getCount() + " resource objects.");
-
+                
                 // Hand the response handling over to a background thread and avoid blocking the UI thread
                 new SaveItemsTask(response).execute();
             }
         });
 
-        dataFetcher.getEvents(null, null, null);
+        dataFetcher.getAnimals(null, null, null);
     }
 
     private void replaceListFragment() {
-        Fragment fragment = new EventListFragment();
+        Fragment fragment = new LexiconListFragment();
 
         getSupportFragmentManager().beginTransaction()
                 .replace(getFragmentContainerId(), fragment)
@@ -53,27 +56,33 @@ public class EventListActivity
         return R.layout.activity_masterdetail;
     }
 
-    public void onEventSelected(Event event) {
+    public void onAnimalSelected(Animal animal) {
+        if (animal.getId() == null) {
+            Toast.makeText(this, R.string.adoption_no_detail_toast, Toast.LENGTH_SHORT).show();
+
+            return;
+        }
+
         // Check if there's not a split view and therefore we're not working with a tablet
         if (findViewById(R.id.detail_fragment_container) == null) {
-            Intent intent = EventDetailActivity.newIntent(this, event.getId());
+            Intent intent = AnimalPagerActivity.newIntent(this, animal.getId());
             startActivity(intent);
         } else {
-            Fragment eventDetail = EventDetailFragment.newInstance(event.getId());
+            Fragment animalDetail = AnimalDetailFragment.newInstance(animal.getId());
 
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.detail_fragment_container, eventDetail)
+                    .replace(R.id.detail_fragment_container, animalDetail)
                     .commit();
         }
     }
 
     // This class is not static and therefore can block the garbage collection of its parent class, but it's useful to update the fragment from here
     private class SaveItemsTask extends AsyncTask<Void, Void, Void> {
-        private EventManager mEventManager;
+        private AnimalManager mAnimalManager;
         private JsonApiObject mResponse;
 
         public SaveItemsTask(JsonApiObject response) {
-            mEventManager = new EventManager(EventListActivity.this);
+            mAnimalManager = new AnimalManager(LexiconListActivity.this);
             mResponse = response;
         }
 
@@ -83,15 +92,15 @@ public class EventListActivity
             List<JsonApiObject.Resource> data = mResponse.getData();
             Gson gson = new Gson();
 
-            // Iterate over the incoming objects and use them to create events
+            // Iterate over the incoming objects and use them to create animals
             for (int i = 0; i < data.size(); i++) {
-                Event event = gson.fromJson(data.get(i).getDocument(), Event.class);
+                Animal animal = gson.fromJson(data.get(i).getDocument(), Animal.class);
                 // The ID has to be set explicitly because of its placement thanks to JSON-API standard
-                event.setId(data.get(i).getId());
-                mEventManager.addEvent(event);
+                animal.setId(data.get(i).getId());
+                mAnimalManager.addAnimal(animal);
             }
 
-            mEventManager.flushEvents();
+            mAnimalManager.flushAnimals();
 
             // Don't return anything, there's no need
             return null;

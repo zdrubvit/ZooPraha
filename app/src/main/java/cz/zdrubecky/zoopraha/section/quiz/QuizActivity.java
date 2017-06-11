@@ -1,4 +1,4 @@
-package cz.zdrubecky.zoopraha;
+package cz.zdrubecky.zoopraha.section.quiz;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
+import cz.zdrubecky.zoopraha.SingleFragmentActivity;
 import cz.zdrubecky.zoopraha.api.DataFetcher;
 import cz.zdrubecky.zoopraha.manager.QuestionManager;
 import cz.zdrubecky.zoopraha.model.JsonApiObject;

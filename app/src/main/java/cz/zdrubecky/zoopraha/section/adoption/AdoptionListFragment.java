@@ -1,4 +1,4 @@
-package cz.zdrubecky.zoopraha;
+package cz.zdrubecky.zoopraha.section.adoption;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import cz.zdrubecky.zoopraha.R;
 import cz.zdrubecky.zoopraha.manager.AdoptionManager;
 import cz.zdrubecky.zoopraha.model.Adoption;
 

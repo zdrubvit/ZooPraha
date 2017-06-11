@@ -19,27 +19,27 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".AdoptionListActivity"
+        <activity android:name=".section.adoption.AdoptionListActivity"
                   android:parentActivityName=".MainActivity"/>
-        <activity android:name=".AnimalPagerActivity"
-                  android:parentActivityName=".LexiconListActivity"/>
-        <activity android:name=".AnimalDetailActivity"
-                  android:parentActivityName=".AdoptionListActivity"/>
-        <activity android:name=".EventListActivity"
+        <activity android:name=".section.lexicon.AnimalPagerActivity"
+                  android:parentActivityName=".section.lexicon.LexiconListActivity"/>
+        <activity android:name=".section.lexicon.AnimalDetailActivity"
+                  android:parentActivityName=".section.adoption.AdoptionListActivity"/>
+        <activity android:name=".section.event.EventListActivity"
                   android:parentActivityName=".MainActivity"/>
-        <activity android:name=".EventDetailActivity"
-                  android:parentActivityName=".EventListActivity"/>
-        <activity android:name=".LexiconMenuActivity"
+        <activity android:name=".section.event.EventDetailActivity"
+                  android:parentActivityName=".section.event.EventListActivity"/>
+        <activity android:name=".section.lexicon.LexiconMenuActivity"
                   android:parentActivityName=".MainActivity"/>
-        <activity android:name=".LexiconListActivity"
-                  android:parentActivityName=".LexiconMenuActivity"/>
-        <activity android:name=".QuizMenuActivity"
+        <activity android:name=".section.lexicon.LexiconListActivity"
+                  android:parentActivityName=".section.lexicon.LexiconMenuActivity"/>
+        <activity android:name=".section.quiz.QuizMenuActivity"
                   android:launchMode="singleTop"
                   android:parentActivityName=".MainActivity"/>
-        <activity android:name=".QuizActivity"
-                  android:parentActivityName=".QuizMenuActivity"/>
-        <activity android:name=".QuizResultActivity"
-                  android:parentActivityName=".QuizMenuActivity"/>
+        <activity android:name=".section.quiz.QuizActivity"
+                  android:parentActivityName=".section.quiz.QuizMenuActivity"/>
+        <activity android:name=".section.quiz.QuizResultActivity"
+                  android:parentActivityName=".section.quiz.QuizMenuActivity"/>
     </application>
 
 </manifest>

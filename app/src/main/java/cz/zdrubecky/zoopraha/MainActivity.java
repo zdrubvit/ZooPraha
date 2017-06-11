@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.Button;
 
 import cz.zdrubecky.zoopraha.database.ZooBaseHelper;
+import cz.zdrubecky.zoopraha.section.adoption.AdoptionListActivity;
+import cz.zdrubecky.zoopraha.section.event.EventListActivity;
+import cz.zdrubecky.zoopraha.section.lexicon.LexiconMenuActivity;
+import cz.zdrubecky.zoopraha.section.quiz.QuizMenuActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";

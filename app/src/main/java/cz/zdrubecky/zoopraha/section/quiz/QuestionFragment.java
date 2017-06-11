@@ -1,4 +1,4 @@
-package cz.zdrubecky.zoopraha;
+package cz.zdrubecky.zoopraha.section.quiz;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,9 +26,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import cz.zdrubecky.zoopraha.R;
 import cz.zdrubecky.zoopraha.api.ImageLoader;
 import cz.zdrubecky.zoopraha.manager.QuestionManager;
 import cz.zdrubecky.zoopraha.model.Question;
+import cz.zdrubecky.zoopraha.section.lexicon.AnimalDetailFragment;
 
 public class QuestionFragment extends Fragment {
     private static final String TAG = "QuestionFragment";

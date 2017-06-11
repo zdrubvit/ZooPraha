@@ -1,4 +1,4 @@
-package cz.zdrubecky.zoopraha;
+package cz.zdrubecky.zoopraha.section.lexicon;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.zdrubecky.zoopraha.SingleFragmentActivity;
 import cz.zdrubecky.zoopraha.api.DataFetcher;
 import cz.zdrubecky.zoopraha.manager.ClassificationManager;
 import cz.zdrubecky.zoopraha.manager.FilterManager;

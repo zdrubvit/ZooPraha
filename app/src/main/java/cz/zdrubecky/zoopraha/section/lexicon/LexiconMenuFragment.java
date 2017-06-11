@@ -1,4 +1,4 @@
-package cz.zdrubecky.zoopraha;
+package cz.zdrubecky.zoopraha.section.lexicon;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import cz.zdrubecky.zoopraha.R;
 import cz.zdrubecky.zoopraha.lexicon_menu.TaxonomyExpandableListAdapter;
 import cz.zdrubecky.zoopraha.lexicon_menu.TaxonomyListDataMapper;
 

@@ -1,4 +1,4 @@
-package cz.zdrubecky.zoopraha;
+package cz.zdrubecky.zoopraha.section.event;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import cz.zdrubecky.zoopraha.R;
 import cz.zdrubecky.zoopraha.manager.EventManager;
 import cz.zdrubecky.zoopraha.model.Event;
 

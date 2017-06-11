@@ -1,4 +1,4 @@
-package cz.zdrubecky.zoopraha;
+package cz.zdrubecky.zoopraha.section.quiz;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import cz.zdrubecky.zoopraha.R;
 import cz.zdrubecky.zoopraha.manager.QuestionManager;
 
 public class QuizResultActivity extends AppCompatActivity {

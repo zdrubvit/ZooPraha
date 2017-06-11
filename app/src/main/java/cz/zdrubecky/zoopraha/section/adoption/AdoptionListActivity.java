@@ -1,4 +1,4 @@
-package cz.zdrubecky.zoopraha;
+package cz.zdrubecky.zoopraha.section.adoption;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -11,16 +11,20 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
+import cz.zdrubecky.zoopraha.section.lexicon.AnimalDetailActivity;
+import cz.zdrubecky.zoopraha.section.lexicon.AnimalDetailFragment;
+import cz.zdrubecky.zoopraha.R;
+import cz.zdrubecky.zoopraha.SingleFragmentActivity;
 import cz.zdrubecky.zoopraha.api.DataFetcher;
-import cz.zdrubecky.zoopraha.manager.AnimalManager;
-import cz.zdrubecky.zoopraha.model.Animal;
+import cz.zdrubecky.zoopraha.manager.AdoptionManager;
+import cz.zdrubecky.zoopraha.model.Adoption;
 import cz.zdrubecky.zoopraha.model.JsonApiObject;
 
-public class LexiconListActivity
+public class AdoptionListActivity
         extends SingleFragmentActivity
-        implements LexiconListFragment.Callbacks {
+        implements AdoptionListFragment.Callbacks {
 
-    private static final String TAG = "LexiconListActivity";
+    private static final String TAG = "AdoptionListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +41,11 @@ public class LexiconListActivity
             }
         });
 
-        dataFetcher.getAnimals(null, null, null);
+        dataFetcher.getAdoptions(null, null, null);
     }
 
     private void replaceListFragment() {
-        Fragment fragment = new LexiconListFragment();
+        Fragment fragment = new AdoptionListFragment();
 
         getSupportFragmentManager().beginTransaction()
                 .replace(getFragmentContainerId(), fragment)
@@ -54,8 +58,8 @@ public class LexiconListActivity
         return R.layout.activity_masterdetail;
     }
 
-    public void onAnimalSelected(Animal animal) {
-        if (animal.getId() == null) {
+    public void onAdoptionSelected(Adoption adoption) {
+        if (adoption.getLexiconId().equals("")) {
             Toast.makeText(this, R.string.adoption_no_detail_toast, Toast.LENGTH_SHORT).show();
 
             return;
@@ -63,10 +67,10 @@ public class LexiconListActivity
 
         // Check if there's not a split view and therefore we're not working with a tablet
         if (findViewById(R.id.detail_fragment_container) == null) {
-            Intent intent = AnimalPagerActivity.newIntent(this, animal.getId());
+            Intent intent = AnimalDetailActivity.newIntent(this, adoption.getLexiconId());
             startActivity(intent);
         } else {
-            Fragment animalDetail = AnimalDetailFragment.newInstance(animal.getId());
+            Fragment animalDetail = AnimalDetailFragment.newInstance(adoption.getLexiconId());
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.detail_fragment_container, animalDetail)
@@ -76,11 +80,11 @@ public class LexiconListActivity
 
     // This class is not static and therefore can block the garbage collection of its parent class, but it's useful to update the fragment from here
     private class SaveItemsTask extends AsyncTask<Void, Void, Void> {
-        private AnimalManager mAnimalManager;
+        private AdoptionManager mAdoptionManager;
         private JsonApiObject mResponse;
 
         public SaveItemsTask(JsonApiObject response) {
-            mAnimalManager = new AnimalManager(LexiconListActivity.this);
+            mAdoptionManager = new AdoptionManager(AdoptionListActivity.this);
             mResponse = response;
         }
 
@@ -90,15 +94,15 @@ public class LexiconListActivity
             List<JsonApiObject.Resource> data = mResponse.getData();
             Gson gson = new Gson();
 
-            // Iterate over the incoming objects and use them to create animals
+            // Iterate over the incoming objects and use them to create adoptions
             for (int i = 0; i < data.size(); i++) {
-                Animal animal = gson.fromJson(data.get(i).getDocument(), Animal.class);
+                Adoption adoption = gson.fromJson(data.get(i).getDocument(), Adoption.class);
                 // The ID has to be set explicitly because of its placement thanks to JSON-API standard
-                animal.setId(data.get(i).getId());
-                mAnimalManager.addAnimal(animal);
+                adoption.setId(data.get(i).getId());
+                mAdoptionManager.addAdoption(adoption);
             }
 
-            mAnimalManager.flushAnimals();
+            mAdoptionManager.flushAdoptions();
 
             // Don't return anything, there's no need
             return null;
