@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -108,10 +109,18 @@ public class AnimalDetailFragment extends DialogFragment {
         mImageImageView = (ImageView) v.findViewById(R.id.fragment_animal_image_imageview);
         if (!mAnimal.getImage().equals("")) {
             // If there's an image present, place it in the view
-            ImageLoader.getInstance(getActivity()).loadImage(
-                    mAnimal.getImage(),
-                    mImageImageView
-            );
+            mImageImageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    // Wait for the view being rendered so that its dimensions are known and Picasso can use them to resize the image
+                    ImageLoader.getInstance(getActivity()).loadImage(
+                            mAnimal.getImage(),
+                            mImageImageView
+                    );
+
+                    mImageImageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            });
         } else {
             // Hide the view otherwise
             mImageImageView.setVisibility(View.GONE);

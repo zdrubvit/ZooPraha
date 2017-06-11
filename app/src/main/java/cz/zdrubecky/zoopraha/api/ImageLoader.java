@@ -44,11 +44,12 @@ public class ImageLoader {
 
     public void loadImage(String url, ImageView view) {
         // todo "cannot reset" error in some images
-        // todo replace fit with resize to prevent stretching
+        // The incoming view has to have its dimensions ready, so that the image can be properly resized
         mPicasso.load(url)
                 .placeholder(R.mipmap.image_placeholder)
                 .error(R.mipmap.image_broken)
-                .fit()
+                .resize(view.getWidth(), view.getHeight())
+                .centerInside()
                 .into(view, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {}

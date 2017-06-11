@@ -135,11 +135,20 @@ public class QuestionFragment extends Fragment {
         textTextView.setText(mQuestion.getText());
 
         if (mQuestion.getType().equals("guess_animal_image")) {
-            ImageView imageImageView = (ImageView) v.findViewById(R.id.fragment_question_image_imageview);
-            ImageLoader.getInstance(getActivity()).loadImage(
-                mQuestion.getImage(),
-                imageImageView
-            );
+            final ImageView imageImageView = (ImageView) v.findViewById(R.id.fragment_question_image_imageview);
+            // If there's an image present, place it in the view
+            imageImageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    // Wait for the view being rendered so that its dimensions are known and Picasso can use them to resize the image
+                    ImageLoader.getInstance(getActivity()).loadImage(
+                            mQuestion.getImage(),
+                            imageImageView
+                    );
+
+                    imageImageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            });
         }
 
         // Handle the buttons with answers

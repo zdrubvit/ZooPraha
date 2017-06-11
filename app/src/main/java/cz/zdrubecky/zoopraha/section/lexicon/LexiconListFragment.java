@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -118,11 +119,29 @@ public class LexiconListFragment extends Fragment {
         public void bindAnimal(Animal animal) {
             mAnimal = animal;
 
+            // If there's an image present, place it in the view
             if (!mAnimal.getImage().equals("")) {
-                ImageLoader.getInstance(getActivity()).loadImage(
-                    mAnimal.getImage(),
-                    mImageImageView
-                );
+                if (mImageImageView.getMeasuredHeight() != 0) {
+                    // The initial view have all been rendered and are now recycled, so the dimensions are already known
+                    ImageLoader.getInstance(getActivity()).loadImage(
+                            mAnimal.getImage(),
+                            mImageImageView
+                    );
+                } else {
+                    mImageImageView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                        @Override
+                        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                            // Wait for the view being rendered so that its dimensions are known and Picasso can use them to resize the image
+                            ImageLoader.getInstance(getActivity()).loadImage(
+                                    mAnimal.getImage(),
+                                    mImageImageView
+                            );
+
+                            // Remove the listener
+                            mImageImageView.removeOnLayoutChangeListener(this);
+                        }
+                    });
+                }
             }
             mNameTextView.setText(mAnimal.getName());
             mTaxonomyTextView.setText(mAnimal.getClassName() + " -> " + mAnimal.getOrderName());
