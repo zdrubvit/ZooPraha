@@ -3,6 +3,7 @@ package cz.zdrubecky.zoopraha.section.lexicon;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -83,8 +84,9 @@ public class AnimalDetailFragment extends DialogFragment {
                     public boolean onTouch(View v, MotionEvent event) {
                         // Tolerate one move event after the initial down event before dismissing the dialog
                         if (event.getActionMasked() == MotionEvent.ACTION_UP
-                                && mSecondToLastAction == MotionEvent.ACTION_DOWN
-                                && mLastAction == MotionEvent.ACTION_MOVE) {
+                                && (mLastAction == MotionEvent.ACTION_DOWN
+                                    || (mLastAction == MotionEvent.ACTION_MOVE && mSecondToLastAction == MotionEvent.ACTION_DOWN))
+                        ) {
                             dismiss();
 
                             return true;
