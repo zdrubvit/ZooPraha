@@ -24,10 +24,13 @@ public class AnimalManager {
         mAnimals = new ArrayList<>();
     }
 
-    public List<Animal> getAnimals() {
+    // The query works with a single filter so far, but the second argument counts on the future extension for more
+    public List<Animal> getAnimals(String filter, String[] whereArgs) {
         List<Animal> animals = new ArrayList<>();
 
-        ZooCursorWrapper cursor = queryAnimals(null, null);
+        String whereClause = createWhereClause(filter);
+
+        ZooCursorWrapper cursor = queryAnimals(whereClause, whereArgs, null);
 
         try {
             cursor.moveToFirst();
@@ -47,7 +50,8 @@ public class AnimalManager {
     public Animal getAnimal(String id) {
         ZooCursorWrapper cursor = queryAnimals(
                 AnimalsTable.Cols.ID + " = ?",
-                new String[] { id }
+                new String[] { id },
+                null
         );
 
         try {
@@ -179,9 +183,38 @@ public class AnimalManager {
         return values;
     }
 
-    private ZooCursorWrapper queryAnimals(String whereClause, String[] whereArgs) {
-        Cursor cursor = mDatabase.query(AnimalsTable.NAME, null, whereClause, whereArgs, null, null, null);
+    private ZooCursorWrapper queryAnimals(String whereClause, String[] whereArgs, String limit) {
+        Cursor cursor = mDatabase.query(AnimalsTable.NAME, null, whereClause, whereArgs, null, null, AnimalsTable.Cols.NAME + " ASC", limit);
 
         return new ZooCursorWrapper(cursor);
+    }
+    
+    private String createWhereClause(String filter) {
+        String whereClause = null;
+        
+        if (filter != null) {
+            // "Switch" the filter type and match the appropriate database column (the filter names correspond to the API documentation)
+            if (filter.equals("biotopes")) {
+                whereClause = AnimalsTable.Cols.BIOTOPE + " = ?";
+            } else if (filter.equals("class_name")) {
+                whereClause = AnimalsTable.Cols.CLASS_NAME + " = ?";
+            } else if (filter.equals("continents")) {
+                whereClause = AnimalsTable.Cols.CONTINENTS + " = ?";
+            } else if (filter.equals("description")) {
+                whereClause = AnimalsTable.Cols.DESCRIPTION + " = ?";
+            } else if (filter.equals("distribution")) {
+                whereClause = AnimalsTable.Cols.DISTRIBUTION + " = ?";
+            } else if (filter.equals("food")) {
+                whereClause = AnimalsTable.Cols.FOOD + " = ?";
+            } else if (filter.equals("location")) {
+                whereClause = AnimalsTable.Cols.LOCATION + " = ?";
+            } else if (filter.equals("name")) {
+                whereClause = AnimalsTable.Cols.NAME + " = ?";
+            } else if (filter.equals("order_name")) {
+                whereClause = AnimalsTable.Cols.ORDER_NAME + " = ?";
+            }
+        }
+
+        return whereClause;
     }
 }

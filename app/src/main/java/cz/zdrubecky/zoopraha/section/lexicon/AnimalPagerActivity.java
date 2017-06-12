@@ -31,7 +31,10 @@ public class AnimalPagerActivity extends AppCompatActivity {
         mAnimalManager = new AnimalManager(this);
 
         mViewPager = (ViewPager) findViewById(R.id.activity_animal_pager_view_pager);
-        mAnimals = mAnimalManager.getAnimals();
+        mAnimals = mAnimalManager.getAnimals(
+                LexiconPreferences.getFilterKey(this),
+                new String[] {LexiconPreferences.getFilterValue(this)}
+        );
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 

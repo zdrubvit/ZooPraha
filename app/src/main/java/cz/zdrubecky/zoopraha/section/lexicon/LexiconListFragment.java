@@ -2,9 +2,11 @@ package cz.zdrubecky.zoopraha.section.lexicon;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -83,7 +85,11 @@ public class LexiconListFragment extends Fragment {
     }
 
     public void updateUI() {
-        List<Animal> animals = mAnimalManager.getAnimals();
+        // Filter the animals according to the supplied key, shared by the lexicon menu activity
+        List<Animal> animals = mAnimalManager.getAnimals(
+                LexiconPreferences.getFilterKey(getActivity()),
+                new String[] {LexiconPreferences.getFilterValue(getActivity())}
+        );
 
         if (animals.size() > 0) {
             // If the fragment is already running, update the data in case something changed (some animal)

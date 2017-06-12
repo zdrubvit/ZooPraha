@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -28,18 +27,26 @@ public class LexiconListActivity
     private static final String TAG = "LexiconListActivity";
     private static final String EXTRA_FILTER_KEY = "cz.zdrubecky.zoopraha.filter_key";
     private static final String EXTRA_FILTER_VALUE = "cz.zdrubecky.zoopraha.filter_value";
+    private static final String KEY_FILTER_KEY = "filter_key";
+    private static final String KEY_FILTER_VALUE = "filter_value";
+
+    private Pair<String, String> mFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // todo put it in savedInstance
-        Pair<String, String> filter = Pair.create(getIntent().getStringExtra(EXTRA_FILTER_KEY), getIntent().getStringExtra(EXTRA_FILTER_VALUE));
-        LexiconQueryBuilder builder = new LexiconQueryBuilder();
-
-        if (filter.first.equals("biotopes")) {
-            builder.setBiotope(filter.second);
+        // Check for the saved state first, then try and get the filter from an intent and finally from the shared preferences
+        if (savedInstanceState != null) {
+            mFilter = Pair.create(savedInstanceState.getString(KEY_FILTER_KEY), savedInstanceState.getString(KEY_FILTER_VALUE));
+        } else if (getIntent().getStringExtra(EXTRA_FILTER_KEY) != null) {
+            mFilter = Pair.create(getIntent().getStringExtra(EXTRA_FILTER_KEY), getIntent().getStringExtra(EXTRA_FILTER_VALUE));
+        } else {
+            mFilter = Pair.create(LexiconPreferences.getFilterKey(this), LexiconPreferences.getFilterValue(this));
         }
+
+        // Create the builder object with the relevant query parameters set
+        LexiconQueryBuilder builder = createLexiconQueryBuilderObject();
 
         DataFetcher dataFetcher = new DataFetcher();
         dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
@@ -53,6 +60,13 @@ public class LexiconListActivity
         });
 
         dataFetcher.getAnimals(builder);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(KEY_FILTER_KEY, mFilter.first);
+        outState.putString(KEY_FILTER_VALUE, mFilter.second);
     }
 
     private void replaceListFragment() {
@@ -78,12 +92,6 @@ public class LexiconListActivity
     }
 
     public void onAnimalSelected(Animal animal) {
-        if (animal.getId() == null) {
-            Toast.makeText(this, R.string.adoption_no_detail_toast, Toast.LENGTH_SHORT).show();
-
-            return;
-        }
-
         // Check if there's not a split view and therefore we're not working with a tablet
         if (findViewById(R.id.detail_fragment_container) == null) {
             Intent intent = AnimalPagerActivity.newIntent(this, animal.getId());
@@ -132,5 +140,39 @@ public class LexiconListActivity
         protected void onPostExecute(Void v) {
             replaceListFragment();
         }
+    }
+
+    private LexiconQueryBuilder createLexiconQueryBuilderObject() {
+        LexiconQueryBuilder builder = new LexiconQueryBuilder();
+
+        // The intent is always there, but the right extras might not
+        if (mFilter.first != null) {
+            // "Switch" the query type and call the appropriate builder method (the filter names correspond to the API documentation)
+            if (mFilter.first.equals("biotopes")) {
+                builder.setBiotope(mFilter.second);
+            } else if (mFilter.first.equals("class_name")) {
+                builder.setClassName(mFilter.second);
+            } else if (mFilter.first.equals("continents")) {
+                builder.setContinents(mFilter.second);
+            } else if (mFilter.first.equals("description")) {
+                builder.setDescription(mFilter.second);
+            } else if (mFilter.first.equals("distribution")) {
+                builder.setDistribution(mFilter.second);
+            } else if (mFilter.first.equals("food")) {
+                builder.setFood(mFilter.second);
+            } else if (mFilter.first.equals("location")) {
+                builder.setLocation(mFilter.second);
+            } else if (mFilter.first.equals("name")) {
+                builder.setName(mFilter.second);
+            } else if (mFilter.first.equals("order_name")) {
+                builder.setOrderName(mFilter.second);
+            }
+
+            // Save the filter for later, when the activity is recreated
+            LexiconPreferences.setFilterKey(this, mFilter.first);
+            LexiconPreferences.setFilterValue(this, mFilter.second);
+        }
+
+        return builder;
     }
 }
