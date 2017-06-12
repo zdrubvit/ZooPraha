@@ -17,10 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mMainButtonLexicon;
     private Button mMainButtonQuiz;
-    private Button mMainButtonMap;
     private Button mMainButtonEvents;
     private Button mMainButtonAdoptions;
-    private Button mMainButtonProfile;
 
     private ZooBaseHelper mZooBaseHelper;
 
