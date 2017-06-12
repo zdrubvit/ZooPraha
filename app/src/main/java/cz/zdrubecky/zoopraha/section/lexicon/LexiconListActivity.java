@@ -19,6 +19,7 @@ import cz.zdrubecky.zoopraha.api.DataFetcher;
 import cz.zdrubecky.zoopraha.manager.AnimalManager;
 import cz.zdrubecky.zoopraha.model.Animal;
 import cz.zdrubecky.zoopraha.model.JsonApiObject;
+import cz.zdrubecky.zoopraha.model.LexiconQueryBuilder;
 
 public class LexiconListActivity
         extends SingleFragmentActivity
@@ -32,7 +33,13 @@ public class LexiconListActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // todo put it in savedInstance
         Pair<String, String> filter = Pair.create(getIntent().getStringExtra(EXTRA_FILTER_KEY), getIntent().getStringExtra(EXTRA_FILTER_VALUE));
+        LexiconQueryBuilder builder = new LexiconQueryBuilder();
+
+        if (filter.first.equals("biotopes")) {
+            builder.setBiotope(filter.second);
+        }
 
         DataFetcher dataFetcher = new DataFetcher();
         dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
@@ -45,7 +52,7 @@ public class LexiconListActivity
             }
         });
 
-        dataFetcher.getAnimals(null, null, null);
+        dataFetcher.getAnimals(builder);
     }
 
     private void replaceListFragment() {

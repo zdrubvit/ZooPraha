@@ -13,7 +13,19 @@ public interface BackendApi {
 
     @Headers({"Accept: application/vnd.api+json"})
     @GET("lexicon")
-    Call<JsonApiObject> getAnimals(@Query("name") String name, @Query("limit") String limit, @Query("offset") String offset);
+    Call<JsonApiObject> getAnimals(
+            @Query("biotope") String biotope,
+            @Query("class_name") String className,
+            @Query("continents") String continents,
+            @Query("description") String description,
+            @Query("distribution") String distribution,
+            @Query("food") String food,
+            @Query("limit") String limit,
+            @Query("location") String location,
+            @Query("name") String name,
+            @Query("order_name") String orderName,
+            @Query("offset") String offset
+    );
 
     @Headers({"Accept: application/vnd.api+json"})
     @GET("biotopes")

@@ -95,8 +95,12 @@ public class DataFetcher {
         call.enqueue(new RequestCallback<JsonApiObject>());
     }
 
-    public void getAnimals(String name, String limit, String offset) {
-        Call<JsonApiObject> call = mService.getAnimals(name, limit, offset);
+    // The method's argument represents the kind of builder we want to get - all the query parameters are encapsulated in it
+    public void getAnimals(LexiconQueryBuilder builder) {
+        Call<JsonApiObject> call = mService.getAnimals(
+                builder.getBiotope(), builder.getClassName(), builder.getContinents(), builder.getDescription(),
+                builder.getDistribution(), builder.getFood(), builder.getLimit(), builder.getLocation(),
+                builder.getName(), builder.getOrderName(), builder.getOffset());
 
         call.enqueue(new RequestCallback<JsonApiObject>());
     }
