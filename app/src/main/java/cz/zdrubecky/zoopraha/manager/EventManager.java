@@ -89,7 +89,7 @@ public class EventManager {
         statement.clearBindings();
     }
 
-    // Flush all the events into the database at once
+    // Flush all the events into the database at once via a transaction
     public void flushEvents() {
         // Prepare the query for late binding
         String query = "INSERT OR REPLACE INTO " + EventsTable.NAME + " ( " +

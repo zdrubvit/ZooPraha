@@ -45,7 +45,7 @@ public class LexiconMenuActivity extends SingleFragmentActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            DataFetcher dataFetcher = new DataFetcher();
+            DataFetcher dataFetcher = new DataFetcher(LexiconMenuActivity.this);
             Gson gson = new Gson();
 
             List<JsonApiObject> filterResponses = new ArrayList<>();

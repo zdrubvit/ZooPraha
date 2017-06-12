@@ -48,11 +48,12 @@ public class LexiconListActivity
         // Create the builder object with the relevant query parameters set
         LexiconQueryBuilder builder = createLexiconQueryBuilderObject();
 
-        DataFetcher dataFetcher = new DataFetcher();
+        DataFetcher dataFetcher = new DataFetcher(this);
         dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
             @Override
-            public void onDataFetched(JsonApiObject response) {
-                Log.i(TAG, "API response listener called with " + response.getMeta().getCount() + " resource objects.");
+            public void onDataFetched(JsonApiObject response, int statusCode) {
+                Log.i(TAG, "API response listener called with " + response.getMeta().getCount() + " Lexicon resource objects.");
+                response.setStatus(statusCode);
                 
                 // Hand the response handling over to a background thread and avoid blocking the UI thread
                 new SaveItemsTask(response).execute();
@@ -118,18 +119,23 @@ public class LexiconListActivity
         // Parse the response and update the database with newly acquired data
         @Override
         protected Void doInBackground(Void... voids) {
-            List<JsonApiObject.Resource> data = mResponse.getData();
-            Gson gson = new Gson();
+            // Avoid inserting the data that weren't modified since the last time
+            if (mResponse.getStatus() != 304) {
+                List<JsonApiObject.Resource> data = mResponse.getData();
+                Gson gson = new Gson();
 
-            // Iterate over the incoming objects and use them to create animals
-            for (int i = 0; i < data.size(); i++) {
-                Animal animal = gson.fromJson(data.get(i).getDocument(), Animal.class);
-                // The ID has to be set explicitly because of its placement thanks to JSON-API standard
-                animal.setId(data.get(i).getId());
-                mAnimalManager.addAnimal(animal);
+                // Iterate over the incoming objects and use them to create animals
+                for (int i = 0; i < data.size(); i++) {
+                    Animal animal = gson.fromJson(data.get(i).getDocument(), Animal.class);
+                    // The ID has to be set explicitly because of its placement thanks to JSON-API standard
+                    animal.setId(data.get(i).getId());
+                    mAnimalManager.addAnimal(animal);
+                }
+
+                mAnimalManager.flushAnimals();
+
+                Log.i(TAG, data.size() + " Animal objects added to the database.");
             }
-
-            mAnimalManager.flushAnimals();
 
             // Don't return anything, there's no need
             return null;

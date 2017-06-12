@@ -7,12 +7,22 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class JsonApiObject {
+    // Artificially added HTTP status code, not present in the original response body
+    private int mStatus;
     @SerializedName("meta")
     @Expose
     private Meta mMeta;
     @SerializedName("data")
     @Expose
     private List<Resource> mData = null;
+
+    public int getStatus() {
+        return mStatus;
+    }
+
+    public void setStatus(int status) {
+        mStatus = status;
+    }
 
     public Meta getMeta() {
         return mMeta;

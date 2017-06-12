@@ -39,11 +39,13 @@ public class QuizActivity
         mQuestionCount = QuizPreferences.getQuestionCount(this);
         mQuestionPosition = 0;
 
-        DataFetcher dataFetcher = new DataFetcher();
+        DataFetcher dataFetcher = new DataFetcher(this);
         dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
             @Override
-            public void onDataFetched(JsonApiObject response) {
-                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " resources.");
+            public void onDataFetched(JsonApiObject response, int statusCode) {
+                Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " Question resource objects.");
+                response.setStatus(statusCode);
+
                 List<JsonApiObject.Resource> data = response.getData();
                 Gson gson = new Gson();
 

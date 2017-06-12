@@ -1,5 +1,6 @@
 package cz.zdrubecky.zoopraha.api;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import cz.zdrubecky.zoopraha.model.*;
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +32,7 @@ public class DataFetcher {
 
     // The interface that listeners has to implement in order to be notified of a completed task
     public interface DataFetchedListener {
-        void onDataFetched(JsonApiObject response);
+        void onDataFetched(JsonApiObject response, int statusCode);
     }
 
     // Here is the link to the listener
@@ -38,11 +40,17 @@ public class DataFetcher {
         mListener = listener;
     }
 
-    public DataFetcher() {
+    public DataFetcher(Context context) {
+        // The cache size in bytes
+        int cacheSize = 10 * 1024 * 1024;
+        Cache cache = new Cache(context.getCacheDir(), cacheSize);
+
+        // Take control of the timeouts and provide a cache for the responses, Retrofit will handle the server's eTag itself
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .readTimeout(5, TimeUnit.SECONDS)
                 .writeTimeout(5, TimeUnit.SECONDS)
+                .cache(cache)
                 .build();
 
         // Create a new service instance with the provided converter and client
@@ -73,10 +81,16 @@ public class DataFetcher {
                 }
             } else {
                 T jsonApiObject = response.body();
+                int responseStatusCode = 200;
+
+                // Append the response status code (mainly to utilize the 304 not modified in the listeners)
+                if (response.raw().networkResponse() != null) {
+                    responseStatusCode = response.raw().networkResponse().code();
+                }
 
                 // Notify the existing listener
                 if (mListener != null) {
-                    mListener.onDataFetched((JsonApiObject) jsonApiObject);
+                    mListener.onDataFetched((JsonApiObject) jsonApiObject, responseStatusCode);
                 }
             }
         }
