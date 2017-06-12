@@ -63,6 +63,8 @@
     <string name="quiz_settings_questions_editview_label">Počet otázek v jedné hře</string>
     <string name="quiz_settings_name_editview_label">Vaše hráčské jméno</string>
     <string name="quiz_settings_save_button_text">Uložit</string>
+    <string name="lexicon_menu_tab_taxonommy">Taxonomie</string>
+    <string name="lexicon_menu_tab_filters">Ostatní filtry</string>
 
     <string-array name="quiz_settings_questions_options_array">
         <item>5</item>

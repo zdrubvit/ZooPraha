@@ -13,8 +13,8 @@ import cz.zdrubecky.zoopraha.model.Classification;
 import cz.zdrubecky.zoopraha.model.Filter;
 import cz.zdrubecky.zoopraha.model.Location;
 
-public class TaxonomyListDataMapper {
-    public static HashMap<String, List<String>> getData(Context context) {
+public class LexiconExpandableListDataMapper {
+    public static HashMap<String, List<String>> getTaxonomyData(Context context) {
         HashMap<String, List<String>> expandableListData = new HashMap<String, List<String>>();
         ClassificationManager manager = new ClassificationManager(context);
         List<Classification> taxonomy = manager.getTaxonomy();
@@ -32,7 +32,7 @@ public class TaxonomyListDataMapper {
         return expandableListData;
     }
 
-    public static HashMap<String, List<String>> getData(Context context, HashMap<String, String> filterGroups, String locationGroupName) {
+    public static HashMap<String, List<String>> getFilterData(Context context, HashMap<String, String> filterGroups, String locationGroupName) {
         HashMap<String, List<String>> expandableListData = new HashMap<String, List<String>>();
         FilterManager filterManager = new FilterManager(context);
         LocationManager locationManager = new LocationManager(context);

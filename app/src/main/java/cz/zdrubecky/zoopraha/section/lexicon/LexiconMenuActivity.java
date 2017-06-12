@@ -31,6 +31,7 @@ public class LexiconMenuActivity extends SingleFragmentActivity {
         new SaveItemsTask().execute();
     }
 
+    // Replace the initial loading screen with a tab layout
     private void replaceFragment() {
         Fragment fragment = new LexiconMenuFragment();
 

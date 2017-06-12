@@ -1,165 +1,72 @@
 package cz.zdrubecky.zoopraha.section.lexicon;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import cz.zdrubecky.zoopraha.R;
-import cz.zdrubecky.zoopraha.lexicon_menu.TaxonomyExpandableListAdapter;
-import cz.zdrubecky.zoopraha.lexicon_menu.TaxonomyListDataMapper;
-
 
 public class LexiconMenuFragment extends Fragment {
-    private ExpandableListView mTaxonomyExpandableListView;
-    private ExpandableListView mFiltersExpandableListView;
-    private ExpandableListAdapter mTaxonomyExpandableListAdapter;
-    private ExpandableListAdapter mFiltersExpandableListAdapter;
-    private List<String> mTaxonomyExpandableListTitles;
-    private List<String> mFiltersExpandableListTitles;
-    private HashMap<String, List<String>> mTaxonomyExpandableListData;
-    private HashMap<String, List<String>> mFiltersExpandableListData;
-    private HashMap<String, String> mFilterGroups;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mFilterGroups = new HashMap<>();
-        mFilterGroups.put(getString(R.string.lexicon_menu_biotopes_filter_text), "biotopes");
-        mFilterGroups.put(getString(R.string.lexicon_menu_continents_filter_text), "continents");
-        mFilterGroups.put(getString(R.string.lexicon_menu_food_filter_text), "food");
-
-        mFiltersExpandableListData = TaxonomyListDataMapper.getData(getActivity(), mFilterGroups, getString(R.string.lexicon_menu_locations_filter_text));
-        mFilterGroups.put(getString(R.string.lexicon_menu_locations_filter_text), "locations");
-        mFiltersExpandableListTitles = new ArrayList<>(mFiltersExpandableListData.keySet());
-        mFiltersExpandableListAdapter = new TaxonomyExpandableListAdapter(getActivity(), mFiltersExpandableListTitles, mFiltersExpandableListData);
-
-        mTaxonomyExpandableListData = TaxonomyListDataMapper.getData(getActivity());
-        mTaxonomyExpandableListTitles = new ArrayList<>(mTaxonomyExpandableListData.keySet());
-        mTaxonomyExpandableListAdapter = new TaxonomyExpandableListAdapter(getActivity(), mTaxonomyExpandableListTitles, mTaxonomyExpandableListData);
-    }
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_lexicon_menu, container, false);
-/*
-// todo implement either 3-level list or some cooperation between two lists
-        TextView button = (TextView) v.findViewById(R.id.activity_lexicon_taxonomy_toggler_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            private boolean mVisible = false;
-            @Override
-            public void onClick(View v) {
-                int visibility = mVisible ? View.GONE : View.VISIBLE;
-                mVisible = !mVisible;
 
-                mTaxonomyExpandableListView.setVisibility(visibility);
-            }
-        });
+        mViewPager = (ViewPager) v.findViewById(R.id.fragment_lexicon_menu_view_pager);
+        setupViewPager(mViewPager);
 
-        mTaxonomyExpandableListView = (ExpandableListView) v.findViewById(R.id.activity_lexicon_taxonomy_expandable_listview);
-        mTaxonomyExpandableListView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int action = event.getAction();
-                switch (action) {
-                    case MotionEvent.ACTION_DOWN:
-                        // Disallow ScrollView to intercept touch events.
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        // Allow ScrollView to intercept touch events.
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                        break;
-                }
-
-                // Handle ListView touch events.
-                v.onTouchEvent(event);
-                return true;
-            }
-        });
-        mTaxonomyExpandableListView.setAdapter(mTaxonomyExpandableListAdapter);
-        mTaxonomyExpandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getActivity().getApplicationContext(),
-                        mTaxonomyExpandableListTitles.get(groupPosition) + " List Expanded.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        mTaxonomyExpandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getActivity().getApplicationContext(),
-                        mTaxonomyExpandableListTitles.get(groupPosition) + " List Collapsed.",
-                        Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        mTaxonomyExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
-                Toast.makeText(
-                        getActivity().getApplicationContext(),
-                        mTaxonomyExpandableListTitles.get(groupPosition)
-                                + " -> "
-                                + mTaxonomyExpandableListData.get(
-                                mTaxonomyExpandableListTitles.get(groupPosition)).get(
-                                childPosition), Toast.LENGTH_SHORT
-                ).show();
-
-                return false;
-            }
-        });
-*/
-        mFiltersExpandableListView = (ExpandableListView) v.findViewById(R.id.activity_lexicon_filters_expandable_listview);
-        mFiltersExpandableListView.setAdapter(mFiltersExpandableListAdapter);
-        mFiltersExpandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getActivity().getApplicationContext(),
-                        mFiltersExpandableListTitles.get(groupPosition) + " List Expanded for " + mFilterGroups.get(mFiltersExpandableListTitles.get(groupPosition)),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        mFiltersExpandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-            }
-        });
-
-        mFiltersExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                String groupName = mFiltersExpandableListTitles.get(groupPosition);
-                String key = mFilterGroups.get(groupName);
-                String value = mFiltersExpandableListData.get(groupName).get(childPosition);
-
-                Intent i = LexiconListActivity.newIntent(getActivity(), key, value);
-
-                startActivity(i);
-
-                return true;
-            }
-        });
+        mTabLayout = (TabLayout) v.findViewById(R.id.fragment_lexicon_menu_tabs);
+        mTabLayout.setupWithViewPager(mViewPager);
 
         return v;
+    }
+
+    private void setupViewPager(ViewPager mViewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
+        adapter.addFragment(new LexiconMenuTaxonomyFragment(), getString(R.string.lexicon_menu_tab_taxonommy));
+        adapter.addFragment(new LexiconMenuFiltersFragment(), getString(R.string.lexicon_menu_tab_filters));
+        mViewPager.setAdapter(adapter);
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 }

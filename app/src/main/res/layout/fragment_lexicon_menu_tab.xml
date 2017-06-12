@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ExpandableListView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_lexicon_menu_expandable_listview"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
+    android:divider="@android:color/darker_gray"
+    android:dividerHeight="0.5dp"/>
