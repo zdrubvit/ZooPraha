@@ -9,8 +9,10 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.net.HttpURLConnection;
 import java.util.List;
 
+import cz.zdrubecky.zoopraha.api.InternalStorageDriver;
 import cz.zdrubecky.zoopraha.section.lexicon.AnimalDetailActivity;
 import cz.zdrubecky.zoopraha.section.lexicon.AnimalDetailFragment;
 import cz.zdrubecky.zoopraha.R;
@@ -33,9 +35,10 @@ public class AdoptionListActivity
         DataFetcher dataFetcher = new DataFetcher(this);
         dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
             @Override
-            public void onDataFetched(JsonApiObject response, int statusCode) {
+            public void onDataFetched(JsonApiObject response, int statusCode, String etag) {
                 Log.i(TAG, "API response listener called with " + response.getMeta().getCount() + " Adoption resource objects.");
                 response.setStatus(statusCode);
+                response.setEtag(etag);
                 
                 // Hand the response handling over to a background thread and avoid blocking the UI thread
                 new SaveItemsTask(response).execute();
@@ -92,7 +95,7 @@ public class AdoptionListActivity
         // Parse the response and update the database with newly acquired data
         @Override
         protected Void doInBackground(Void... voids) {
-            if (!mResponse.wasProcessed()) {
+            if ((mResponse.getStatus() != HttpURLConnection.HTTP_NOT_MODIFIED || !mResponse.wasProcessed(AdoptionListActivity.this))) {
                 List<JsonApiObject.Resource> data = mResponse.getData();
                 Gson gson = new Gson();
 
@@ -107,6 +110,9 @@ public class AdoptionListActivity
                 mAdoptionManager.flushAdoptions();
 
                 Log.i(TAG, data.size() + " Adoption objects added to the database.");
+
+                // Store the resource ETag so that it's not processed in the future requests
+                InternalStorageDriver.storeProcessedResource(AdoptionListActivity.this, mResponse.getEtag());
             }
 
             // Don't return anything, there's no need

@@ -37,7 +37,7 @@ public class LexiconMenuFiltersFragment extends Fragment {
         mFilterGroups.put(getString(R.string.lexicon_menu_food_filter_text), "food");
 
         mFiltersExpandableListData = LexiconExpandableListDataMapper.getFilterData(getActivity(), mFilterGroups, getString(R.string.lexicon_menu_locations_filter_text));
-        mFilterGroups.put(getString(R.string.lexicon_menu_locations_filter_text), "locations");
+        mFilterGroups.put(getString(R.string.lexicon_menu_locations_filter_text), "location");
         mFiltersExpandableListTitles = new ArrayList<>(mFiltersExpandableListData.keySet());
         mFiltersExpandableListAdapter = new LexiconExpandableListAdapter(getActivity(), mFiltersExpandableListTitles, mFiltersExpandableListData);
     }

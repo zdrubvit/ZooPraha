@@ -42,9 +42,10 @@ public class QuizActivity
         DataFetcher dataFetcher = new DataFetcher(this);
         dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
             @Override
-            public void onDataFetched(JsonApiObject response, int statusCode) {
+            public void onDataFetched(JsonApiObject response, int statusCode, String etag) {
                 Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " Question resource objects.");
                 response.setStatus(statusCode);
+                response.setEtag(etag);
 
                 List<JsonApiObject.Resource> data = response.getData();
                 Gson gson = new Gson();

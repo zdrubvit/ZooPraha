@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 import cz.zdrubecky.zoopraha.model.*;
 import okhttp3.Cache;
+import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,7 +33,7 @@ public class DataFetcher {
 
     // The interface that listeners has to implement in order to be notified of a completed task
     public interface DataFetchedListener {
-        void onDataFetched(JsonApiObject response, int statusCode);
+        void onDataFetched(JsonApiObject response, int statusCode, String etag);
     }
 
     // Here is the link to the listener
@@ -82,15 +83,20 @@ public class DataFetcher {
             } else {
                 T jsonApiObject = response.body();
                 int responseStatusCode = 200;
+                String responseEtag = "";
 
                 // Append the response status code (mainly to utilize the 304 not modified in the listeners)
                 if (response.raw().networkResponse() != null) {
                     responseStatusCode = response.raw().networkResponse().code();
                 }
 
+                // Get the ETag header and use it as a response identification later on
+                Headers headers = response.headers();
+                responseEtag = headers.get("ETag");
+
                 // Notify the existing listener
                 if (mListener != null) {
-                    mListener.onDataFetched((JsonApiObject) jsonApiObject, responseStatusCode);
+                    mListener.onDataFetched((JsonApiObject) jsonApiObject, responseStatusCode, responseEtag);
                 }
             }
         }

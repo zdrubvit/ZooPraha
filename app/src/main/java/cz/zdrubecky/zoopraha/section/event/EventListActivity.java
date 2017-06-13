@@ -8,11 +8,13 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import java.net.HttpURLConnection;
 import java.util.List;
 
 import cz.zdrubecky.zoopraha.R;
 import cz.zdrubecky.zoopraha.SingleFragmentActivity;
 import cz.zdrubecky.zoopraha.api.DataFetcher;
+import cz.zdrubecky.zoopraha.api.InternalStorageDriver;
 import cz.zdrubecky.zoopraha.manager.EventManager;
 import cz.zdrubecky.zoopraha.model.Event;
 import cz.zdrubecky.zoopraha.model.JsonApiObject;
@@ -30,9 +32,10 @@ public class EventListActivity
         DataFetcher dataFetcher = new DataFetcher(this);
         dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
             @Override
-            public void onDataFetched(JsonApiObject response, int statusCode) {
+            public void onDataFetched(JsonApiObject response, int statusCode, String etag) {
                 Log.i(TAG, "API response listener called with " + response.getMeta().getCount() + " Event resource objects.");
                 response.setStatus(statusCode);
+                response.setEtag(etag);
 
                 // Hand the response handling over to a background thread and avoid blocking the UI thread
                 new SaveItemsTask(response).execute();
@@ -83,7 +86,7 @@ public class EventListActivity
         // Parse the response and update the database with newly acquired data
         @Override
         protected Void doInBackground(Void... voids) {
-            if (!mResponse.wasProcessed()) {
+            if ((mResponse.getStatus() != HttpURLConnection.HTTP_NOT_MODIFIED || !mResponse.wasProcessed(EventListActivity.this))) {
                 List<JsonApiObject.Resource> data = mResponse.getData();
                 Gson gson = new Gson();
 
@@ -98,6 +101,9 @@ public class EventListActivity
                 mEventManager.flushEvents();
 
                 Log.i(TAG, data.size() + " Event objects added to the database.");
+
+                // Store the resource ETag so that it's not processed in the future requests
+                InternalStorageDriver.storeProcessedResource(EventListActivity.this, mResponse.getEtag());
             }
 
             // Don't return anything, there's no need

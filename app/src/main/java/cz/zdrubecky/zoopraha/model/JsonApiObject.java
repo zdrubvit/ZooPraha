@@ -1,14 +1,21 @@
 package cz.zdrubecky.zoopraha.model;
 
+import android.content.Context;
+
 import java.util.List;
 
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import cz.zdrubecky.zoopraha.api.InternalStorageDriver;
+
 public class JsonApiObject {
     // Artificially added HTTP status code, not present in the original response body
     private int mStatus;
+    // The response's eTag header value to denote the resource's modified state
+    private String mEtag;
+
     @SerializedName("meta")
     @Expose
     private Meta mMeta;
@@ -22,6 +29,14 @@ public class JsonApiObject {
 
     public void setStatus(int status) {
         mStatus = status;
+    }
+
+    public String getEtag() {
+        return mEtag;
+    }
+
+    public void setEtag(String etag) {
+        mEtag = etag;
     }
 
     public Meta getMeta() {
@@ -40,9 +55,9 @@ public class JsonApiObject {
         mData = data;
     }
 
-    // Check if the response was processed some time in the past
-    public boolean wasProcessed() {
-        return mStatus == 304;
+    // Check if the response was processed at some point in the past
+    public boolean wasProcessed(Context context) {
+        return InternalStorageDriver.wasResourceProcessed(context, mEtag);
     }
 
     public class Meta {
