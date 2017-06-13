@@ -48,9 +48,9 @@ public class DataFetcher {
 
         // Take control of the timeouts and provide a cache for the responses, Retrofit will handle the server's eTag itself
         OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(5, TimeUnit.SECONDS)
+                .connectTimeout(3, TimeUnit.SECONDS)
                 .readTimeout(5, TimeUnit.SECONDS)
-                .writeTimeout(5, TimeUnit.SECONDS)
+                .writeTimeout(3, TimeUnit.SECONDS)
                 .cache(cache)
                 .build();
 
@@ -83,7 +83,7 @@ public class DataFetcher {
             } else {
                 T jsonApiObject = response.body();
                 int responseStatusCode = 200;
-                String responseEtag = "";
+                String responseEtag;
 
                 // Append the response status code (mainly to utilize the 304 not modified in the listeners)
                 if (response.raw().networkResponse() != null) {
@@ -105,6 +105,11 @@ public class DataFetcher {
         @Override
         public void onFailure(Call<T> call, Throwable t) {
             Log.e(TAG, "An exception has been thrown during the fetching of resources.", t);
+
+            // Notify the existing listener that the data fetching somehow failed and it should deal with it
+            if (mListener != null) {
+                mListener.onDataFetched(null, 0, null);
+            }
         }
     }
 

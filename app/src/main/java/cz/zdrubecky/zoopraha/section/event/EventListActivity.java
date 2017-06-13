@@ -33,12 +33,19 @@ public class EventListActivity
         dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
             @Override
             public void onDataFetched(JsonApiObject response, int statusCode, String etag) {
-                Log.i(TAG, "API response listener called with " + response.getMeta().getCount() + " Event resource objects.");
-                response.setStatus(statusCode);
-                response.setEtag(etag);
+                if (response != null) {
+                    Log.i(TAG, "API response listener called with " + response.getMeta().getCount() + " Event resource objects.");
+                    response.setStatus(statusCode);
+                    response.setEtag(etag);
 
-                // Hand the response handling over to a background thread and avoid blocking the UI thread
-                new SaveItemsTask(response).execute();
+                    // Hand the response handling over to a background thread and avoid blocking the UI thread
+                    new SaveItemsTask(response).execute();
+                } else {
+                    // There was an error during the data fetching - display the local data without any update
+                    Log.i(TAG, "API response listener called with an empty response object.");
+
+                    replaceListFragment();
+                }
             }
         });
 
