@@ -1,5 +1,6 @@
 package cz.zdrubecky.zoopraha.section.lexicon;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -12,16 +13,24 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+
+import java.util.List;
 
 import cz.zdrubecky.zoopraha.R;
+import cz.zdrubecky.zoopraha.api.DataFetcher;
 import cz.zdrubecky.zoopraha.api.ImageLoader;
 import cz.zdrubecky.zoopraha.manager.AnimalManager;
 import cz.zdrubecky.zoopraha.model.Animal;
+import cz.zdrubecky.zoopraha.model.JsonApiObject;
 
 public class AnimalDetailFragment extends DialogFragment {
     private static final String TAG = "AnimalDetailFragment";
     private static final String ARG_ANIMAL_ID = "animal_id";
 
+    private View mView;
     private TextView mNameTextView;
     private ImageView mImageImageView;
     private TextView mClassTextView;
@@ -63,14 +72,21 @@ public class AnimalDetailFragment extends DialogFragment {
 
         String animalId = (String) getArguments().getSerializable(ARG_ANIMAL_ID);
 
-        // todo check for the animal in the db first, then download it - everything in the manager
         mAnimal = mAnimalManager.getAnimal(animalId);
+
+        // If the animal is not in the local DB, make a request to the API
+        if (mAnimal == null) {
+            new SaveAnimalTask(animalId).execute();
+        }
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_animal, container, false);
+        
+        // Save a reference to the view so it can be accessed from outside lifecycle methods
+        mView = v;
 
         // If the fragment acts as a dialog, respond to a touch event by closing it
         if (getShowsDialog()) {
@@ -103,10 +119,19 @@ public class AnimalDetailFragment extends DialogFragment {
             }
         }
 
-        mNameTextView = (TextView) v.findViewById(R.id.fragment_animal_name_textview);
+        // Check if the animal object is present a fill the view with it
+        if (mAnimal != null) {
+            setAnimalToView();
+        }
+        
+        return v;
+    }
+    
+    private void setAnimalToView() {
+        mNameTextView = (TextView) mView.findViewById(R.id.fragment_animal_name_textview);
         setAttributeText(mNameTextView, mAnimal.getName() + " (" + mAnimal.getLatinName() + ")");
 
-        mImageImageView = (ImageView) v.findViewById(R.id.fragment_animal_image_imageview);
+        mImageImageView = (ImageView) mView.findViewById(R.id.fragment_animal_image_imageview);
         if (!mAnimal.getImage().equals("")) {
             // If there's an image present, place it in the view
             mImageImageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -126,34 +151,32 @@ public class AnimalDetailFragment extends DialogFragment {
             mImageImageView.setVisibility(View.GONE);
         }
 
-        mClassTextView = (TextView) v.findViewById(R.id.fragment_animal_class_textview);
+        mClassTextView = (TextView) mView.findViewById(R.id.fragment_animal_class_textview);
         setAttributeText(mClassTextView, mAnimal.getClassName() + " (" + mAnimal.getClassLatinName() + ")");
-        mOrderTextView = (TextView) v.findViewById(R.id.fragment_animal_order_textview);
+        mOrderTextView = (TextView) mView.findViewById(R.id.fragment_animal_order_textview);
         setAttributeText(mOrderTextView, mAnimal.getOrderName() + " (" + mAnimal.getOrderLatinName() + ")");
-        mDescriptionTextView = (TextView) v.findViewById(R.id.fragment_animal_description_textview);
+        mDescriptionTextView = (TextView) mView.findViewById(R.id.fragment_animal_description_textview);
         setAttributeText(mDescriptionTextView, mAnimal.getDescription());
-        mDistributionTextView = (TextView) v.findViewById(R.id.fragment_animal_distribution_textview);
+        mDistributionTextView = (TextView) mView.findViewById(R.id.fragment_animal_distribution_textview);
         setAttributeText(mDistributionTextView, mAnimal.getDistribution());
-        mContinentsTextView = (TextView) v.findViewById(R.id.fragment_animal_continents_textview);
+        mContinentsTextView = (TextView) mView.findViewById(R.id.fragment_animal_continents_textview);
         setAttributeText(mContinentsTextView, mAnimal.getContinents());
-        mBiotopesTextView = (TextView) v.findViewById(R.id.fragment_animal_biotopes_textview);
+        mBiotopesTextView = (TextView) mView.findViewById(R.id.fragment_animal_biotopes_textview);
         setAttributeText(mBiotopesTextView, mAnimal.getBiotopesDetail());
-        mFoodTextView = (TextView) v.findViewById(R.id.fragment_animal_food_textview);
+        mFoodTextView = (TextView) mView.findViewById(R.id.fragment_animal_food_textview);
         setAttributeText(mFoodTextView, mAnimal.getFoodDetail());
-        mProportionsTextView = (TextView) v.findViewById(R.id.fragment_animal_proportions_textview);
+        mProportionsTextView = (TextView) mView.findViewById(R.id.fragment_animal_proportions_textview);
         setAttributeText(mProportionsTextView, mAnimal.getProportions());
-        mReproductionTextView = (TextView) v.findViewById(R.id.fragment_animal_reproduction_textview);
+        mReproductionTextView = (TextView) mView.findViewById(R.id.fragment_animal_reproduction_textview);
         setAttributeText(mReproductionTextView, mAnimal.getReproduction());
-        mAttractionsTextView = (TextView) v.findViewById(R.id.fragment_animal_attractions_textview);
+        mAttractionsTextView = (TextView) mView.findViewById(R.id.fragment_animal_attractions_textview);
         setAttributeText(mAttractionsTextView, mAnimal.getAttractions());
-        mLocationTextView = (TextView) v.findViewById(R.id.fragment_animal_location_textview);
+        mLocationTextView = (TextView) mView.findViewById(R.id.fragment_animal_location_textview);
         setAttributeText(mLocationTextView, mAnimal.getLocation());
-        mBreedingTextView = (TextView) v.findViewById(R.id.fragment_animal_breeding_textview);
+        mBreedingTextView = (TextView) mView.findViewById(R.id.fragment_animal_breeding_textview);
         setAttributeText(mBreedingTextView, mAnimal.getBreeding());
-        mProjectsTextView = (TextView) v.findViewById(R.id.fragment_animal_projects_textview);
+        mProjectsTextView = (TextView) mView.findViewById(R.id.fragment_animal_projects_textview);
         setAttributeText(mProjectsTextView, mAnimal.getProjects());
-
-        return v;
     }
 
     // A helper method to set a text to a TextView if it's non-empty - the View is hidden otherwise
@@ -163,6 +186,49 @@ public class AnimalDetailFragment extends DialogFragment {
         } else {
             LinearLayout parent = (LinearLayout) attribute.getParent();
             parent.setVisibility(View.GONE);
+        }
+    }
+
+    private class SaveAnimalTask extends AsyncTask<Void, Void, Boolean> {
+        private String mAnimalId;
+
+        public SaveAnimalTask(String animalId) {
+            mAnimalId = animalId;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            DataFetcher dataFetcher = new DataFetcher(getActivity());
+
+            JsonApiObject response = dataFetcher.getAnimal(mAnimalId);
+
+            if (response != null && response.getMeta().getCount() == 1) {
+                Gson gson = new Gson();
+                List<JsonApiObject.Resource> responseData = response.getData();
+
+                mAnimal = gson.fromJson(responseData.get(0).getDocument(), Animal.class);
+                mAnimal.setId(responseData.get(0).getId());
+
+                mAnimalManager.addAnimal(mAnimal);
+                mAnimalManager.flushAnimals();
+
+                Log.i(TAG, "A new animal with an ID "+ mAnimal.getId() + " received and saved.");
+
+                return true;
+            }
+
+            // If the call resulted in an error or no animal's been received, notify the UI thread
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean animalAdded) {
+            // If the animal's been correctly imported and saved, display it
+            if (animalAdded.equals(true)) {
+                setAnimalToView();
+            } else {
+                Toast.makeText(getActivity(), getString(R.string.fragment_animal_no_animal_error_text), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

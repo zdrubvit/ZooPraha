@@ -4,12 +4,17 @@ import cz.zdrubecky.zoopraha.model.JsonApiObject;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface BackendApi {
     @Headers({"Accept: application/vnd.api+json"})
     @GET("adoptions")
     Call<JsonApiObject> getAdoptions(@Query("name") String name, @Query("limit") String limit, @Query("offset") String offset);
+
+    @Headers({"Accept: application/vnd.api+json"})
+    @GET("lexicon/{id}")
+    Call<JsonApiObject> getAnimal(@Path("id") String id);
 
     @Headers({"Accept: application/vnd.api+json"})
     @GET("lexicon")

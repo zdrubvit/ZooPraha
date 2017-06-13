@@ -62,13 +62,15 @@ public class LexiconMenuActivity extends SingleFragmentActivity {
             filterResponses.add(dataFetcher.getFood());
 
             for (JsonApiObject response : filterResponses) {
-                List<JsonApiObject.Resource> data = response.getData();
+                if (response != null) {
+                    List<JsonApiObject.Resource> data = response.getData();
 
-                // Iterate over the incoming objects and use them to create the filters
-                for (int i = 0; i < data.size(); i++) {
-                    Filter filter = gson.fromJson(data.get(i).getDocument(), Filter.class);
-                    filter.setName(data.get(i).getType());
-                    filterManager.addFilter(filter);
+                    // Iterate over the incoming objects and use them to create the filters
+                    for (int i = 0; i < data.size(); i++) {
+                        Filter filter = gson.fromJson(data.get(i).getDocument(), Filter.class);
+                        filter.setName(data.get(i).getType());
+                        filterManager.addFilter(filter);
+                    }
                 }
             }
 
@@ -77,28 +79,32 @@ public class LexiconMenuActivity extends SingleFragmentActivity {
             // Take care of the classifications
             classificationsResponse = dataFetcher.getClassifications(true, true, false);
 
-            List<JsonApiObject.Resource> classificationsResponseData = classificationsResponse.getData();
+            if (classificationsResponse != null) {
+                List<JsonApiObject.Resource> classificationsResponseData = classificationsResponse.getData();
 
-            for (int i = 0; i < classificationsResponseData.size(); i++) {
-                Classification classification = gson.fromJson(classificationsResponseData.get(i).getDocument(), Classification.class);
-                classification.setId(classificationsResponseData.get(i).getId());
-                classificationManager.addClassification(classification);
+                for (int i = 0; i < classificationsResponseData.size(); i++) {
+                    Classification classification = gson.fromJson(classificationsResponseData.get(i).getDocument(), Classification.class);
+                    classification.setId(classificationsResponseData.get(i).getId());
+                    classificationManager.addClassification(classification);
+                }
+
+                classificationManager.flushClassifications();
             }
-
-            classificationManager.flushClassifications();
 
             // And finally the locations
             locationResponse = dataFetcher.getLocations();
 
-            List<JsonApiObject.Resource> locationResponseData = locationResponse.getData();
+            if (locationResponse != null) {
+                List<JsonApiObject.Resource> locationResponseData = locationResponse.getData();
 
-            for (int i = 0; i < locationResponseData.size(); i++) {
-                Location location = gson.fromJson(locationResponseData.get(i).getDocument(), Location.class);
-                location.setId(locationResponseData.get(i).getId());
-                locationManager.addLocation(location);
+                for (int i = 0; i < locationResponseData.size(); i++) {
+                    Location location = gson.fromJson(locationResponseData.get(i).getDocument(), Location.class);
+                    location.setId(locationResponseData.get(i).getId());
+                    locationManager.addLocation(location);
+                }
+
+                locationManager.flushLocations();
             }
-
-            locationManager.flushLocations();
 
             return null;
         }

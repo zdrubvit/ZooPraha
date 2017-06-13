@@ -109,6 +109,16 @@ public class DataFetcher {
         call.enqueue(new RequestCallback<JsonApiObject>());
     }
 
+    public JsonApiObject getAnimal(String id) {
+        Call<JsonApiObject> call = mService.getAnimal(id);
+
+        try {
+            return (JsonApiObject) call.execute().body();
+        } catch (IOException ioe) {
+            return null;
+        }
+    }
+
     // The method's argument represents the kind of builder we want to get - all the query parameters are encapsulated in it
     public void getAnimals(LexiconQueryBuilder builder) {
         Call<JsonApiObject> call = mService.getAnimals(

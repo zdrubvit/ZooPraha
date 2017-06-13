@@ -92,7 +92,7 @@ public class AdoptionListActivity
         // Parse the response and update the database with newly acquired data
         @Override
         protected Void doInBackground(Void... voids) {
-            if (mResponse.getStatus() != 304) {
+            if (!mResponse.wasProcessed()) {
                 List<JsonApiObject.Resource> data = mResponse.getData();
                 Gson gson = new Gson();
 

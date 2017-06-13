@@ -120,7 +120,7 @@ public class LexiconListActivity
         @Override
         protected Void doInBackground(Void... voids) {
             // Avoid inserting the data that weren't modified since the last time
-            if (mResponse.getStatus() != 304) {
+            if (!mResponse.wasProcessed()) {
                 List<JsonApiObject.Resource> data = mResponse.getData();
                 Gson gson = new Gson();
 

@@ -40,6 +40,11 @@ public class JsonApiObject {
         mData = data;
     }
 
+    // Check if the response was processed some time in the past
+    public boolean wasProcessed() {
+        return mStatus == 304;
+    }
+
     public class Meta {
         @SerializedName("count")
         @Expose

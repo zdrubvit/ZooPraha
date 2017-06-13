@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        getApplicationContext().deleteDatabase(ZooBaseHelper.DATABASE_NAME);
+        getApplicationContext().deleteDatabase(ZooBaseHelper.DATABASE_NAME);
 
         mMainButtonLexicon = (Button) findViewById(R.id.main_button_lexicon);
         mMainButtonLexicon.setOnClickListener(new View.OnClickListener() {

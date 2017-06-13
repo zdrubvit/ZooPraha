@@ -49,14 +49,6 @@ public class LexiconMenuFiltersFragment extends Fragment {
 
         mFiltersExpandableListView = (ExpandableListView) v.findViewById(R.id.activity_lexicon_menu_expandable_listview);
         mFiltersExpandableListView.setAdapter(mFiltersExpandableListAdapter);
-        mFiltersExpandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getActivity().getApplicationContext(),
-                        mFiltersExpandableListTitles.get(groupPosition) + " List Expanded for " + mFilterGroups.get(mFiltersExpandableListTitles.get(groupPosition)),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
 
         mFiltersExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
