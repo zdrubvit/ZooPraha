@@ -36,6 +36,7 @@ public class QuestionFragment extends Fragment {
     private static final String TAG = "QuestionFragment";
     private static final String ARG_QUESTION_POSITION = "question_position";
     private static final String ANIMAL_DETAIL_FRAGMENT = "AnimalDetailFragment";
+    private static final String KEY_TIME_TO_FINISH = "time_to_finish";
 
     private ProgressBar mTimerProgressBar;
     private View mView;
@@ -45,6 +46,7 @@ public class QuestionFragment extends Fragment {
     private Question mQuestion;
     private Callbacks mCallbacks;
     private QuestionCountDownTimer mQuestionCountDownTimer;
+    private int mTimeToFinish;
 
     public static QuestionFragment newInstance(int questionPosition) {
         Bundle args = new Bundle();
@@ -79,12 +81,19 @@ public class QuestionFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
         mQuestionManager = QuestionManager.get(getActivity());
 
         mQuestionPosition = getArguments().getInt(ARG_QUESTION_POSITION);
 
         mQuestion = mQuestionManager.getQuestion(mQuestionPosition);
+
+        // Check whether the fragment is being recreated after a config change and set its state accordingly
+        if (savedInstanceState != null) {
+            mTimeToFinish = savedInstanceState.getInt(KEY_TIME_TO_FINISH);
+        } else {
+            mTimeToFinish = QuizPreferences.getQuestionTime(getActivity());
+        }
     }
 
     @Nullable
@@ -97,7 +106,7 @@ public class QuestionFragment extends Fragment {
         Collections.shuffle(answers);
 
         View v = inflater.inflate(R.layout.fragment_question, container, false);
-        // Remember the content view so it can be modified from inner methods
+        // Remember the content view so it can be modified from the class's inner methods
         mView = v;
 
         // Fill the top part of the question view
@@ -106,21 +115,19 @@ public class QuestionFragment extends Fragment {
         questionNumberTextView.setText(questionNumberText);
 
         mTimerProgressBar = (ProgressBar) v.findViewById(R.id.fragment_question_timer_progressbar);
-        // Set the layout listener to wait for the layout pass
+        // Set the layout listener to wait for the layout pass so that the timer doesn't start before the view is completely rendered
         mTimerProgressBar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                int questionTime = QuizPreferences.getQuestionTime(getActivity());
-
                 // Set the default values for the progress bar
-                mTimerProgressBar.setMax(questionTime);
-                mTimerProgressBar.setProgress(questionTime);
+                mTimerProgressBar.setMax(QuizPreferences.getQuestionTime(getActivity()));
+                mTimerProgressBar.setProgress(mTimeToFinish);
 
                 // The View is now visible, start the timer (set the interval at half a second to be able to display the last tick)
                 // ...also, set the time one second above the actual number to seem more fluent
-                long questionTimeMillis = (questionTime + 1) * 1000;
+                long mTimeToFinishMillis = (mTimeToFinish + 1) * 1000;
 
-                mQuestionCountDownTimer = new QuestionCountDownTimer(questionTimeMillis, 500);
+                mQuestionCountDownTimer = new QuestionCountDownTimer(mTimeToFinishMillis, 500);
                 mQuestionCountDownTimer.start();
 
                 // Remove the listener, it's no longer needed
@@ -174,7 +181,18 @@ public class QuestionFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mQuestionCountDownTimer.cancel();
+
+        // Check if the counter hasn't been cancelled before
+        if (mQuestionCountDownTimer != null) {
+            mQuestionCountDownTimer.cancel();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(KEY_TIME_TO_FINISH, mTimeToFinish);
     }
 
     // Replace the answers with a new layout when the guessing part is finished
@@ -307,6 +325,9 @@ public class QuestionFragment extends Fragment {
         @Override
         public void onTick(long millisUntilFinished) {
             int progress = (int) (millisUntilFinished / 1000);
+
+            // Update the member variable in case the current state is gonna be saved
+            mTimeToFinish = progress;
 
             // Update the progress with a lower value
             mTimerProgressBar.setProgress(progress);
