@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -29,23 +30,10 @@ import cz.zdrubecky.zoopraha.model.JsonApiObject;
 public class AnimalDetailFragment extends DialogFragment {
     private static final String TAG = "AnimalDetailFragment";
     private static final String ARG_ANIMAL_ID = "animal_id";
+    private static final String DIALOG_IMAGE = "DialogImage";
 
     private View mView;
-    private TextView mNameTextView;
     private ImageView mImageImageView;
-    private TextView mClassTextView;
-    private TextView mOrderTextView;
-    private TextView mDescriptionTextView;
-    private TextView mContinentsTextView;
-    private TextView mDistributionTextView;
-    private TextView mBiotopesTextView;
-    private TextView mFoodTextView;
-    private TextView mProportionsTextView;
-    private TextView mReproductionTextView;
-    private TextView mAttractionsTextView;
-    private TextView mLocationTextView;
-    private TextView mBreedingTextView;
-    private TextView mProjectsTextView;
 
     private AnimalManager mAnimalManager;
     private Animal mAnimal;
@@ -128,8 +116,8 @@ public class AnimalDetailFragment extends DialogFragment {
     }
     
     private void setAnimalToView() {
-        mNameTextView = (TextView) mView.findViewById(R.id.fragment_animal_name_textview);
-        setAttributeText(mNameTextView, mAnimal.getName() + " (" + mAnimal.getLatinName() + ")");
+        TextView nameTextView = (TextView) mView.findViewById(R.id.fragment_animal_name_textview);
+        setAttributeText(nameTextView, mAnimal.getName() + " (" + mAnimal.getLatinName() + ")");
 
         mImageImageView = (ImageView) mView.findViewById(R.id.fragment_animal_image_imageview);
         if (!mAnimal.getImage().equals("")) {
@@ -146,37 +134,48 @@ public class AnimalDetailFragment extends DialogFragment {
                     mImageImageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
             });
+
+            // Show an enlarged image detail on click through a dialog fragment
+            mImageImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager manager = getActivity().getSupportFragmentManager();
+                    ImageDialogFragment fragment = ImageDialogFragment.newInstance(mAnimal.getImage());
+
+                    fragment.show(manager, DIALOG_IMAGE);
+                }
+            });
         } else {
             // Hide the view otherwise
             mImageImageView.setVisibility(View.GONE);
         }
 
-        mClassTextView = (TextView) mView.findViewById(R.id.fragment_animal_class_textview);
-        setAttributeText(mClassTextView, mAnimal.getClassName() + " (" + mAnimal.getClassLatinName() + ")");
-        mOrderTextView = (TextView) mView.findViewById(R.id.fragment_animal_order_textview);
-        setAttributeText(mOrderTextView, mAnimal.getOrderName() + " (" + mAnimal.getOrderLatinName() + ")");
-        mDescriptionTextView = (TextView) mView.findViewById(R.id.fragment_animal_description_textview);
-        setAttributeText(mDescriptionTextView, mAnimal.getDescription());
-        mDistributionTextView = (TextView) mView.findViewById(R.id.fragment_animal_distribution_textview);
-        setAttributeText(mDistributionTextView, mAnimal.getDistribution());
-        mContinentsTextView = (TextView) mView.findViewById(R.id.fragment_animal_continents_textview);
-        setAttributeText(mContinentsTextView, mAnimal.getContinents());
-        mBiotopesTextView = (TextView) mView.findViewById(R.id.fragment_animal_biotopes_textview);
-        setAttributeText(mBiotopesTextView, mAnimal.getBiotopesDetail());
-        mFoodTextView = (TextView) mView.findViewById(R.id.fragment_animal_food_textview);
-        setAttributeText(mFoodTextView, mAnimal.getFoodDetail());
-        mProportionsTextView = (TextView) mView.findViewById(R.id.fragment_animal_proportions_textview);
-        setAttributeText(mProportionsTextView, mAnimal.getProportions());
-        mReproductionTextView = (TextView) mView.findViewById(R.id.fragment_animal_reproduction_textview);
-        setAttributeText(mReproductionTextView, mAnimal.getReproduction());
-        mAttractionsTextView = (TextView) mView.findViewById(R.id.fragment_animal_attractions_textview);
-        setAttributeText(mAttractionsTextView, mAnimal.getAttractions());
-        mLocationTextView = (TextView) mView.findViewById(R.id.fragment_animal_location_textview);
-        setAttributeText(mLocationTextView, mAnimal.getLocation());
-        mBreedingTextView = (TextView) mView.findViewById(R.id.fragment_animal_breeding_textview);
-        setAttributeText(mBreedingTextView, mAnimal.getBreeding());
-        mProjectsTextView = (TextView) mView.findViewById(R.id.fragment_animal_projects_textview);
-        setAttributeText(mProjectsTextView, mAnimal.getProjects());
+        TextView classTextView = (TextView) mView.findViewById(R.id.fragment_animal_class_textview);
+        setAttributeText(classTextView, mAnimal.getClassName() + " (" + mAnimal.getClassLatinName() + ")");
+        TextView orderTextView = (TextView) mView.findViewById(R.id.fragment_animal_order_textview);
+        setAttributeText(orderTextView, mAnimal.getOrderName() + " (" + mAnimal.getOrderLatinName() + ")");
+        TextView descriptionTextView = (TextView) mView.findViewById(R.id.fragment_animal_description_textview);
+        setAttributeText(descriptionTextView, mAnimal.getDescription());
+        TextView distributionTextView = (TextView) mView.findViewById(R.id.fragment_animal_distribution_textview);
+        setAttributeText(distributionTextView, mAnimal.getDistribution());
+        TextView continentsTextView = (TextView) mView.findViewById(R.id.fragment_animal_continents_textview);
+        setAttributeText(continentsTextView, mAnimal.getContinents());
+        TextView biotopesTextView = (TextView) mView.findViewById(R.id.fragment_animal_biotopes_textview);
+        setAttributeText(biotopesTextView, mAnimal.getBiotopesDetail());
+        TextView foodTextView = (TextView) mView.findViewById(R.id.fragment_animal_food_textview);
+        setAttributeText(foodTextView, mAnimal.getFoodDetail());
+        TextView proportionsTextView = (TextView) mView.findViewById(R.id.fragment_animal_proportions_textview);
+        setAttributeText(proportionsTextView, mAnimal.getProportions());
+        TextView reproductionTextView = (TextView) mView.findViewById(R.id.fragment_animal_reproduction_textview);
+        setAttributeText(reproductionTextView, mAnimal.getReproduction());
+        TextView attractionsTextView = (TextView) mView.findViewById(R.id.fragment_animal_attractions_textview);
+        setAttributeText(attractionsTextView, mAnimal.getAttractions());
+        TextView locationTextView = (TextView) mView.findViewById(R.id.fragment_animal_location_textview);
+        setAttributeText(locationTextView, mAnimal.getLocation());
+        TextView breedingTextView = (TextView) mView.findViewById(R.id.fragment_animal_breeding_textview);
+        setAttributeText(breedingTextView, mAnimal.getBreeding());
+        TextView projectsTextView = (TextView) mView.findViewById(R.id.fragment_animal_projects_textview);
+        setAttributeText(projectsTextView, mAnimal.getProjects());
     }
 
     // A helper method to set a text to a TextView if it's non-empty - the View is hidden otherwise
