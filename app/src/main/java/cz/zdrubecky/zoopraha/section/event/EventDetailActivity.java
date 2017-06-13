@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import cz.zdrubecky.zoopraha.SingleFragmentActivity;
 
 public class EventDetailActivity extends SingleFragmentActivity {
-    private static final String ARG_EVENT_ID = "event_id";
     private static final String EXTRA_EVENT_ID = "cz.zdrubecky.zoopraha.event_id";
 
     public static Intent newIntent(Context packageContext, String eventId) {
@@ -20,5 +19,10 @@ public class EventDetailActivity extends SingleFragmentActivity {
     @Override
     protected Fragment createInitialFragment() {
         return EventDetailFragment.newInstance((String) getIntent().getSerializableExtra(EXTRA_EVENT_ID));
+    }
+
+    @Override
+    protected Fragment createReplacementFragment() {
+        return createInitialFragment();
     }
 }

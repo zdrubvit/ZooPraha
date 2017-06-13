@@ -20,4 +20,9 @@ public class AnimalDetailActivity extends SingleFragmentActivity {
     protected Fragment createInitialFragment() {
         return AnimalDetailFragment.newInstance((String) getIntent().getSerializableExtra(EXTRA_ANIMAL_ID));
     }
+
+    @Override
+    protected Fragment createReplacementFragment() {
+        return createInitialFragment();
+    }
 }

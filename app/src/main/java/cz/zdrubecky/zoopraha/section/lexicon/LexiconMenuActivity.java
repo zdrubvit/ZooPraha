@@ -31,13 +31,9 @@ public class LexiconMenuActivity extends SingleFragmentActivity {
         new SaveItemsTask().execute();
     }
 
-    // Replace the initial loading screen with a tab layout
-    private void replaceFragment() {
-        Fragment fragment = new LexiconMenuFragment();
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(getFragmentContainerId(), fragment)
-                .commit();
+    @Override
+    protected Fragment createReplacementFragment() {
+        return new LexiconMenuFragment();
     }
 
     private class SaveItemsTask extends AsyncTask<Void, Void, Void> {

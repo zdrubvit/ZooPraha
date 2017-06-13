@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import java.util.List;
 
+import cz.zdrubecky.zoopraha.R;
 import cz.zdrubecky.zoopraha.SingleFragmentActivity;
 import cz.zdrubecky.zoopraha.api.DataFetcher;
 import cz.zdrubecky.zoopraha.manager.QuestionManager;
@@ -52,11 +54,18 @@ public class QuizActivity
             dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
                 @Override
                 public void onDataFetched(JsonApiObject response, int statusCode, String etag) {
-                    Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " Question resource objects.");
-                    response.setStatus(statusCode);
-                    response.setEtag(etag);
+                    if (response != null) {
+                        Log.i(TAG, "Listener called with " + response.getMeta().getCount() + " Question resource objects.");
+                        response.setStatus(statusCode);
+                        response.setEtag(etag);
 
-                    new GetQuestionsTask(response).execute();
+                        new GetQuestionsTask(response).execute();
+                    } else {
+                        // There was an error during the data fetching - display an informative toast
+                        Log.i(TAG, "API response listener called with an empty response object.");
+
+                        Toast.makeText(QuizActivity.this, getString(R.string.quiz_questions_loading_error), Toast.LENGTH_LONG).show();
+                    }
                 }
             });
 
@@ -72,12 +81,9 @@ public class QuizActivity
         outState.putInt(KEY_QUESTION_POSITION, mQuestionPosition);
     }
 
-    private void replaceQuestionFragment() {
-        Fragment newQuestion = QuestionFragment.newInstance(mQuestionPosition);
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(getFragmentContainerId(), newQuestion)
-                .commit();
+    @Override
+    protected Fragment createReplacementFragment() {
+        return QuestionFragment.newInstance(mQuestionPosition);
     }
 
     @Override
@@ -85,7 +91,7 @@ public class QuizActivity
         mQuestionPosition++;
         if (mQuestionPosition < mQuestionCount) {
             // Create and add a fragment with the next question
-            replaceQuestionFragment();
+            replaceFragment();
         } else {
             Intent i = new Intent(QuizActivity.this, QuizResultActivity.class);
 
@@ -121,7 +127,7 @@ public class QuizActivity
         @Override
         protected void onPostExecute(Void v) {
             // The questions have been imported and the first one can finally be displayed
-            replaceQuestionFragment();
+            replaceFragment();
         }
     }
 }

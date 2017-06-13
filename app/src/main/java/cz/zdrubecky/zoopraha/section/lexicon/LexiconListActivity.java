@@ -65,7 +65,7 @@ public class LexiconListActivity
                     // There was an error during the data fetching - display the local data without any update
                     Log.i(TAG, "API response listener called with an empty response object.");
 
-                    replaceListFragment();
+                    replaceFragment();
                 }
             }
         });
@@ -80,12 +80,9 @@ public class LexiconListActivity
         outState.putString(KEY_FILTER_VALUE, mFilter.second);
     }
 
-    private void replaceListFragment() {
-        Fragment fragment = new LexiconListFragment();
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(getFragmentContainerId(), fragment)
-                .commit();
+    @Override
+    protected Fragment createReplacementFragment() {
+        return new LexiconListFragment();
     }
 
     @Override
@@ -157,7 +154,7 @@ public class LexiconListActivity
         // This method is handled by the UI thread so it can update the UI safely after all items have been updated
         @Override
         protected void onPostExecute(Void v) {
-            replaceListFragment();
+            replaceFragment();
         }
     }
 

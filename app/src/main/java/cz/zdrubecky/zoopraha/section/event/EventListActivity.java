@@ -44,7 +44,7 @@ public class EventListActivity
                     // There was an error during the data fetching - display the local data without any update
                     Log.i(TAG, "API response listener called with an empty response object.");
 
-                    replaceListFragment();
+                    replaceFragment();
                 }
             }
         });
@@ -52,12 +52,9 @@ public class EventListActivity
         dataFetcher.getEvents(null, null, null);
     }
 
-    private void replaceListFragment() {
-        Fragment fragment = new EventListFragment();
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(getFragmentContainerId(), fragment)
-                .commit();
+    @Override
+    protected Fragment createReplacementFragment() {
+        return new EventListFragment();
     }
 
     @Override
@@ -120,7 +117,7 @@ public class EventListActivity
         // This method is handled by the UI thread so it can update the UI safely after all items have been updated
         @Override
         protected void onPostExecute(Void v) {
-            replaceListFragment();
+            replaceFragment();
         }
     }
 }

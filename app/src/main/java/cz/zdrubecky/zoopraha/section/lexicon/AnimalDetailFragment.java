@@ -222,11 +222,14 @@ public class AnimalDetailFragment extends DialogFragment {
 
         @Override
         protected void onPostExecute(Boolean animalAdded) {
-            // If the animal's been correctly imported and saved, display it
-            if (animalAdded.equals(true)) {
-                setAnimalToView();
-            } else {
-                Toast.makeText(getActivity(), getString(R.string.fragment_animal_no_animal_error_text), Toast.LENGTH_SHORT).show();
+            // Check if the fragment is still added to some activity and can be worked on, or the user is already someplace else
+            if (isAdded()) {
+                // If the animal's been correctly imported and saved, display it
+                if (animalAdded.equals(true)) {
+                    setAnimalToView();
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.fragment_animal_no_animal_error_text), Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
