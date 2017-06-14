@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import cz.zdrubecky.zoopraha.manager.ClassificationManager;
@@ -15,7 +16,7 @@ import cz.zdrubecky.zoopraha.model.Location;
 
 public class LexiconExpandableListDataMapper {
     public static HashMap<String, List<String>> getTaxonomyData(Context context) {
-        HashMap<String, List<String>> expandableListData = new HashMap<String, List<String>>();
+        HashMap<String, List<String>> expandableListData = new LinkedHashMap<>();
         ClassificationManager manager = new ClassificationManager(context);
         List<Classification> taxonomy = manager.getTaxonomy();
 
@@ -33,7 +34,7 @@ public class LexiconExpandableListDataMapper {
     }
 
     public static HashMap<String, List<String>> getFilterData(Context context, HashMap<String, String> filterGroups, String locationGroupName) {
-        HashMap<String, List<String>> expandableListData = new HashMap<String, List<String>>();
+        HashMap<String, List<String>> expandableListData = new LinkedHashMap<>();
         FilterManager filterManager = new FilterManager(context);
         LocationManager locationManager = new LocationManager(context);
 

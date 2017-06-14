@@ -137,7 +137,7 @@ public class AdoptionManager {
     }
 
     private ZooCursorWrapper queryAdoptions(String whereClause, String[] whereArgs) {
-        Cursor cursor = mDatabase.query(AdoptionsTable.NAME, null, whereClause, whereArgs, null, null, null);
+        Cursor cursor = mDatabase.query(AdoptionsTable.NAME, null, whereClause, whereArgs, null, null, AdoptionsTable.Cols.NAME_NO_ACCENTS + " ASC");
 
         return new ZooCursorWrapper(cursor);
     }

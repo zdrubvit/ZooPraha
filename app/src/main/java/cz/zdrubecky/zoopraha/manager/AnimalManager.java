@@ -210,7 +210,7 @@ public class AnimalManager {
     }
 
     private ZooCursorWrapper queryAnimals(String whereClause, String[] whereArgs, String limit) {
-        Cursor cursor = mDatabase.query(AnimalsTable.NAME, null, whereClause, whereArgs, null, null, AnimalsTable.Cols.NAME + " ASC", limit);
+        Cursor cursor = mDatabase.query(AnimalsTable.NAME, null, whereClause, whereArgs, null, null, AnimalsTable.Cols.NAME_NO_ACCENTS + " ASC", limit);
 
         return new ZooCursorWrapper(cursor);
     }
