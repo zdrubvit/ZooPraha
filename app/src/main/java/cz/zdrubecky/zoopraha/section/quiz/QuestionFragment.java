@@ -99,12 +99,6 @@ public class QuestionFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Put all the answers together and shuffle them randomly
-        List<String> answers = new ArrayList<>(Arrays.asList(mQuestion.getIncorrectAnswers()));
-        answers.add(mQuestion.getCorrectAnswer());
-
-        Collections.shuffle(answers);
-
         View v = inflater.inflate(R.layout.fragment_question, container, false);
         // Remember the content view so it can be modified from the class's inner methods
         mView = v;
@@ -114,7 +108,23 @@ public class QuestionFragment extends Fragment {
         String questionNumberText = getString(R.string.fragment_question_number_textview_text, mQuestionPosition + 1);
         questionNumberTextView.setText(questionNumberText);
 
-        mTimerProgressBar = (ProgressBar) v.findViewById(R.id.fragment_question_timer_progressbar);
+        updateScoreText();
+
+        renderQuestion();
+
+        // Check if the question was already answered and if so, draw the result instead of asking the user to answer again
+        if (mQuestion.isAnswered()) {
+            replaceAnswers(mQuestion.isAnsweredCorrectly() ? getString(R.string.question_answered_result_correct_textview_text) : getString(R.string.question_answered_result_incorrect_textview_text, mQuestion.getCorrectAnswer()));
+        } else {
+            renderAnswers();
+        }
+
+        return v;
+    }
+
+    // A separate method for rendering the progress bar, the question and answers
+    private void renderQuestion() {
+        mTimerProgressBar = (ProgressBar) mView.findViewById(R.id.fragment_question_timer_progressbar);
         // Set the layout listener to wait for the layout pass so that the timer doesn't start before the view is completely rendered
         mTimerProgressBar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -135,14 +145,12 @@ public class QuestionFragment extends Fragment {
             }
         });
 
-        updateScoreText();
-
         // Take care of displaying the question
-        TextView textTextView = (TextView) v.findViewById(R.id.fragment_question_text_textview);
+        TextView textTextView = (TextView) mView.findViewById(R.id.fragment_question_text_textview);
         textTextView.setText(mQuestion.getText());
 
         if (mQuestion.getType().equals("guess_animal_image")) {
-            final ImageView imageImageView = (ImageView) v.findViewById(R.id.fragment_question_image_imageview);
+            final ImageView imageImageView = (ImageView) mView.findViewById(R.id.fragment_question_image_imageview);
             // If there's an image present, place it in the view
             imageImageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
@@ -158,24 +166,31 @@ public class QuestionFragment extends Fragment {
             });
         }
 
-        // Handle the buttons with answers
-        Button answerButton1 = (Button) v.findViewById(R.id.fragment_question_button_1);
-        answerButton1.setText(answers.get(0));
-        answerButton1.setOnClickListener(questionAnswered);
-        Button answerButton2 = (Button) v.findViewById(R.id.fragment_question_button_2);
-        answerButton2.setText(answers.get(1));
-        answerButton2.setOnClickListener(questionAnswered);
-        Button answerButton3 = (Button) v.findViewById(R.id.fragment_question_button_3);
-        answerButton3.setText(answers.get(2));
-        answerButton3.setOnClickListener(questionAnswered);
-        Button answerButton4 = (Button) v.findViewById(R.id.fragment_question_button_4);
-        answerButton4.setText(answers.get(3));
-        answerButton4.setOnClickListener(questionAnswered);
-
         // Mark the question as "shown", since it's gonna be displayed
         mQuestion.setShown(true);
+    }
 
-        return v;
+    // A separate method to render the answers
+    private void renderAnswers() {
+        // Put all the answers together and shuffle them randomly
+        List<String> answers = new ArrayList<>(Arrays.asList(mQuestion.getIncorrectAnswers()));
+        answers.add(mQuestion.getCorrectAnswer());
+
+        Collections.shuffle(answers);
+
+        // Handle the buttons with answers
+        Button answerButton1 = (Button) mView.findViewById(R.id.fragment_question_button_1);
+        answerButton1.setText(answers.get(0));
+        answerButton1.setOnClickListener(questionAnswered);
+        Button answerButton2 = (Button) mView.findViewById(R.id.fragment_question_button_2);
+        answerButton2.setText(answers.get(1));
+        answerButton2.setOnClickListener(questionAnswered);
+        Button answerButton3 = (Button) mView.findViewById(R.id.fragment_question_button_3);
+        answerButton3.setText(answers.get(2));
+        answerButton3.setOnClickListener(questionAnswered);
+        Button answerButton4 = (Button) mView.findViewById(R.id.fragment_question_button_4);
+        answerButton4.setText(answers.get(3));
+        answerButton4.setOnClickListener(questionAnswered);
     }
 
     @Override
@@ -198,7 +213,7 @@ public class QuestionFragment extends Fragment {
     // Replace the answers with a new layout when the guessing part is finished
     private void replaceAnswers(String resultText) {
         // Remove the old view from its parent
-        View oldView = getView().findViewById(R.id.fragment_question_answers);
+        View oldView = mView.findViewById(R.id.fragment_question_answers);
         ViewGroup parent = (ViewGroup) oldView.getParent();
         int index = parent.indexOfChild(oldView);
         parent.removeView(oldView);
@@ -246,7 +261,11 @@ public class QuestionFragment extends Fragment {
 
         parent.addView(newView, index);
 
-        mQuestion.setTimeToAnswer(mTimerProgressBar.getMax() - mTimerProgressBar.getProgress());
+        // Set the time it took to answer and mark the question as "answered" so that it's not shown more than once during device config changes
+        if (!mQuestion.isAnswered() && mTimerProgressBar != null) {
+            mQuestion.setTimeToAnswer(mTimerProgressBar.getMax() - mTimerProgressBar.getProgress());
+            mQuestion.setAnswered(true);
+        }
     }
 
     // A listener for all the answer buttons, fired whenever user selects one of them
@@ -337,6 +356,8 @@ public class QuestionFragment extends Fragment {
         public void onFinish() {
             // Set the timeout text and prevent the user from answering the question anymore
             String resultText = getString(R.string.question_answered_result_timeout_textview_text, mQuestion.getCorrectAnswer());
+
+            mQuestion.setAnsweredCorrectly(false);
 
             replaceAnswers(resultText);
         }

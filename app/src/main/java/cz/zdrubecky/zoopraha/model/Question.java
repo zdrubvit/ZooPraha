@@ -28,6 +28,8 @@ public class Question {
     private boolean mFlagged;
     @Expose(serialize = false, deserialize = false)
     private int mTimeToAnswer;
+    @Expose(serialize = false, deserialize = false)
+    private boolean mAnswered;
 
     public String getId() {
         return mId;
@@ -123,5 +125,13 @@ public class Question {
 
     public void setTimeToAnswer(int timeToAnswer) {
         mTimeToAnswer = timeToAnswer;
+    }
+
+    public boolean isAnswered() {
+        return mAnswered;
+    }
+
+    public void setAnswered(boolean answered) {
+        mAnswered = answered;
     }
 }
