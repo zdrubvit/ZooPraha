@@ -32,7 +32,7 @@ public class AnimalPagerActivity extends AppCompatActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.activity_animal_pager_view_pager);
         mAnimals = mAnimalManager.getAnimals(
-                LexiconPreferences.getFilterKey(this),
+                mAnimalManager.createWhereClauseFromFilter(LexiconPreferences.getFilterKey(this)),
                 new String[] {LexiconPreferences.getFilterValue(this)}
         );
 

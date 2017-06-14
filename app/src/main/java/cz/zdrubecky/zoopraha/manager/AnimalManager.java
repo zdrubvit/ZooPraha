@@ -25,10 +25,8 @@ public class AnimalManager {
     }
 
     // The query works with a single filter so far, but the second argument counts on the future extension for more
-    public List<Animal> getAnimals(String filter, String[] whereArgs) {
+    public List<Animal> getAnimals(String whereClause, String[] whereArgs) {
         List<Animal> animals = new ArrayList<>();
-
-        String whereClause = createWhereClause(filter);
 
         ZooCursorWrapper cursor = queryAnimals(whereClause, whereArgs, null);
 
@@ -189,7 +187,7 @@ public class AnimalManager {
         return new ZooCursorWrapper(cursor);
     }
     
-    private String createWhereClause(String filter) {
+    public String createWhereClauseFromFilter(String filter) {
         String whereClause = null;
         
         if (filter != null) {

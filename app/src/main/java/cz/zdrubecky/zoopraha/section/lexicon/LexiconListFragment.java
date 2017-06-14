@@ -87,7 +87,7 @@ public class LexiconListFragment extends Fragment {
     public void updateUI() {
         // Filter the animals according to the supplied key, shared by the lexicon menu activity
         List<Animal> animals = mAnimalManager.getAnimals(
-                LexiconPreferences.getFilterKey(getActivity()),
+                mAnimalManager.createWhereClauseFromFilter(LexiconPreferences.getFilterKey(getActivity())),
                 new String[] {LexiconPreferences.getFilterValue(getActivity())}
         );
 
