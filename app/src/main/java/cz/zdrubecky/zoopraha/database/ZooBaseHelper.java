@@ -45,6 +45,7 @@ public class ZooBaseHelper extends SQLiteOpenHelper {
                 " _id integer primary key autoincrement, " +
                 AnimalsTable.Cols.ID + " NOT NULL, " +
                 AnimalsTable.Cols.NAME + ", " +
+                AnimalsTable.Cols.NAME_NO_ACCENTS + ", " +
                 AnimalsTable.Cols.LATIN_NAME + ", " +
                 AnimalsTable.Cols.CLASS_NAME + ", " +
                 AnimalsTable.Cols.CLASS_LATIN_NAME + ", " +

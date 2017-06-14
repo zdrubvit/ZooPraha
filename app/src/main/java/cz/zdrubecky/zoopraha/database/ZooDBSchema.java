@@ -21,6 +21,7 @@ public class ZooDBSchema {
         public static final class Cols {
             public static final String ID = "backend_id";
             public static final String NAME = "name";
+            public static final String NAME_NO_ACCENTS = "name_no_accents";
             public static final String LATIN_NAME = "latin_name";
             public static final String CLASS_NAME = "class_name";
             public static final String CLASS_LATIN_NAME = "class_latin_name";

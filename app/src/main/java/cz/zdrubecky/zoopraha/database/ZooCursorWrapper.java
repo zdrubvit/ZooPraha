@@ -37,6 +37,7 @@ public class ZooCursorWrapper extends CursorWrapper {
     public Animal getAnimal() {
         String id = getString(getColumnIndex(AnimalsTable.Cols.ID));
         String name = getString(getColumnIndex(AnimalsTable.Cols.NAME));
+        String nameNoAccents = getString(getColumnIndex(AnimalsTable.Cols.NAME_NO_ACCENTS));
         String latin_name = getString(getColumnIndex(AnimalsTable.Cols.LATIN_NAME));
         String class_name = getString(getColumnIndex(AnimalsTable.Cols.CLASS_NAME));
         String class_latin_name = getString(getColumnIndex(AnimalsTable.Cols.CLASS_LATIN_NAME));
@@ -61,6 +62,7 @@ public class ZooCursorWrapper extends CursorWrapper {
         Animal animal = new Animal();
         animal.setId(id);
         animal.setName(name);
+        animal.setNameNoAccents(nameNoAccents);
         animal.setLatinName(latin_name);
         animal.setClassName(class_name);
         animal.setClassLatinName(class_latin_name);

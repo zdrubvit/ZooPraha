@@ -1,5 +1,6 @@
 package cz.zdrubecky.zoopraha.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Animal {
@@ -7,6 +8,8 @@ public class Animal {
     private String mId;
     @SerializedName("name")
     private String mName;
+    @Expose(serialize = false, deserialize = false)
+    private String mNameNoAccents;
     @SerializedName("latin_name")
     private String mLatinName;
     @SerializedName("class_name")
@@ -62,6 +65,14 @@ public class Animal {
 
     public void setName(String name) {
         mName = name;
+    }
+
+    public String getNameNoAccents() {
+        return mNameNoAccents;
+    }
+
+    public void setNameNoAccents(String nameNoAccents) {
+        mNameNoAccents = nameNoAccents;
     }
 
     public String getLatinName() {

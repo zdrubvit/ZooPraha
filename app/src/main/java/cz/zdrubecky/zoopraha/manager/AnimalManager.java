@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,11 +50,12 @@ public class AnimalManager {
     public List<Animal> searchAnimals(String whereClause, List<String> whereArgs, String searchQuery) {
         // Check if the clause is empty or there are some filters already
         if (whereClause != null) {
-            whereClause += " AND " + AnimalsTable.Cols.NAME + " LIKE ?";
+            whereClause += " AND " + AnimalsTable.Cols.NAME + " LIKE ? OR " + AnimalsTable.Cols.NAME_NO_ACCENTS + " LIKE ?";
         } else {
-            whereClause = AnimalsTable.Cols.NAME + " LIKE ?";
+            whereClause = AnimalsTable.Cols.NAME + " LIKE ? OR " + AnimalsTable.Cols.NAME_NO_ACCENTS + " LIKE ?";
         }
 
+        whereArgs.add("%" + searchQuery + "%");
         whereArgs.add("%" + searchQuery + "%");
 
         return getAnimals(whereClause, whereArgs.toArray(new String[whereArgs.size()]));
@@ -91,31 +93,42 @@ public class AnimalManager {
         return mDatabase.delete(AnimalsTable.NAME, AnimalsTable.Cols.ID + " = ?", new String[] {animal.getId()}) > 0;
     }
 
+    // Get rid of the diacritics
+    private String normalizeName(String name) {
+        // Break the string into individual characters
+        name = Normalizer.normalize(name, Normalizer.Form.NFD);
+        // Remove the chars that are not letters (lowercase matches each accent)
+        name = name.replaceAll("\\p{M}", "");
+
+        return name;
+    }
+
     // Bind one object to the statement
     private void bindAnimal(SQLiteStatement statement, Animal animal) {
         // The binding index starts at "1"
         statement.bindString(1, animal.getId());
         statement.bindString(2, animal.getName());
-        statement.bindString(3, animal.getLatinName());
-        statement.bindString(4, animal.getClassName());
-        statement.bindString(5, animal.getClassLatinName());
-        statement.bindString(6, animal.getOrderName());
-        statement.bindString(7, animal.getOrderLatinName());
-        statement.bindString(8, animal.getDescription());
-        statement.bindString(9, animal.getImage());
-        statement.bindString(10, animal.getContinents());
-        statement.bindString(11, animal.getDistribution());
-        statement.bindString(12, animal.getBiotope());
-        statement.bindString(13, animal.getBiotopesDetail());
-        statement.bindString(14, animal.getFood());
-        statement.bindString(15, animal.getFoodDetail());
-        statement.bindString(16, animal.getProportions());
-        statement.bindString(17, animal.getReproduction());
-        statement.bindString(18, animal.getAttractions());
-        statement.bindString(19, animal.getProjects());
-        statement.bindString(20, animal.getBreeding());
-        statement.bindString(21, animal.getLocation());
-        statement.bindString(22, animal.getLocationUrl());
+        statement.bindString(3, normalizeName(animal.getName()));
+        statement.bindString(4, animal.getLatinName());
+        statement.bindString(5, animal.getClassName());
+        statement.bindString(6, animal.getClassLatinName());
+        statement.bindString(7, animal.getOrderName());
+        statement.bindString(8, animal.getOrderLatinName());
+        statement.bindString(9, animal.getDescription());
+        statement.bindString(10, animal.getImage());
+        statement.bindString(11, animal.getContinents());
+        statement.bindString(12, animal.getDistribution());
+        statement.bindString(13, animal.getBiotope());
+        statement.bindString(14, animal.getBiotopesDetail());
+        statement.bindString(15, animal.getFood());
+        statement.bindString(16, animal.getFoodDetail());
+        statement.bindString(17, animal.getProportions());
+        statement.bindString(18, animal.getReproduction());
+        statement.bindString(19, animal.getAttractions());
+        statement.bindString(20, animal.getProjects());
+        statement.bindString(21, animal.getBreeding());
+        statement.bindString(22, animal.getLocation());
+        statement.bindString(23, animal.getLocationUrl());
 
         statement.execute();
         statement.clearBindings();
@@ -127,6 +140,7 @@ public class AnimalManager {
         String query = "INSERT OR REPLACE INTO " + AnimalsTable.NAME + " ( " +
                 AnimalsTable.Cols.ID + ", " +
                 AnimalsTable.Cols.NAME + ", " +
+                AnimalsTable.Cols.NAME_NO_ACCENTS + ", " +
                 AnimalsTable.Cols.LATIN_NAME + ", " +
                 AnimalsTable.Cols.CLASS_NAME + ", " +
                 AnimalsTable.Cols.CLASS_LATIN_NAME + ", " +
@@ -146,7 +160,7 @@ public class AnimalManager {
                 AnimalsTable.Cols.PROJECTS + ", " +
                 AnimalsTable.Cols.BREEDING + ", " +
                 AnimalsTable.Cols.LOCATION + ", " +
-                AnimalsTable.Cols.LOCATION_URL + " ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+                AnimalsTable.Cols.LOCATION_URL + " ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 
         // Lock the DB file for the time being
         mDatabase.beginTransactionNonExclusive();
