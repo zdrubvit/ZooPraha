@@ -9,8 +9,10 @@ import android.widget.Button;
 import cz.zdrubecky.zoopraha.api.InternalStorageDriver;
 import cz.zdrubecky.zoopraha.database.ZooBaseHelper;
 import cz.zdrubecky.zoopraha.section.adoption.AdoptionListActivity;
+import cz.zdrubecky.zoopraha.section.adoption.AdoptionPreferences;
 import cz.zdrubecky.zoopraha.section.event.EventListActivity;
 import cz.zdrubecky.zoopraha.section.lexicon.LexiconMenuActivity;
+import cz.zdrubecky.zoopraha.section.lexicon.LexiconPreferences;
 import cz.zdrubecky.zoopraha.section.quiz.QuizMenuActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -61,5 +63,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Reset the search queries because this is a new starting point
+        LexiconPreferences.setSearchQuery(this, null);
+        AdoptionPreferences.setSearchQuery(this, null);
     }
 }

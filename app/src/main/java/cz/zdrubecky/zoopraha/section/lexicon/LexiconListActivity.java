@@ -44,6 +44,9 @@ public class LexiconListActivity
             mFilter = Pair.create(savedInstanceState.getString(KEY_FILTER_KEY), savedInstanceState.getString(KEY_FILTER_VALUE));
         } else if (getIntent().getStringExtra(EXTRA_FILTER_KEY) != null) {
             mFilter = Pair.create(getIntent().getStringExtra(EXTRA_FILTER_KEY), getIntent().getStringExtra(EXTRA_FILTER_VALUE));
+
+            // This also mean that the intent came from the parent menu activity, therefore a new filter is used and the old search query is obsolete
+            LexiconPreferences.setSearchQuery(this, null);
         } else {
             mFilter = Pair.create(LexiconPreferences.getFilterKey(this), LexiconPreferences.getFilterValue(this));
         }
