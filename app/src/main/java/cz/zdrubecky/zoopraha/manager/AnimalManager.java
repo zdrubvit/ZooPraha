@@ -45,6 +45,20 @@ public class AnimalManager {
         return animals;
     }
 
+    // Query the animal names using a regex operator appended to the existing filters
+    public List<Animal> searchAnimals(String whereClause, List<String> whereArgs, String searchQuery) {
+        // Check if the clause is empty or there are some filters already
+        if (whereClause != null) {
+            whereClause += " AND " + AnimalsTable.Cols.NAME + " LIKE ?";
+        } else {
+            whereClause = AnimalsTable.Cols.NAME + " LIKE ?";
+        }
+
+        whereArgs.add("%" + searchQuery + "%");
+
+        return getAnimals(whereClause, whereArgs.toArray(new String[whereArgs.size()]));
+    }
+
     public Animal getAnimal(String id) {
         ZooCursorWrapper cursor = queryAnimals(
                 AnimalsTable.Cols.ID + " = ?",

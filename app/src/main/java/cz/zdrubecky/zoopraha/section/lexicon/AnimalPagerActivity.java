@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cz.zdrubecky.zoopraha.R;
@@ -31,10 +32,25 @@ public class AnimalPagerActivity extends AppCompatActivity {
         mAnimalManager = new AnimalManager(this);
 
         mViewPager = (ViewPager) findViewById(R.id.activity_animal_pager_view_pager);
-        mAnimals = mAnimalManager.getAnimals(
-                mAnimalManager.createWhereClauseFromFilter(LexiconPreferences.getFilterKey(this)),
-                new String[] {LexiconPreferences.getFilterValue(this)}
-        );
+
+        String searchQuery = LexiconPreferences.getSearchQuery(this);
+
+        // Check if there's a search query present
+        if (searchQuery != null) {
+            ArrayList<String> whereArgs = new ArrayList<>();
+            whereArgs.add(LexiconPreferences.getFilterValue(this));
+
+            mAnimals = mAnimalManager.searchAnimals(
+                    mAnimalManager.createWhereClauseFromFilter(LexiconPreferences.getFilterKey(this)),
+                    whereArgs,
+                    searchQuery
+            );
+        } else {
+            mAnimals = mAnimalManager.getAnimals(
+                    mAnimalManager.createWhereClauseFromFilter(LexiconPreferences.getFilterKey(this)),
+                    new String[]{LexiconPreferences.getFilterValue(this)}
+            );
+        }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 

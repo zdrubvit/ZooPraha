@@ -12,28 +12,30 @@ import com.google.gson.Gson;
 import java.net.HttpURLConnection;
 import java.util.List;
 
+import cz.zdrubecky.zoopraha.SearchActivity;
 import cz.zdrubecky.zoopraha.api.InternalStorageDriver;
 import cz.zdrubecky.zoopraha.section.lexicon.AnimalDetailActivity;
 import cz.zdrubecky.zoopraha.section.lexicon.AnimalDetailFragment;
 import cz.zdrubecky.zoopraha.R;
-import cz.zdrubecky.zoopraha.SingleFragmentActivity;
 import cz.zdrubecky.zoopraha.api.DataFetcher;
 import cz.zdrubecky.zoopraha.manager.AdoptionManager;
 import cz.zdrubecky.zoopraha.model.Adoption;
 import cz.zdrubecky.zoopraha.model.JsonApiObject;
 
 public class AdoptionListActivity
-        extends SingleFragmentActivity
+        extends SearchActivity
         implements AdoptionListFragment.Callbacks {
 
     private static final String TAG = "AdoptionListActivity";
+
+    private DataFetcher mDataFetcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        DataFetcher dataFetcher = new DataFetcher(this);
-        dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
+        mDataFetcher = new DataFetcher(this);
+        mDataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
             @Override
             public void onDataFetched(JsonApiObject response, int statusCode, String etag) {
                 if (response != null) {
@@ -52,7 +54,8 @@ public class AdoptionListActivity
             }
         });
 
-        dataFetcher.getAdoptions(null, null, null);
+        String searchQuery = AdoptionPreferences.getSearchQuery(this);
+        updateItems(searchQuery);
     }
 
     @Override
@@ -84,6 +87,25 @@ public class AdoptionListActivity
                     .replace(R.id.detail_fragment_container, animalDetail)
                     .commit();
         }
+    }
+
+    @Override
+    protected void updateItems(String searchQuery) {
+        if (searchQuery != null) {
+            mDataFetcher.getAdoptions(searchQuery, null, null);
+        } else {
+            mDataFetcher.getAdoptions(null, null, null);
+        }
+    }
+
+    @Override
+    protected String getSearchQuery() {
+        return AdoptionPreferences.getSearchQuery(this);
+    }
+
+    @Override
+    protected void setSearchQuery(String searchQuery) {
+        AdoptionPreferences.setSearchQuery(this, searchQuery);
     }
 
     // This class is not static and therefore can block the garbage collection of its parent class, but it's useful to update the fragment from here

@@ -75,7 +75,14 @@ public class AdoptionListFragment extends Fragment {
     }
 
     public void updateUI() {
-        List<Adoption> adoptions = mAdoptionManager.getAdoptions();
+        List<Adoption> adoptions;
+        String searchQuery = AdoptionPreferences.getSearchQuery(getActivity());
+
+        if (searchQuery != null) {
+            adoptions = mAdoptionManager.searchAdoptions(searchQuery);
+        } else {
+            adoptions = mAdoptionManager.getAdoptions(null, null);
+        }
 
         if (adoptions.size() > 0) {
             // If the fragment is already running, update the data in case something changed (some adoption)

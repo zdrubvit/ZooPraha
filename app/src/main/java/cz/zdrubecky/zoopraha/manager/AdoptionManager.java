@@ -26,10 +26,10 @@ public class AdoptionManager {
         mAdoptions = new ArrayList<>();
     }
 
-    public List<Adoption> getAdoptions() {
+    public List<Adoption> getAdoptions(String whereClause, String[] whereArgs) {
         List<Adoption> adoptions = new ArrayList<>();
 
-        ZooCursorWrapper cursor = queryAdoptions(null, null);
+        ZooCursorWrapper cursor = queryAdoptions(whereClause, whereArgs);
 
         try {
             cursor.moveToFirst();
@@ -44,6 +44,11 @@ public class AdoptionManager {
         }
 
         return adoptions;
+    }
+
+    // Query the animal names using a regex operator
+    public List<Adoption> searchAdoptions(String searchQuery) {
+        return getAdoptions(AdoptionsTable.Cols.NAME + " LIKE ?", new String[] {"%" + searchQuery + "%"});
     }
 
     public void addAdoption(Adoption adoption) {

@@ -14,7 +14,7 @@ import java.net.HttpURLConnection;
 import java.util.List;
 
 import cz.zdrubecky.zoopraha.R;
-import cz.zdrubecky.zoopraha.SingleFragmentActivity;
+import cz.zdrubecky.zoopraha.SearchActivity;
 import cz.zdrubecky.zoopraha.api.DataFetcher;
 import cz.zdrubecky.zoopraha.api.InternalStorageDriver;
 import cz.zdrubecky.zoopraha.manager.AnimalManager;
@@ -23,7 +23,7 @@ import cz.zdrubecky.zoopraha.model.JsonApiObject;
 import cz.zdrubecky.zoopraha.model.LexiconQueryBuilder;
 
 public class LexiconListActivity
-        extends SingleFragmentActivity
+        extends SearchActivity
         implements LexiconListFragment.Callbacks {
 
     private static final String TAG = "LexiconListActivity";
@@ -32,6 +32,7 @@ public class LexiconListActivity
     private static final String KEY_FILTER_KEY = "filter_key";
     private static final String KEY_FILTER_VALUE = "filter_value";
 
+    private DataFetcher mDataFetcher;
     private Pair<String, String> mFilter;
 
     @Override
@@ -47,11 +48,8 @@ public class LexiconListActivity
             mFilter = Pair.create(LexiconPreferences.getFilterKey(this), LexiconPreferences.getFilterValue(this));
         }
 
-        // Create the builder object with the relevant query parameters set
-        LexiconQueryBuilder builder = createLexiconQueryBuilderObject();
-
-        DataFetcher dataFetcher = new DataFetcher(this);
-        dataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
+        mDataFetcher = new DataFetcher(this);
+        mDataFetcher.setDataFetchedListener(new DataFetcher.DataFetchedListener() {
             @Override
             public void onDataFetched(JsonApiObject response, int statusCode, String etag) {
                 if (response != null) {
@@ -70,7 +68,8 @@ public class LexiconListActivity
             }
         });
 
-        dataFetcher.getAnimals(builder);
+        String searchQuery = LexiconPreferences.getSearchQuery(this);
+        updateItems(searchQuery);
     }
 
     @Override
@@ -111,6 +110,29 @@ public class LexiconListActivity
                     .replace(R.id.detail_fragment_container, animalDetail)
                     .commit();
         }
+    }
+
+    @Override
+    protected void updateItems(String searchQuery) {
+        // Create the builder object with the relevant query parameters set
+        LexiconQueryBuilder builder = createLexiconQueryBuilderObject();
+
+        // In case there's a search query present, set it to a name (there's a search capability implemented on the backend)
+        if (searchQuery != null) {
+            builder.setName(searchQuery);
+        }
+
+        mDataFetcher.getAnimals(builder);
+    }
+
+    @Override
+    protected String getSearchQuery() {
+        return LexiconPreferences.getSearchQuery(this);
+    }
+
+    @Override
+    protected void setSearchQuery(String searchQuery) {
+        LexiconPreferences.setSearchQuery(this, searchQuery);
     }
 
     // This class is not static and therefore can block the garbage collection of its parent class, but it's useful to update the fragment from here

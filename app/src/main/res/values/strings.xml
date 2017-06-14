@@ -68,6 +68,8 @@
     <string name="fragment_animal_no_animal_error_text">Litujeme, ale detail zvířete se nepodařilo získat</string>
     <string name="fragment_animal_dialog_image_close">Zavřít</string>
     <string name="quiz_questions_loading_error">Nepodařilo se načíst otázky, zkontrolujte prosím své připojení k Internetu.</string>
+    <string name="fragment_list_menu_item_search_text">Hledat</string>
+    <string name="fragment_list_menu_item_search_clear_text">Zrušit vyhledávání</string>
 
     <string-array name="quiz_settings_questions_options_array">
         <item>5</item>

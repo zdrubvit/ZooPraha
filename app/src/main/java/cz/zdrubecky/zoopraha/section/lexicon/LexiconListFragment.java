@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cz.zdrubecky.zoopraha.R;
@@ -86,10 +87,26 @@ public class LexiconListFragment extends Fragment {
 
     public void updateUI() {
         // Filter the animals according to the supplied key, shared by the lexicon menu activity
-        List<Animal> animals = mAnimalManager.getAnimals(
-                mAnimalManager.createWhereClauseFromFilter(LexiconPreferences.getFilterKey(getActivity())),
-                new String[] {LexiconPreferences.getFilterValue(getActivity())}
-        );
+        List<Animal> animals;
+
+        String searchQuery = LexiconPreferences.getSearchQuery(getActivity());
+
+        // Check if there's a search query present
+        if (searchQuery != null) {
+            ArrayList<String> whereArgs = new ArrayList<>();
+            whereArgs.add(LexiconPreferences.getFilterValue(getActivity()));
+
+            animals = mAnimalManager.searchAnimals(
+                    mAnimalManager.createWhereClauseFromFilter(LexiconPreferences.getFilterKey(getActivity())),
+                    whereArgs,
+                    searchQuery
+            );
+        } else {
+            animals = mAnimalManager.getAnimals(
+                    mAnimalManager.createWhereClauseFromFilter(LexiconPreferences.getFilterKey(getActivity())),
+                    new String[]{LexiconPreferences.getFilterValue(getActivity())}
+            );
+        }
 
         if (animals.size() > 0) {
             // If the fragment is already running, update the data in case something changed (some animal)
