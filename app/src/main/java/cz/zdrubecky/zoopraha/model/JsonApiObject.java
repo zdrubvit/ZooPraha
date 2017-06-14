@@ -12,10 +12,11 @@ import cz.zdrubecky.zoopraha.api.InternalStorageDriver;
 
 public class JsonApiObject {
     // Artificially added HTTP status code, not present in the original response body
+    @Expose(serialize = false, deserialize = false)
     private int mStatus;
     // The response's eTag header value to denote the resource's modified state
+    @Expose(serialize = false, deserialize = false)
     private String mEtag;
-
     @SerializedName("meta")
     @Expose
     private Meta mMeta;

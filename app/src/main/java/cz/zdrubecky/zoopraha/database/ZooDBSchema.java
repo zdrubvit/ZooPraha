@@ -9,6 +9,7 @@ public class ZooDBSchema {
             public static final String ID = "backend_id";
             public static final String LEXICON_ID = "lexicon_id";
             public static final String NAME = "name";
+            public static final String NAME_NO_ACCENTS = "name_no_accents";
             public static final String PRICE = "price";
             public static final String VISIT = "visit";
         }

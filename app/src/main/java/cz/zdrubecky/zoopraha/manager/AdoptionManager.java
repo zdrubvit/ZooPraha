@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.text.TextUtils;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +50,10 @@ public class AdoptionManager {
 
     // Query the animal names using a regex operator
     public List<Adoption> searchAdoptions(String searchQuery) {
-        return getAdoptions(AdoptionsTable.Cols.NAME + " LIKE ?", new String[] {"%" + searchQuery + "%"});
+        String whereClause = AdoptionsTable.Cols.NAME + " LIKE ? OR " + AdoptionsTable.Cols.NAME_NO_ACCENTS + " LIKE ?";
+        String[] whereArgs = new String[] {"%" + searchQuery + "%", "%" + searchQuery + "%"};
+
+        return getAdoptions(whereClause, whereArgs);
     }
 
     public void addAdoption(Adoption adoption) {
@@ -65,14 +70,25 @@ public class AdoptionManager {
         return mDatabase.delete(AdoptionsTable.NAME, AdoptionsTable.Cols.ID + " = ?", new String[] {adoption.getId()}) > 0;
     }
 
+    // Get rid of the diacritics
+    private String normalizeName(String name) {
+        // Break the string into individual characters
+        name = Normalizer.normalize(name, Normalizer.Form.NFD);
+        // Remove the chars that are not letters (lowercase matches each accent)
+        name = name.replaceAll("\\p{M}", "");
+
+        return name;
+    }
+
     // Bind one object to the statement
     private void bindAdoption(SQLiteStatement statement, Adoption adoption) {
         // The binding index starts at "1"
         statement.bindString(1, adoption.getId());
         statement.bindString(2, adoption.getLexiconId());
         statement.bindString(3, adoption.getName());
-        statement.bindString(4, Integer.toString(adoption.getPrice()));
-        statement.bindString(5, Boolean.toString(adoption.isVisit()));
+        statement.bindString(4, normalizeName(adoption.getName()));
+        statement.bindString(5, Integer.toString(adoption.getPrice()));
+        statement.bindString(6, Boolean.toString(adoption.isVisit()));
 
         statement.execute();
         statement.clearBindings();
@@ -85,8 +101,9 @@ public class AdoptionManager {
                 AdoptionsTable.Cols.ID + ", " +
                 AdoptionsTable.Cols.LEXICON_ID + ", " +
                 AdoptionsTable.Cols.NAME + ", " +
+                AdoptionsTable.Cols.NAME_NO_ACCENTS + ", " +
                 AdoptionsTable.Cols.PRICE + ", " +
-                AdoptionsTable.Cols.VISIT + " ) VALUES ( ?, ?, ?, ?, ? )";
+                AdoptionsTable.Cols.VISIT + " ) VALUES ( ?, ?, ?, ?, ?, ? )";
 
         // Lock the DB file for the time being
         mDatabase.beginTransactionNonExclusive();

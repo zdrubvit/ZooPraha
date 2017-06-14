@@ -19,6 +19,7 @@ public class ZooCursorWrapper extends CursorWrapper {
         String id = getString(getColumnIndex(AdoptionsTable.Cols.ID));
         String lexicon_id = getString(getColumnIndex(AdoptionsTable.Cols.LEXICON_ID));
         String name = getString(getColumnIndex(AdoptionsTable.Cols.NAME));
+        String nameNoAccents = getString(getColumnIndex(AdoptionsTable.Cols.NAME_NO_ACCENTS));
         int price = getInt(getColumnIndex(AdoptionsTable.Cols.PRICE));
         boolean visit = parseBoolean(getString(getColumnIndex(AdoptionsTable.Cols.VISIT)));
 
@@ -26,6 +27,7 @@ public class ZooCursorWrapper extends CursorWrapper {
         adoption.setId(id);
         adoption.setLexiconId(lexicon_id);
         adoption.setName(name);
+        adoption.setNameNoAccents(nameNoAccents);
         adoption.setPrice(price);
         adoption.setVisit(visit);
 

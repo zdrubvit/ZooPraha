@@ -33,6 +33,7 @@ public class ZooBaseHelper extends SQLiteOpenHelper {
                 AdoptionsTable.Cols.ID + " NOT NULL, " +
                 AdoptionsTable.Cols.LEXICON_ID + ", " +
                 AdoptionsTable.Cols.NAME + ", " +
+                AdoptionsTable.Cols.NAME_NO_ACCENTS + ", " +
                 AdoptionsTable.Cols.PRICE + ", " +
                 AdoptionsTable.Cols.VISIT +
                 ")"

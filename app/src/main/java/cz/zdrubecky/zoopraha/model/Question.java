@@ -1,5 +1,6 @@
 package cz.zdrubecky.zoopraha.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Question {
@@ -25,6 +26,7 @@ public class Question {
     private boolean mAnsweredCorrectly;
     @SerializedName("flagged")
     private boolean mFlagged;
+    @Expose(serialize = false, deserialize = false)
     private int mTimeToAnswer;
 
     public String getId() {

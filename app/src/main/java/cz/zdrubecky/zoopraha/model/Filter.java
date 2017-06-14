@@ -1,8 +1,10 @@
 package cz.zdrubecky.zoopraha.model;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Filter {
+    @Expose(serialize = false, deserialize = false)
     private String mName;
     @SerializedName("name")
     private String mValue;
