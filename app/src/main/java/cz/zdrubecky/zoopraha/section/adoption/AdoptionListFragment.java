@@ -27,6 +27,7 @@ public class AdoptionListFragment extends Fragment {
     private RecyclerView mAdoptionRecyclerView;
     private AdoptionAdapter mAdoptionAdapter;
     private AdoptionManager mAdoptionManager;
+    private int mCurrentPage;
 
     private Callbacks mCallbacks;
 
@@ -55,7 +56,9 @@ public class AdoptionListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAdoptionManager = new AdoptionManager(getActivity());
+        mAdoptionManager = new AdoptionManager(getActivity(), AdoptionPreferences.getCurrentPage(getActivity()));
+        // Get the current page and keep it for the lifetime of the class
+        mCurrentPage = AdoptionPreferences.getCurrentPage(getActivity());
     }
 
     @Nullable
@@ -68,6 +71,19 @@ public class AdoptionListFragment extends Fragment {
 
         mAdoptionRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mAdoptionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdoptionRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                // Keep checking if the recycler view is at the end of the page and if it is, update the current page
+                if ((manager.findLastCompletelyVisibleItemPosition() + 1) == (mCurrentPage * AdoptionManager.PAGE_SIZE)) {
+                    setCurrentPage(mCurrentPage + 1);
+
+                    updateUI();
+                }
+            }
+        });
 
         updateUI();
 
@@ -92,11 +108,25 @@ public class AdoptionListFragment extends Fragment {
             } else {
                 mAdoptionAdapter.setAdoptions(adoptions);
                 mAdoptionAdapter.notifyDataSetChanged();
+
+                if (mCurrentPage > 1) {
+                    LinearLayoutManager manager = (LinearLayoutManager) mAdoptionRecyclerView.getLayoutManager();
+
+                    // Move the position up one item
+                    manager.scrollToPosition(manager.findLastCompletelyVisibleItemPosition() + 1);
+                }
             }
         } else {
             RelativeLayout emptyList = (RelativeLayout) mView.findViewById(R.id.list_empty);
             emptyList.setVisibility(View.VISIBLE);
         }
+    }
+
+    // Set the current page to the local variable and the preferences as well
+    private void setCurrentPage(int currentPage) {
+        mCurrentPage = currentPage;
+        AdoptionPreferences.setCurrentPage(getActivity(), currentPage);
+        mAdoptionManager.setCurrentPage(currentPage);
     }
 
     private class AdoptionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

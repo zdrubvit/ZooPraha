@@ -19,7 +19,7 @@
     <string name="fragment_animal_attractions_label">Zajímavosti:</string>
     <string name="fragment_animal_location_label">V ZOO:</string>
     <string name="fragment_animal_breeding_label">Chov:</string>
-    <string name="fragment_animal_projects_label">Ohrožení:</string>
+    <string name="fragment_animal_projects_label">Ochrana:</string>
     <string name="fragment_animal_description_label">Popis:</string>
     <string name="fragment_animal_reproduction_label">Reprodukce:</string>
     <string name="lexicon_menu_classifications_filter_text">Klasifikace</string>

@@ -72,5 +72,6 @@ public class MainActivity extends AppCompatActivity {
         // Reset the search queries because this is a new starting point
         LexiconPreferences.setSearchQuery(this, null);
         AdoptionPreferences.setSearchQuery(this, null);
+        AdoptionPreferences.setCurrentPage(this, 1);
     }
 }

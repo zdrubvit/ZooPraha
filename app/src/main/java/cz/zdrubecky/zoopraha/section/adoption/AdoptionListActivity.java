@@ -69,6 +69,7 @@ public class AdoptionListActivity
         return R.layout.activity_masterdetail;
     }
 
+    // Listen for the event in the child fragment
     public void onAdoptionSelected(Adoption adoption) {
         if (adoption.getLexiconId().equals("")) {
             Toast.makeText(this, R.string.adoption_no_detail_toast, Toast.LENGTH_SHORT).show();
@@ -114,7 +115,7 @@ public class AdoptionListActivity
         private JsonApiObject mResponse;
 
         public SaveItemsTask(JsonApiObject response) {
-            mAdoptionManager = new AdoptionManager(AdoptionListActivity.this);
+            mAdoptionManager = new AdoptionManager(AdoptionListActivity.this, AdoptionPreferences.getCurrentPage(AdoptionListActivity.this));
             mResponse = response;
         }
 

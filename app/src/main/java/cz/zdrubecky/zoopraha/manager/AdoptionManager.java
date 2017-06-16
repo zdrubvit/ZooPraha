@@ -17,15 +17,20 @@ import cz.zdrubecky.zoopraha.database.ZooDBSchema;
 import cz.zdrubecky.zoopraha.database.ZooDBSchema.AdoptionsTable;
 import cz.zdrubecky.zoopraha.model.Adoption;
 import cz.zdrubecky.zoopraha.model.Adoption;
+import cz.zdrubecky.zoopraha.section.adoption.AdoptionPreferences;
 
 public class AdoptionManager {
+    public static final int PAGE_SIZE = 20;
+
     private SQLiteDatabase mDatabase;
     private List<Adoption> mAdoptions;
+    private int mCurrentPage;
 
-    public AdoptionManager(Context context) {
+    public AdoptionManager(Context context, int currentPage) {
         ZooBaseHelper zooBaseHelper = ZooBaseHelper.getInstance(context);
         mDatabase = zooBaseHelper.getWritableDatabase();
         mAdoptions = new ArrayList<>();
+        mCurrentPage = currentPage;
     }
 
     public List<Adoption> getAdoptions(String whereClause, String[] whereArgs) {
@@ -136,8 +141,14 @@ public class AdoptionManager {
         return values;
     }
 
+    public void setCurrentPage(int currentPage) {
+        mCurrentPage = currentPage;
+    }
+
     private ZooCursorWrapper queryAdoptions(String whereClause, String[] whereArgs) {
-        Cursor cursor = mDatabase.query(AdoptionsTable.NAME, null, whereClause, whereArgs, null, null, AdoptionsTable.Cols.NAME_NO_ACCENTS + " ASC");
+        String limit = Integer.toString(mCurrentPage * PAGE_SIZE);
+
+        Cursor cursor = mDatabase.query(AdoptionsTable.NAME, null, whereClause, whereArgs, null, null, AdoptionsTable.Cols.NAME_NO_ACCENTS + " ASC", limit);
 
         return new ZooCursorWrapper(cursor);
     }
