@@ -56,7 +56,7 @@ public class AdoptionListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAdoptionManager = new AdoptionManager(getActivity(), AdoptionPreferences.getCurrentPage(getActivity()));
+        mAdoptionManager = new AdoptionManager(getActivity());
         // Get the current page and keep it for the lifetime of the class
         mCurrentPage = AdoptionPreferences.getCurrentPage(getActivity());
     }
@@ -95,9 +95,9 @@ public class AdoptionListFragment extends Fragment {
         String searchQuery = AdoptionPreferences.getSearchQuery(getActivity());
 
         if (searchQuery != null) {
-            adoptions = mAdoptionManager.searchAdoptions(searchQuery);
+            adoptions = mAdoptionManager.searchAdoptions(searchQuery, mCurrentPage);
         } else {
-            adoptions = mAdoptionManager.getAdoptions(null, null);
+            adoptions = mAdoptionManager.getAdoptions(null, null, mCurrentPage);
         }
 
         if (adoptions.size() > 0) {
@@ -126,7 +126,6 @@ public class AdoptionListFragment extends Fragment {
     private void setCurrentPage(int currentPage) {
         mCurrentPage = currentPage;
         AdoptionPreferences.setCurrentPage(getActivity(), currentPage);
-        mAdoptionManager.setCurrentPage(currentPage);
     }
 
     private class AdoptionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

@@ -20,23 +20,21 @@ import cz.zdrubecky.zoopraha.model.Adoption;
 import cz.zdrubecky.zoopraha.section.adoption.AdoptionPreferences;
 
 public class AdoptionManager {
-    public static final int PAGE_SIZE = 20;
+    public static final int PAGE_SIZE = 50;
 
     private SQLiteDatabase mDatabase;
     private List<Adoption> mAdoptions;
-    private int mCurrentPage;
 
-    public AdoptionManager(Context context, int currentPage) {
+    public AdoptionManager(Context context) {
         ZooBaseHelper zooBaseHelper = ZooBaseHelper.getInstance(context);
         mDatabase = zooBaseHelper.getWritableDatabase();
         mAdoptions = new ArrayList<>();
-        mCurrentPage = currentPage;
     }
 
-    public List<Adoption> getAdoptions(String whereClause, String[] whereArgs) {
+    public List<Adoption> getAdoptions(String whereClause, String[] whereArgs, int currentPage) {
         List<Adoption> adoptions = new ArrayList<>();
 
-        ZooCursorWrapper cursor = queryAdoptions(whereClause, whereArgs);
+        ZooCursorWrapper cursor = queryAdoptions(whereClause, whereArgs, currentPage);
 
         try {
             cursor.moveToFirst();
@@ -54,11 +52,11 @@ public class AdoptionManager {
     }
 
     // Query the animal names using a regex operator
-    public List<Adoption> searchAdoptions(String searchQuery) {
+    public List<Adoption> searchAdoptions(String searchQuery, int currentPage) {
         String whereClause = AdoptionsTable.Cols.NAME + " LIKE ? OR " + AdoptionsTable.Cols.NAME_NO_ACCENTS + " LIKE ?";
         String[] whereArgs = new String[] {"%" + searchQuery + "%", "%" + searchQuery + "%"};
 
-        return getAdoptions(whereClause, whereArgs);
+        return getAdoptions(whereClause, whereArgs, currentPage);
     }
 
     public void addAdoption(Adoption adoption) {
@@ -141,12 +139,8 @@ public class AdoptionManager {
         return values;
     }
 
-    public void setCurrentPage(int currentPage) {
-        mCurrentPage = currentPage;
-    }
-
-    private ZooCursorWrapper queryAdoptions(String whereClause, String[] whereArgs) {
-        String limit = Integer.toString(mCurrentPage * PAGE_SIZE);
+    private ZooCursorWrapper queryAdoptions(String whereClause, String[] whereArgs, int currentPage) {
+        String limit = Integer.toString(currentPage * PAGE_SIZE);
 
         Cursor cursor = mDatabase.query(AdoptionsTable.NAME, null, whereClause, whereArgs, null, null, AdoptionsTable.Cols.NAME_NO_ACCENTS + " ASC", limit);
 

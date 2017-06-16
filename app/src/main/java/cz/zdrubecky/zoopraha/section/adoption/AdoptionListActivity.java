@@ -115,7 +115,7 @@ public class AdoptionListActivity
         private JsonApiObject mResponse;
 
         public SaveItemsTask(JsonApiObject response) {
-            mAdoptionManager = new AdoptionManager(AdoptionListActivity.this, AdoptionPreferences.getCurrentPage(AdoptionListActivity.this));
+            mAdoptionManager = new AdoptionManager(AdoptionListActivity.this);
             mResponse = response;
         }
 
