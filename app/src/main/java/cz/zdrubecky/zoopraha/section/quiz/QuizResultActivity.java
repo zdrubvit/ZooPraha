@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import cz.zdrubecky.zoopraha.R;
 import cz.zdrubecky.zoopraha.manager.QuestionManager;
@@ -64,7 +65,7 @@ public class QuizResultActivity extends AppCompatActivity {
         mScoreTextView.setText(scoreText);
 
         QuizResult quizResult = new QuizResult();
-        quizResult.setDate(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()));
+        quizResult.setDate(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", new Locale("cs")).format(new Date()));
         quizResult.setName(QuizPreferences.getUserName(this));
         quizResult.setScore(score.intValue());
         quizResult.setQuestionTime(QuizPreferences.getQuestionTime(this));

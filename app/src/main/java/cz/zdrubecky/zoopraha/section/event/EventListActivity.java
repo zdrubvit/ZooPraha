@@ -9,7 +9,10 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import java.net.HttpURLConnection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import cz.zdrubecky.zoopraha.R;
 import cz.zdrubecky.zoopraha.SingleFragmentActivity;
@@ -49,7 +52,8 @@ public class EventListActivity
             }
         });
 
-        dataFetcher.getEvents(null, null, null);
+        // The received events should either be happening right now or in the future
+        dataFetcher.getEvents(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", new Locale("cs")).format(new Date()), null, null);
     }
 
     @Override

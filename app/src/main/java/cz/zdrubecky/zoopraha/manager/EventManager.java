@@ -6,8 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import cz.zdrubecky.zoopraha.database.ZooBaseHelper;
 import cz.zdrubecky.zoopraha.database.ZooCursorWrapper;
@@ -29,7 +32,11 @@ public class EventManager {
     public List<Event> getEvents() {
         List<Event> events = new ArrayList<>();
 
-        ZooCursorWrapper cursor = queryEvents(null, null);
+        // The events are restricted to those in the future by default
+        ZooCursorWrapper cursor = queryEvents(
+                EventsTable.Cols.START + " >= ?",
+                new String[] { new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", new Locale("cs")).format(new Date()) }
+        );
 
         try {
             cursor.moveToFirst();
