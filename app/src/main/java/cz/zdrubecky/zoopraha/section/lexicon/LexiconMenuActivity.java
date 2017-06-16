@@ -27,8 +27,10 @@ public class LexiconMenuActivity extends SingleFragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Process the data in a background task
-        new SaveItemsTask().execute();
+        // Process the data in a background task (only if the action doesn't follow a simple config change)
+        if (savedInstanceState == null) {
+            new SaveItemsTask().execute();
+        }
     }
 
     @Override
