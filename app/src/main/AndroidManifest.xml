@@ -44,6 +44,9 @@
                   android:parentActivityName=".section.quiz.QuizMenuActivity"/>
         <activity android:name=".section.quiz.QuizSettingsActivity"
                   android:parentActivityName=".section.quiz.QuizMenuActivity"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="0e0357bd11bf08cb4f0a99fc40c3d3199efea605" />
     </application>
 
 </manifest>

@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.crashlytics.android.Crashlytics;
+
+import java.io.IOException;
+
 import cz.zdrubecky.zoopraha.api.InternalStorageDriver;
 import cz.zdrubecky.zoopraha.database.ZooBaseHelper;
 import cz.zdrubecky.zoopraha.section.adoption.AdoptionListActivity;
@@ -14,16 +18,18 @@ import cz.zdrubecky.zoopraha.section.event.EventListActivity;
 import cz.zdrubecky.zoopraha.section.lexicon.LexiconMenuActivity;
 import cz.zdrubecky.zoopraha.section.lexicon.LexiconPreferences;
 import cz.zdrubecky.zoopraha.section.quiz.QuizMenuActivity;
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
 //        getApplicationContext().deleteDatabase(ZooBaseHelper.DATABASE_NAME);
 //        InternalStorageDriver.deleteProcessedResourcesFile(this);
-
+        
         Button mainButtonLexicon = (Button) findViewById(R.id.main_button_lexicon);
         mainButtonLexicon.setOnClickListener(new View.OnClickListener() {
             @Override
