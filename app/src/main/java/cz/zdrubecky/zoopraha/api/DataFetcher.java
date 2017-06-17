@@ -26,7 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DataFetcher {
     private static final String TAG = "DataFetcher";
 //    private static final String ENDPOINT = "http://10.0.2.2:3000/";
-    private static final String ENDPOINT = "http://192.168.1.233:3000/";
+    private static final String ENDPOINT = "http://192.168.0.12:3000/";
 //    private static final String ENDPOINT = "https://zoo-backend.herokuapp.com/";
 
     private BackendApi mService;

@@ -27,10 +27,10 @@
     <string name="lexicon_menu_continents_filter_text">Kontinent</string>
     <string name="lexicon_menu_biotopes_filter_text">Biotop</string>
     <string name="lexicon_menu_food_filter_text">Potrava</string>
-    <string name="fragment_event_name_label">Nazev</string>
-    <string name="fragment_event_start_label">Zacatek</string>
+    <string name="fragment_event_name_label">Název</string>
+    <string name="fragment_event_start_label">Začátek</string>
     <string name="fragment_event_end_label">Konec</string>
-    <string name="fragment_event_duration_label">Delka</string>
+    <string name="fragment_event_duration_label">Délka</string>
     <string name="fragment_event_description_label">Popis</string>
     <string name="quiz_menu_new_game_button_text">Nová hra</string>
     <string name="quiz_menu_leaderboard_button_text">Žebříček</string>
