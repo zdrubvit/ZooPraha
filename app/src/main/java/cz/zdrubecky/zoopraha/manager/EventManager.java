@@ -17,7 +17,6 @@ import cz.zdrubecky.zoopraha.database.ZooCursorWrapper;
 import cz.zdrubecky.zoopraha.database.ZooDBSchema;
 import cz.zdrubecky.zoopraha.database.ZooDBSchema.EventsTable;
 import cz.zdrubecky.zoopraha.model.Event;
-import cz.zdrubecky.zoopraha.model.Event;
 
 public class EventManager {
     private SQLiteDatabase mDatabase;

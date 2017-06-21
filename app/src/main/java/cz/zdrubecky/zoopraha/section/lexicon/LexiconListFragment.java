@@ -2,18 +2,15 @@ package cz.zdrubecky.zoopraha.section.lexicon;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.zdrubecky.zoopraha.R;
-import cz.zdrubecky.zoopraha.api.DataFetcher;
 import cz.zdrubecky.zoopraha.api.ImageLoader;
 import cz.zdrubecky.zoopraha.manager.AnimalManager;
 import cz.zdrubecky.zoopraha.model.Animal;

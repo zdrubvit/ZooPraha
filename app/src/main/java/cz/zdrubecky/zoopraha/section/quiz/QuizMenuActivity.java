@@ -8,11 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.List;
-
 import cz.zdrubecky.zoopraha.R;
-import cz.zdrubecky.zoopraha.manager.QuizResultManager;
-import cz.zdrubecky.zoopraha.model.QuizResult;
 
 
 public class QuizMenuActivity extends AppCompatActivity {

@@ -8,8 +8,6 @@ import android.widget.Button;
 
 import com.crashlytics.android.Crashlytics;
 
-import java.io.IOException;
-
 import cz.zdrubecky.zoopraha.api.InternalStorageDriver;
 import cz.zdrubecky.zoopraha.database.ZooBaseHelper;
 import cz.zdrubecky.zoopraha.section.adoption.AdoptionListActivity;
@@ -27,9 +25,6 @@ public class MainActivity extends AppCompatActivity {
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
-//        getApplicationContext().deleteDatabase(ZooBaseHelper.DATABASE_NAME);
-//        InternalStorageDriver.deleteProcessedResourcesFile(this);
-        
         Button mainButtonLexicon = (Button) findViewById(R.id.main_button_lexicon);
         mainButtonLexicon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,5 +74,11 @@ public class MainActivity extends AppCompatActivity {
         LexiconPreferences.setSearchQuery(this, null);
         AdoptionPreferences.setSearchQuery(this, null);
         AdoptionPreferences.setCurrentPage(this, 1);
+    }
+
+    // Beware of this method - used for testing purposes only!
+    private void clearData() {
+        getApplicationContext().deleteDatabase(ZooBaseHelper.DATABASE_NAME);
+        InternalStorageDriver.deleteProcessedResourcesFile(this);
     }
 }
