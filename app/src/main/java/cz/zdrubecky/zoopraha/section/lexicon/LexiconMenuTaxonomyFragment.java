@@ -16,8 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import cz.zdrubecky.zoopraha.R;
-import cz.zdrubecky.zoopraha.lexicon_menu.LexiconExpandableListAdapter;
-import cz.zdrubecky.zoopraha.lexicon_menu.LexiconExpandableListDataMapper;
+import cz.zdrubecky.zoopraha.section.lexicon.menu.LexiconExpandableListAdapter;
+import cz.zdrubecky.zoopraha.section.lexicon.menu.LexiconExpandableListDataMapper;
 
 
 public class LexiconMenuTaxonomyFragment extends Fragment {

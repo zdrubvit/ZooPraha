@@ -1,4 +1,4 @@
-package cz.zdrubecky.zoopraha.lexicon_menu;
+package cz.zdrubecky.zoopraha.section.lexicon.menu;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -9,15 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import cz.zdrubecky.zoopraha.R;
-import cz.zdrubecky.zoopraha.lexicon_menu.LexiconExpandableListAdapter;
-import cz.zdrubecky.zoopraha.lexicon_menu.LexiconExpandableListDataMapper;
+import cz.zdrubecky.zoopraha.section.lexicon.menu.LexiconExpandableListAdapter;
+import cz.zdrubecky.zoopraha.section.lexicon.menu.LexiconExpandableListDataMapper;
 
 
 public class LexiconMenuFiltersFragment extends Fragment {
