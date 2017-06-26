@@ -46,4 +46,17 @@
         <item name="android:layout_marginLeft">10dp</item>
     </style>
 
+    <style name="QuizResultTextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingTop">20dp</item>
+    </style>
+
+    <style name="QuizResultButton">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
 </resources>

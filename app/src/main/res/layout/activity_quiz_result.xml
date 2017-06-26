@@ -1,65 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="vertical"
+            android:scrollbarAlwaysDrawVerticalTrack="true">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/quiz_result_header"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="2">
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="10dp">
 
         <TextView
-            android:id="@+id/quiz_result_correct_answers_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Spravne odpovedi: 1 / 10"/>
-        <TextView
-            android:id="@+id/quiz_result_incorrect_answers_textview"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
+            android:text="@string/quiz_result_header"/>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Nespravne odpovedi: 9 / 10"/>
-        <TextView
-            android:id="@+id/quiz_result_total_time_textview"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_weight="2">
+
+            <TextView
+                android:id="@+id/quiz_result_correct_answers_textview"
+                style="@style/QuizResultTextView"
+                tools:text="Spravne odpovedi: 1 / 10"/>
+            <TextView
+                android:id="@+id/quiz_result_incorrect_answers_textview"
+                style="@style/QuizResultTextView"
+                tools:text="Nespravne odpovedi: 9 / 10"/>
+            <TextView
+                android:id="@+id/quiz_result_total_time_textview"
+                style="@style/QuizResultTextView"
+                tools:text="Celkový čas: 35 sekund"/>
+            <TextView
+                android:id="@+id/quiz_result_score_textview"
+                style="@style/QuizResultTextView"
+                tools:text="Výsledné skóre: 42"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Celkový čas: 35 sekund"/>
-        <TextView
-            android:id="@+id/quiz_result_score_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="Výsledné skóre: 42"/>
+            android:orientation="vertical"
+            android:layout_weight="4"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/quiz_result_new_game_button"
+                style="@style/QuizResultButton"
+                android:text="@string/quiz_result_new_game_button_text"/>
+            <Button
+                android:id="@+id/quiz_result_leaderboard_button"
+                style="@style/QuizResultButton"
+                android:text="@string/quiz_result_leaderboard_button_text"/>
+            <Button
+                android:id="@+id/quiz_result_menu_button"
+                style="@style/QuizResultButton"
+                android:text="@string/quiz_result_menu_button_text"/>
+        </LinearLayout>
+
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="4">
-
-        <Button
-            android:id="@+id/quiz_result_new_game_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/quiz_result_new_game_button_text"/>
-        <Button
-            android:id="@+id/quiz_result_leaderboard_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/quiz_result_leaderboard_button_text"/>
-        <Button
-            android:id="@+id/quiz_result_menu_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/quiz_result_menu_button_text"/>
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>
