@@ -216,6 +216,12 @@ public class QuestionFragment extends Fragment {
     private void replaceAnswers(String resultText) {
         // Remove the old view from its parent
         View oldView = mView.findViewById(R.id.fragment_question_answers);
+
+        // If the View's no longer there, do nothing
+        if (oldView == null) {
+            return;
+        }
+
         ViewGroup parent = (ViewGroup) oldView.getParent();
         int index = parent.indexOfChild(oldView);
         parent.removeView(oldView);
