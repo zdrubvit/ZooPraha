@@ -4,28 +4,28 @@
             android:id="@+id/fragment_animal_scrollview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
             android:fillViewport="true"
             android:scrollbars="vertical"
             android:scrollbarAlwaysDrawVerticalTrack="true">
 
     <LinearLayout android:orientation="vertical"
                   android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:padding="10dp">
+                  android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/AnimalDetailLinearLayout">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/AnimalDetailAttributeNameTextView"
+                android:textSize="18sp"
                 android:text="@string/fragment_animal_name_label"/>
             <TextView
                 android:id="@+id/fragment_animal_name_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                style="@style/AnimalDetailAttributeValueTextView"
+                android:textSize="18sp"
                 tools:text="Animal name"/>
         </LinearLayout>
         <ImageView
@@ -37,198 +37,146 @@
             android:layout_marginBottom="10dp"
             tools:src="@android:drawable/btn_star"/>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/AnimalDetailLinearLayout">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/AnimalDetailAttributeNameTextView"
                 android:text="@string/fragment_animal_class_label"/>
             <TextView
                 android:id="@+id/fragment_animal_class_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                style="@style/AnimalDetailAttributeValueTextView"
                 tools:text="Animal class"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/AnimalDetailLinearLayout">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/AnimalDetailAttributeNameTextView"
                 android:text="@string/fragment_animal_order_label"/>
             <TextView
                 android:id="@+id/fragment_animal_order_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                style="@style/AnimalDetailAttributeValueTextView"
                 tools:text="Animal order"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/AnimalDetailLinearLayout">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/AnimalDetailAttributeNameTextView"
                 android:text="@string/fragment_animal_description_label"/>
             <TextView
                 android:id="@+id/fragment_animal_description_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                style="@style/AnimalDetailAttributeValueTextView"
                 tools:text="Animal description"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/AnimalDetailLinearLayout">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/AnimalDetailAttributeNameTextView"
                 android:text="@string/fragment_animal_continents_label"/>
             <TextView
                 android:id="@+id/fragment_animal_continents_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                style="@style/AnimalDetailAttributeValueTextView"
                 tools:text="Animal continents"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/AnimalDetailLinearLayout">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/AnimalDetailAttributeNameTextView"
                 android:text="@string/fragment_animal_distribution_label"/>
             <TextView
                 android:id="@+id/fragment_animal_distribution_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                style="@style/AnimalDetailAttributeValueTextView"
                 tools:text="Animal distribution"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/AnimalDetailLinearLayout">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/AnimalDetailAttributeNameTextView"
                 android:text="@string/fragment_animal_biotopes_label"/>
             <TextView
                 android:id="@+id/fragment_animal_biotopes_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                style="@style/AnimalDetailAttributeValueTextView"
                 tools:text="Animal biotopes"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/AnimalDetailLinearLayout">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/AnimalDetailAttributeNameTextView"
                 android:text="@string/fragment_animal_food_label"/>
             <TextView
                 android:id="@+id/fragment_animal_food_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                style="@style/AnimalDetailAttributeValueTextView"
                 tools:text="Animal food"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/AnimalDetailLinearLayout">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/AnimalDetailAttributeNameTextView"
                 android:text="@string/fragment_animal_proportions_label"/>
             <TextView
                 android:id="@+id/fragment_animal_proportions_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                style="@style/AnimalDetailAttributeValueTextView"
                 tools:text="Animal proportions"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/AnimalDetailLinearLayout">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/AnimalDetailAttributeNameTextView"
                 android:text="@string/fragment_animal_reproduction_label"/>
             <TextView
                 android:id="@+id/fragment_animal_reproduction_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                style="@style/AnimalDetailAttributeValueTextView"
                 tools:text="Animal reproduction"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/AnimalDetailLinearLayout">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/AnimalDetailAttributeNameTextView"
                 android:text="@string/fragment_animal_attractions_label"/>
             <TextView
                 android:id="@+id/fragment_animal_attractions_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                style="@style/AnimalDetailAttributeValueTextView"
                 tools:text="Animal attractions"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/AnimalDetailLinearLayout">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/AnimalDetailAttributeNameTextView"
                 android:text="@string/fragment_animal_location_label"/>
             <TextView
                 android:id="@+id/fragment_animal_location_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                style="@style/AnimalDetailAttributeValueTextView"
                 tools:text="Animal ZOO location"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/AnimalDetailLinearLayout">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/AnimalDetailAttributeNameTextView"
                 android:text="@string/fragment_animal_breeding_label"/>
             <TextView
                 android:id="@+id/fragment_animal_breeding_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                style="@style/AnimalDetailAttributeValueTextView"
                 tools:text="Animal breeding"/>
         </LinearLayout>
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            style="@style/AnimalDetailLinearLayout">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/AnimalDetailAttributeNameTextView"
                 android:text="@string/fragment_animal_projects_label"/>
             <TextView
                 android:id="@+id/fragment_animal_projects_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                style="@style/AnimalDetailAttributeValueTextView"
                 tools:text="Animal projects"/>
         </LinearLayout>
 

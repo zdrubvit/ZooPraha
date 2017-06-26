@@ -13,7 +13,7 @@
     <string name="fragment_adoption_price_visit">Cena adopce: %1$d Kč, %2$s.</string>
     <string name="fragment_animal_name_label">Jméno:</string>
     <string name="fragment_animal_class_label">Třída:</string>
-    <string name="fragment_animal_order_label">Druh:</string>
+    <string name="fragment_animal_order_label">Řád:</string>
     <string name="fragment_animal_continents_label">Kontinent:</string>
     <string name="fragment_animal_distribution_label">Rozšíření:</string>
     <string name="fragment_animal_biotopes_label">Biotop:</string>
