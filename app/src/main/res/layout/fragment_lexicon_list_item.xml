@@ -1,30 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                style="@style/ListItemLayout">
+
     <ImageView
         android:id="@+id/fragment_lexicon_list_item_image_imageview"
         android:layout_width="140dp"
         android:layout_height="80dp"
-        android:padding="4dp"
         android:scaleType="centerInside"
         tools:src="@android:drawable/btn_star"/>
-    <TextView
-        android:id="@+id/fragment_lexicon_list_item_name_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/fragment_lexicon_list_item_image_imageview"
-        android:layout_toEndOf="@+id/fragment_lexicon_list_item_image_imageview"
-        tools:text="Animal name"/>
-    <TextView
-        android:id="@+id/fragment_lexicon_list_item_taxonomy_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/fragment_lexicon_list_item_image_imageview"
-        android:layout_toEndOf="@+id/fragment_lexicon_list_item_image_imageview"
-        android:layout_below="@+id/fragment_lexicon_list_item_name_textview"
-        tools:text="Animal class -> Animal order"/>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingStart="10dp"
+        android:orientation="vertical"
+        android:layout_toRightOf="@id/fragment_lexicon_list_item_image_imageview"
+        android:layout_toEndOf="@id/fragment_lexicon_list_item_image_imageview"
+        android:layout_centerVertical="true">
+
+        <TextView
+            android:id="@+id/fragment_lexicon_list_item_name_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="2dp"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            tools:text="Animal name"/>
+        <TextView
+            android:id="@+id/fragment_lexicon_list_item_taxonomy_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            tools:text="Animal class -> Animal order"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/fragment_lexicon_list_item_image_imageview"
+        android:layout_marginTop="10dp"
+        android:background="#000000"/>
 </RelativeLayout>

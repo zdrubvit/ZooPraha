@@ -5,7 +5,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <!-- We must use the android prefix to override, because this attribute is in the Android OS, outside the AppCompat scope -->
         <item name="android:colorBackground">@color/colorBackground</item>
     </style>
 
@@ -13,8 +12,17 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
-        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingTop">10dp</item>
+    </style>
+
+    <style name="ListItemLinearLayoutVertical" parent="ListItemLayout">
         <item name="android:orientation">vertical</item>
+        <item name="android:layout_height">72dp</item>
+    </style>
+
+    <style name="ListItemLinearLayoutHorizontal" parent="ListItemLayout">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_height">48dp</item>
     </style>
 
 </resources>

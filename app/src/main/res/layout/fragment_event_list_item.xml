@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
-            android:layout_height="72dp"
-            style="@style/ListItemLayout">
+            style="@style/ListItemLinearLayoutVertical">
 
     <TextView
         android:id="@+id/fragment_event_list_item_name_textview"
@@ -17,4 +16,9 @@
         android:layout_height="wrap_content"
         android:textSize="14sp"
         tools:text="Event start - event end"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:background="#000000"/>
 </LinearLayout>
