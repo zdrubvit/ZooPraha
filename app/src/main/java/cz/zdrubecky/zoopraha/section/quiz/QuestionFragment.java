@@ -149,8 +149,8 @@ public class QuestionFragment extends Fragment {
         TextView textTextView = (TextView) mView.findViewById(R.id.fragment_question_text_textview);
         textTextView.setText(mQuestion.getText());
 
+        final ImageView imageImageView = (ImageView) mView.findViewById(R.id.fragment_question_image_imageview);
         if (mQuestion.getType().equals("guess_animal_image")) {
-            final ImageView imageImageView = (ImageView) mView.findViewById(R.id.fragment_question_image_imageview);
             // If there's an image present, place it in the view
             imageImageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
@@ -164,6 +164,8 @@ public class QuestionFragment extends Fragment {
                     imageImageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
             });
+        } else {
+            imageImageView.setVisibility(View.GONE);
         }
 
         // Mark the question as "shown", since it's gonna be displayed
