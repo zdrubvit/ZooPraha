@@ -17,12 +17,23 @@ public class JsonApiObject {
     // The response's eTag header value to denote the resource's modified state
     @Expose(serialize = false, deserialize = false)
     private String mEtag;
+    @SerializedName("links")
+    @Expose
+    private Links mLinks;
     @SerializedName("meta")
     @Expose
     private Meta mMeta;
     @SerializedName("data")
     @Expose
     private List<Resource> mData = null;
+
+    public Links getLinks() {
+        return mLinks;
+    }
+
+    public void setLinks(Links links) {
+        mLinks = links;
+    }
 
     public int getStatus() {
         return mStatus;
@@ -59,6 +70,64 @@ public class JsonApiObject {
     // Check if the response was processed at some point in the past
     public boolean wasProcessed(Context context) {
         return InternalStorageDriver.wasResourceProcessed(context, mEtag);
+    }
+
+    public class Links {
+        @SerializedName("self")
+        @Expose
+        private String mSelf;
+        @SerializedName("next")
+        @Expose
+        private String mNext;
+        @SerializedName("prev")
+        @Expose
+        private String mPrev;
+        @SerializedName("first")
+        @Expose
+        private String mFirst;
+        @SerializedName("last")
+        @Expose
+        private String mLast;
+
+        public String getSelf() {
+            return mSelf;
+        }
+
+        public void setSelf(String self) {
+            mSelf = self;
+        }
+
+        public String getNext() {
+            return mNext;
+        }
+
+        public void setNext(String next) {
+            mNext = next;
+        }
+
+        public String getPrev() {
+            return mPrev;
+        }
+
+        public void setPrev(String prev) {
+            mPrev = prev;
+        }
+
+        public String getFirst() {
+            return mFirst;
+        }
+
+        public void setFirst(String first) {
+            mFirst = first;
+        }
+
+        public String getLast() {
+            return mLast;
+        }
+
+        public void setLast(String last) {
+            mLast = last;
+        }
     }
 
     public class Meta {
