@@ -70,6 +70,12 @@
     <string name="quiz_questions_loading_error">Nepodařilo se načíst otázky, zkontrolujte prosím své připojení k Internetu.</string>
     <string name="fragment_list_menu_item_search_text">Hledat</string>
     <string name="fragment_list_menu_item_search_clear_text">Zrušit vyhledávání</string>
+    <string name="main_button_about_text">O aplikaci</string>
+    <string name="activity_about_author_text">Autor: Vít Zdrubecký</string>
+    <string name="activity_about_contact_text">Kontakt: app.zoopraha@gmail.com</string>
+    <string name="activity_about_header_text">O aplikaci ZOO Praha</string>
+    <string name="activity_about_version_text">Verze: 1.0</string>
+    <string name="activity_about_date_text">Datum vydání: 26. 6. 2017</string>
 
     <string-array name="quiz_settings_questions_options_array">
         <item>5</item>
