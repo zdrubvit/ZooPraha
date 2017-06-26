@@ -72,7 +72,7 @@ public class AdoptionListActivity
     // Listen for the event in the child fragment
     public void onAdoptionSelected(Adoption adoption) {
         if (adoption.getLexiconId().equals("")) {
-            Toast.makeText(this, R.string.adoption_no_detail_toast, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.fragment_adoption_no_detail_toast, Toast.LENGTH_SHORT).show();
 
             return;
         }

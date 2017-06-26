@@ -131,8 +131,7 @@ public class AdoptionListFragment extends Fragment {
     private class AdoptionHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Adoption mAdoption;
         private TextView mNameTextView;
-        private TextView mPriceTextView;
-        private TextView mVisitTextView;
+        private TextView mPriceVisitTextView;
 
         public AdoptionHolder(View itemView) {
             super(itemView);
@@ -140,16 +139,24 @@ public class AdoptionListFragment extends Fragment {
             itemView.setOnClickListener(this);
 
             mNameTextView = (TextView) itemView.findViewById(R.id.fragment_adoption_list_item_name_textview);
-            mPriceTextView = (TextView) itemView.findViewById(R.id.fragment_adoption_list_item_price_textview);
-            mVisitTextView = (TextView) itemView.findViewById(R.id.fragment_adoption_list_item_visit_textview);
+            mPriceVisitTextView = (TextView) itemView.findViewById(R.id.fragment_adoption_list_item_price_visit_textview);
         }
 
         public void bindAdoption(Adoption adoption) {
             mAdoption = adoption;
 
             mNameTextView.setText(mAdoption.getName());
-            mPriceTextView.setText(Integer.toString(mAdoption.getPrice()));
-            mVisitTextView.setText(mAdoption.isVisit() ? "yes" : "no");
+
+            String visitText;
+
+            // Set the correct information text according to the adoption status
+            if (mAdoption.isVisit()) {
+                visitText = getString(R.string.fragment_adoption_visit_yes);
+            } else {
+                visitText = getString(R.string.fragment_adoption_visit_no);
+            }
+
+            mPriceVisitTextView.setText(getString(R.string.fragment_adoption_price_visit, mAdoption.getPrice(), visitText));
         }
 
         @Override
