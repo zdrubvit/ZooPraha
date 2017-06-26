@@ -1,10 +1,10 @@
 package cz.zdrubecky.zoopraha.api;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
@@ -16,7 +16,6 @@ public class ImageLoader {
 
     private static ImageLoader sInstance = null;
 
-    private Context mContext;
     private Picasso mPicasso;
 
     public static ImageLoader getInstance(Context context) {
@@ -28,8 +27,6 @@ public class ImageLoader {
     }
 
     private ImageLoader(Context context) {
-        mContext = context;
-
         // Beware the secure protocol or any other http redirection, Picasso can't cope with that and has to use a different downloader
         mPicasso = new Picasso.Builder(context)
                 .listener(new Picasso.Listener() {
@@ -42,7 +39,7 @@ public class ImageLoader {
                 .build();
     }
 
-    public void loadImage(String url, ImageView view) {
+    public void loadImage(final String url, ImageView view) {
         // todo "cannot reset" error in some images
         // The incoming view has to have its dimensions ready, so that the image can be properly resized
         mPicasso.load(url)
@@ -56,7 +53,7 @@ public class ImageLoader {
 
                     @Override
                     public void onError() {
-                        Toast.makeText(mContext, R.string.datafetcher_error_loading_image, Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "There was an error during an image loading from " + url);
                     }
                 });
     }

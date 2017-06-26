@@ -161,7 +161,10 @@ public class LexiconListFragment extends Fragment {
                         }
                     });
                 }
+            } else {
+                mImageImageView.setImageResource(R.mipmap.image_placeholder);
             }
+
             mNameTextView.setText(mAnimal.getName());
             mTaxonomyTextView.setText(mAnimal.getClassName() + " -> " + mAnimal.getOrderName());
         }
