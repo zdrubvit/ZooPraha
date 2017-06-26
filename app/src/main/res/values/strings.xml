@@ -32,6 +32,9 @@
     <string name="fragment_event_end_label">Konec</string>
     <string name="fragment_event_duration_label">Délka</string>
     <string name="fragment_event_description_label">Popis</string>
+    <string name="fragment_event_list_item_date">Datum konání: %1$s</string>
+    <string name="fragment_event_list_item_date_unknown">Datum konání: neznámé</string>
+    <string name="fragment_event_list_item_dates">Datum konání: %1$s - %2$s</string>
     <string name="quiz_menu_new_game_button_text">Nová hra</string>
     <string name="quiz_menu_leaderboard_button_text">Žebříček</string>
     <string name="quiz_menu_badges_button_text">Medaile</string>

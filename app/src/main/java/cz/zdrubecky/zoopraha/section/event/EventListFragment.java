@@ -14,7 +14,11 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import cz.zdrubecky.zoopraha.R;
 import cz.zdrubecky.zoopraha.manager.EventManager;
@@ -92,8 +96,7 @@ public class EventListFragment extends Fragment {
     private class EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Event mEvent;
         private TextView mNameTextView;
-        private TextView mStartTextView;
-        private TextView mEndTextView;
+        private TextView mDatesTextView;
 
         public EventHolder(View itemView) {
             super(itemView);
@@ -101,16 +104,36 @@ public class EventListFragment extends Fragment {
             itemView.setOnClickListener(this);
 
             mNameTextView = (TextView) itemView.findViewById(R.id.fragment_event_list_item_name_textview);
-            mStartTextView = (TextView) itemView.findViewById(R.id.fragment_event_list_item_start_textview);
-            mEndTextView = (TextView) itemView.findViewById(R.id.fragment_event_list_item_end_textview);
+            mDatesTextView = (TextView) itemView.findViewById(R.id.fragment_event_list_item_dates_textview);
         }
 
         public void bindEvent(Event event) {
             mEvent = event;
 
             mNameTextView.setText(mEvent.getName());
-            mStartTextView.setText(mEvent.getStart());
-            mEndTextView.setText(mEvent.getEnd());
+
+            // Create and insert the event's date
+            String dateString;
+            SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", new Locale("cs"));
+            SimpleDateFormat newDateFormat = new SimpleDateFormat("dd. MM. yyyy, HH:mm", new Locale("cs"));
+
+            try {
+                String suffix = ", 00:00";
+                String startDate = newDateFormat.format(isoDateFormat.parse(mEvent.getStart()));
+
+                // Check for the midnight time and remove it
+                if (startDate.endsWith(suffix)) {
+                    startDate = startDate.replace(suffix, "");
+                }
+
+                dateString = getString(R.string.fragment_event_list_item_date, startDate);
+            } catch (ParseException pe) {
+                dateString = getString(R.string.fragment_event_list_item_date_unknown);
+
+                Log.e(TAG, "An exception has been thrown during the parsing of an event's date:" + pe.toString());
+            }
+
+            mDatesTextView.setText(dateString);
         }
 
         @Override
