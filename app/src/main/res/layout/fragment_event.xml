@@ -1,82 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
+              style="@style/ListItemLayout"
               android:orientation="vertical"
-              android:layout_width="match_parent"
               android:layout_height="match_parent">
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        style="@style/FragmentDetailLinearLayout">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/FragmentDetailAttributeNameTextView"
+            android:textSize="18sp"
             android:text="@string/fragment_event_name_label"/>
         <TextView
             android:id="@+id/fragment_event_name_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:textSize="18sp"
+            style="@style/FragmentDetailAttributeValueTextView"
             tools:text="Event name"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        style="@style/FragmentDetailLinearLayout">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/FragmentDetailAttributeNameTextView"
             android:text="@string/fragment_event_start_label"/>
         <TextView
             android:id="@+id/fragment_event_start_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            style="@style/FragmentDetailAttributeValueTextView"
             tools:text="Event start"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        style="@style/FragmentDetailLinearLayout">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/FragmentDetailAttributeNameTextView"
             android:text="@string/fragment_event_end_label"/>
         <TextView
             android:id="@+id/fragment_event_end_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            style="@style/FragmentDetailAttributeValueTextView"
             tools:text="Event end"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        style="@style/FragmentDetailLinearLayout">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/FragmentDetailAttributeNameTextView"
             android:text="@string/fragment_event_duration_label"/>
         <TextView
             android:id="@+id/fragment_event_duration_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            style="@style/FragmentDetailAttributeValueTextView"
             tools:text="Event duration"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        style="@style/FragmentDetailLinearLayout">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/FragmentDetailAttributeNameTextView"
             android:text="@string/fragment_event_description_label"/>
         <TextView
             android:id="@+id/fragment_event_description_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            style="@style/FragmentDetailAttributeValueTextView"
             tools:text="Event description"/>
     </LinearLayout>
 
