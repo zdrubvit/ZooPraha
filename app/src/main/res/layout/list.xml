@@ -13,14 +13,15 @@
     <RelativeLayout
         android:id="@+id/list_empty"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:visibility="gone">
         <TextView
             android:id="@+id/list_empty_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/list_empty_textview_text"
-            android:layout_centerHorizontal="true"/>
+            android:textSize="18sp"
+            android:textStyle="italic"
+            android:text="@string/list_empty_textview_text"/>
     </RelativeLayout>
 </LinearLayout>

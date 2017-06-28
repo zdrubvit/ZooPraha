@@ -6,7 +6,7 @@
     <string name="main_button_quiz_text">Kvíz</string>
     <string name="main_button_map_text">Mapa</string>
     <string name="main_button_profile_text">Profil</string>
-    <string name="list_empty_textview_text">nichts.(</string>
+    <string name="list_empty_textview_text">Nebyly nalezeny žádné záznamy</string>
     <string name="fragment_adoption_no_detail_toast">Toto zvíře nemá detail</string>
     <string name="fragment_adoption_visit_yes">s možností návštěv</string>
     <string name="fragment_adoption_visit_no">bez možnosti návštěv</string>
