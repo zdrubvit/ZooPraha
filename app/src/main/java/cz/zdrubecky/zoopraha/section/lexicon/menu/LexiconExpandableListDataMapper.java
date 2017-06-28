@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import cz.zdrubecky.zoopraha.R;
 import cz.zdrubecky.zoopraha.manager.ClassificationManager;
 import cz.zdrubecky.zoopraha.manager.FilterManager;
 import cz.zdrubecky.zoopraha.manager.LocationManager;
@@ -22,6 +23,9 @@ public class LexiconExpandableListDataMapper {
 
         for (Classification classification : taxonomy) {
             List<String> orderNames = new ArrayList<>();
+
+            // Put an option to choose the whole class instead of single orders in the first position
+            orderNames.add(context.getString(R.string.lexicon_menu_classifications_filter_first_item_text));
 
             for (Classification order : classification.getOrders()) {
                 orderNames.add(order.getName());

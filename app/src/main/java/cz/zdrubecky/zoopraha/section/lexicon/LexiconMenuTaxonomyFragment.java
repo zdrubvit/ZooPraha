@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,21 +41,23 @@ public class LexiconMenuTaxonomyFragment extends Fragment {
 
         mTaxonomyExpandableListView = (ExpandableListView) v.findViewById(R.id.activity_lexicon_menu_expandable_listview);
         mTaxonomyExpandableListView.setAdapter(mTaxonomyExpandableListAdapter);
-        mTaxonomyExpandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getActivity().getApplicationContext(),
-                        mTaxonomyExpandableListTitles.get(groupPosition) + " List Expanded.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
 
         mTaxonomyExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 String groupName = mTaxonomyExpandableListTitles.get(groupPosition);
-                String key = "order_name";
-                String value = mTaxonomyExpandableListData.get(groupName).get(childPosition);
+                String key;
+                String value;
+
+                if (childPosition == 0) {
+                    // The first item has been chosen - filter the animals by a class
+                    key = "class_name";
+                    value = groupName;
+                } else {
+                    // An order has been chosen and its title has to be established
+                    key = "order_name";
+                    value = mTaxonomyExpandableListData.get(groupName).get(childPosition);
+                }
 
                 Intent i = LexiconListActivity.newIntent(getActivity(), key, value);
 
