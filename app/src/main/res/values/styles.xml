@@ -59,4 +59,15 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="ScrollView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:fillViewport">true</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
+    </style>
+
 </resources>
