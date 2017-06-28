@@ -115,7 +115,7 @@ public class EventListFragment extends Fragment {
             // Create and insert the event's date
             String dateString;
             SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", new Locale("cs"));
-            SimpleDateFormat newDateFormat = new SimpleDateFormat("dd. MM. yyyy, HH:mm", new Locale("cs"));
+            SimpleDateFormat newDateFormat = new SimpleDateFormat("d. M. yyyy, HH:mm", new Locale("cs"));
 
             try {
                 String suffix = ", 00:00";

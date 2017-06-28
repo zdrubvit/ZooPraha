@@ -64,7 +64,7 @@ public class EventDetailFragment extends Fragment {
         String startDateString;
         String endDateString;
         SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", new Locale("cs"));
-        SimpleDateFormat newDateFormat = new SimpleDateFormat("dd. MM. yyyy, HH:mm", new Locale("cs"));
+        SimpleDateFormat newDateFormat = new SimpleDateFormat("d. M. yyyy, HH:mm", new Locale("cs"));
 
         mStartTextView = (TextView) v.findViewById(R.id.fragment_event_start_textview);
         try {
