@@ -28,7 +28,7 @@
             android:indeterminate="false"
             android:max="10"
             android:minHeight="50dp"
-            android:minWidth="180dp"
+            android:minWidth="150dp"
             android:progress="10" />
 
         <TextView

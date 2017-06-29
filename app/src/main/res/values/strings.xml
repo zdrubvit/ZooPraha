@@ -67,7 +67,7 @@
     <string name="datafetcher_error_loading_image">Při načítání obrázku došlo k chybě.</string>
     <string name="question_answered_flag_alert_title">Nahlášení chyby</string>
     <string name="question_answered_flag_alert_flagged">Otázka byla nahlášena a její správnost prozkoumáme, děkujeme za reakci!</string>
-    <string name="quiz_settings_time_editview_label">Časový limit na odpověď</string>
+    <string name="quiz_settings_time_editview_label">Časový limit na odpověď (v\u00A0sekundách)</string>
     <string name="quiz_settings_questions_editview_label">Počet otázek v jedné hře</string>
     <string name="quiz_settings_name_editview_label">Vaše hráčské jméno</string>
     <string name="quiz_settings_save_button_text">Uložit</string>
