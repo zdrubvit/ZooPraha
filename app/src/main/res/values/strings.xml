@@ -84,6 +84,11 @@
     <string name="activity_about_header_text">O aplikaci ZOO Praha</string>
     <string name="activity_about_version_text">Verze: 1.0</string>
     <string name="activity_about_date_text">Datum vydání: 26. 6. 2017</string>
+    <string name="quiz_help_header_text">Nápověda</string>
+    <string name="quiz_help_basics_text">Podstatou vědomostního kvízu je odpovídaní na\u00A0otázky týkající se zvířat, které můžete nalézt v\u00A0ZOO Praha. Obtížnost otázek se různí a jejich volba je v\u00A0rámci každé hry čistě náhodná.</string>
+    <string name="quiz_help_game_text">Každá z\u00A0otázek má časový limit nutný k\u00A0jejímu zodpovězení. Odpočet začne hned jak je otázka zobrazena a po\u00A0jeho vypršení se otázka považuje za\u00A0špatně zodpovězenou. Volby odpovědi jsou vždy čtyři a jen jedna z\u00A0nich je správná. Na konci každé otázky máte možnost si nechat zobrazit detail zvířete, kterého se týkala a prostudovat ho. Pokud si myslíte, že je s\u00A0otázkou něco špatně, můžete nám to nahlásit pomocí tlačítka s\u00A0vlajkou a my otázku zkontrolujeme.</string>
+    <string name="quiz_help_leaderboard_text">Na závěr každé hry Vám bude nabídnut její výsledek se statistikami a celkovým skóre. Vaše předchozí skóre si můžete zobrazit v\u00A0žebříčku.</string>
+    <string name="quiz_help_settings_text">Některá nastavení kvízu si můžete sami změnit. Jedná se o\u00A0časový limit (stanovený v\u00A0sekundách) omezující dobu odpovědi, počet otázek v\u00A0jedné hře a Vaše uživatelské jméno, které bude spojeno s\u00A0Vašimi výsledky. Nastavení je dostupné z\u00A0hlavního menu kvízu.</string>
 
     <string-array name="quiz_settings_questions_options_array">
         <item>5</item>

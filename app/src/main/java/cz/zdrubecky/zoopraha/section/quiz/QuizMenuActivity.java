@@ -53,6 +53,14 @@ public class QuizMenuActivity extends AppCompatActivity {
         });
 
         mQuizButtonHelp = (Button) findViewById(R.id.quiz_menu_help_button);
+        mQuizButtonHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(QuizMenuActivity.this, QuizHelpActivity.class);
+
+                startActivity(i);
+            }
+        });
     }
 
     // Move up to the activity's parent when the back button is pressed
