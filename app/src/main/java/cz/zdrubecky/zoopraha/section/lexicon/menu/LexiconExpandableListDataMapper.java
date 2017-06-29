@@ -57,7 +57,8 @@ public class LexiconExpandableListDataMapper {
         List<String> filterValues = new ArrayList<>();
 
         for (Filter filter : filters) {
-            filterValues.add(filter.getValue());
+            // Concatenate the filter's value with the number of records that fulfill it
+            filterValues.add(filter.getValue() + " (" + Integer.toString(filter.getCount()) + ")");
         }
 
         return filterValues;

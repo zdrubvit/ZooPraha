@@ -56,6 +56,10 @@ public class LexiconMenuFiltersFragment extends Fragment {
                 String key = mFilterGroups.get(groupName);
                 String value = mFiltersExpandableListData.get(groupName).get(childPosition);
 
+                // Remove the count string
+                int filterCountIndex = value.indexOf(" (");
+                value = value.substring(0, filterCountIndex);
+
                 Intent i = LexiconListActivity.newIntent(getActivity(), key, value);
 
                 startActivity(i);
